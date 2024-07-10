@@ -92,32 +92,3 @@
     background-color: #2563eb !important;
     border-radius: 12px !important;
 }
-
-@keyframes carousel {
-    0% {
-        background-image: url('./assets/illustrations/chat-bubbles.svg');
-    }
-    50% {
-        background-image: url('./assets/illustrations/conversation.svg');
-    }
-    100% {
-        background-image: url('./assets/illustrations/sitting-in-sofa.svg');
-    }
-    
-}
-
-@keyframes bounceSlow {
-
-    0%,
-    100% {
-        transform: translateY(-5%);
-    }
-
-    50% {
-        transform: none;
-    }
-}
-
-.animate-bounce-slow {
-    animation: bounceSlow 4s ease-in-out infinite;
-}

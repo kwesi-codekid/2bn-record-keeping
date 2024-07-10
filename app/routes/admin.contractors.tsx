@@ -18,8 +18,7 @@ import {
 } from "@remix-run/react";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { EditIcon } from "~/components/icons/Edit";
-import { PlusIcon } from "~/components/icons/Plus";
+import { PlusIcon } from "~/components/icons/plus";
 import { SearchIcon } from "~/components/icons/Search";
 import CreateRecordModal from "~/components/modals/CreateRecord";
 import DeleteRecordModal from "~/components/modals/DeleteRecord";
@@ -189,7 +188,7 @@ const AdminDepartments = () => {
                   editDisclosure.onOpen();
                 }}
               >
-                Edit
+                edit
               </Button>
               <Button
                 size="sm"
@@ -243,7 +242,7 @@ const AdminDepartments = () => {
 
       {/* edit Department Modal */}
       <EditRecordModal
-        title="Edit Department"
+        title="edit Department"
         isModalOpen={editDisclosure.isOpen}
         onCloseModal={editDisclosure.onClose}
         size="md"
@@ -305,7 +304,7 @@ const AdminDepartments = () => {
           >
             {(item: UserInterface) => (
               <AutocompleteItem
-                key={item._id}
+                key={item._id as string}
                 textValue={`${item.firstName} ${item.lastName}`}
               >
                 <div className="flex gap-2 items-center">

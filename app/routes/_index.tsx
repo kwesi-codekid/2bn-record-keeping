@@ -4,7 +4,7 @@ import { useNavigate } from "@remix-run/react";
 import { useEffect } from "react";
 import { Fade } from "react-awesome-reveal";
 
-import logo from "~/assets/images/logo.png";
+import logo from "~/assets/images/Army-logo.png";
 
 export default function SplashScreen() {
   const navigate = useNavigate();
@@ -12,15 +12,15 @@ export default function SplashScreen() {
   useEffect(() => {
     setTimeout(() => {
       navigate("/login");
-    }, 2800);
+    }, 5800);
   }, []);
 
   return (
     <div className="h-screen bg-slate-950 flex flex-col items-center justify-center">
       <Fade direction="up" duration={600} cascade>
         <img src={logo} alt="company logo" className="w-[20rem]" />
-        <h1 className="text-3xl md:text-5xl text-white text-center font-montserrat font-extrabold mb-6">
-          Med Treatment App
+        <h1 className="text-3xl md:text-5xl text-white text-center font-montserrat font-extrabold mb-6 mt-6">
+          2BN Record-Keeping
         </h1>
         <Spinner size="lg" />
       </Fade>

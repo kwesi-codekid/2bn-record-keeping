@@ -16,8 +16,8 @@ import {
   useNavigation,
 } from "@remix-run/react";
 import { useEffect, useState } from "react";
-import { EditIcon } from "~/components/icons/Edit";
-import { PlusIcon } from "~/components/icons/Plus";
+import { EditIcon } from "~/components/icons/edit";
+import { PlusIcon } from "~/components/icons/plus";
 import { SearchIcon } from "~/components/icons/Search";
 import CreateRecordModal from "~/components/modals/CreateRecord";
 import DeleteRecordModal from "~/components/modals/DeleteRecord";
@@ -179,7 +179,7 @@ const AdminUserManagement = () => {
                   editDisclosure.onOpen();
                 }}
               >
-                Edit
+                edit
               </Button>
               <Button
                 size="sm"
@@ -314,7 +314,7 @@ const AdminUserManagement = () => {
 
       {/* edit user Modal */}
       <EditRecordModal
-        title="Edit User Account"
+        title="edit User Account"
         isModalOpen={editDisclosure.isOpen}
         onCloseModal={editDisclosure.onClose}
         size="xl"

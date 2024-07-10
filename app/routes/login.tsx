@@ -1,91 +1,166 @@
-import {
-  ActionFunction,
-  LoaderFunction,
-  MetaFunction,
-  json,
-  redirect,
-} from "@remix-run/node";
-import axios from "axios";
+import { Button, Card, Link } from "@nextui-org/react";
+import { ActionFunction } from "@remix-run/node";
 import {
   Form,
-  Outlet,
+  isRouteErrorResponse,
   useActionData,
   useNavigate,
   useNavigation,
-  useSubmit,
+  useRouteError,
 } from "@remix-run/react";
+import { ArrowLeftAnimated } from "~/components/icons/arrows";
+import errorIllustration from "~/assets/animated/503-error-animate.svg";
+import PasswordInput from "~/components/inputs/password";
+import TextInput from "~/components/inputs/text";
 
-import { Button, Checkbox, Input } from "@nextui-org/react";
-import { ArrowLeftIcon } from "~/components/icons/ArrowLeft";
-import CustomInput from "~/components/ui/inputs/input";
-import UserController from "~/controllers/UserController";
-import medicare from "~/assets/illustrations/medicare.svg";
-
-import logo from "~/assets/images/logo.png";
-import logoBlackText from "~/assets/images/logo-black-text.png";
-import { useTheme } from "next-themes";
-
-const AdminLogin = () => {
-  const navigate = useNavigate();
-  const submit = useSubmit();
+export default function Login() {
   const navigation = useNavigation();
+  const navigate = useNavigate();
 
-  const { theme } = useTheme();
-
-  const actionData = useActionData<{
-    status: "error" | "success";
-    message: string;
-    errors: [{ field: string; message: string }];
-  }>();
+  //   handle form actions
+  const actionData = useActionData<typeof action>();
 
   return (
-    <div className="flex gap-4 h-screen">
+    <div className="h-screen grid grid-cols-2 gap-8 bg-[url('assets/images/black-background-texture.jpeg')] bg-cover bg-no-repeat bg-center">
+      {/* placeholder content */}
+      <div className="h-full bg-transparent"></div>
+
       {/* login form */}
-      <div className="w-full md:w-1/2 flex justify-center">
-        <div className="w-full md:w-1/2 h-full flex flex-col justify-between py-3 px-4">
-          <div>
-            <img src={logoBlackText} alt="logo" className="w-52" />
-          </div>
+      <div className="h-full flex flex-col gap-8 items-center justify-center">
+        <Card className="w-3/5 rounded-3xl flex flex-col gap-8 backdrop-blur-lg bg-[#18181b] pt-8 px-8 pb-12 border border-white/5">
+          <h2 className="font-montserrat font-bold text-4xl text-white">
+            Login To Your Dashboard
+          </h2>
 
-          <div className="flex flex-col gap-10">
-            <div className="flex flex-col gap-1">
-              <h3 className="font-montserrat font-bold text-3xl md:text-5xl text-slate-800 dark:text-white">
-                Sign In
-              </h3>
-              <p className="font-nunito text-xs md:text-base text-slate-400 dark:text-slate-200">
-                Login to your dashboard
-              </p>
+          <Form method="POST" id="login-form" className="flex flex-col gap-8">
+            <TextInput
+              label="Email"
+              name="email"
+              actionData={actionData}
+              classNames={{
+                label: "text-white font-sen font-semibold",
+                base: "shadow-none",
+                inputWrapper: "border-gray-600 text-white font-nunito",
+                errorMessage: "font-nunito",
+              }}
+              type="email"
+              isRequired
+            />
+            <PasswordInput
+              label="Password"
+              name="password"
+              actionData={actionData}
+              classNames={{
+                label: "text-white font-sen font-semibold",
+                base: "shadow-none",
+                inputWrapper: "border-gray-600 text-white font-nunito",
+                errorMessage: "font-nunito",
+              }}
+              isRequired
+            />
+            <div className="flex items-center justify-end">
+              <Link
+                onPress={() => navigate("/admin")}
+                className="font-nunito text-right cursor-pointer"
+              >
+                Forgot password?
+              </Link>
             </div>
-
-            <Outlet />
-          </div>
-
-          <p className="text-sm font-montserrat text-slate-400">
-            &copy; {new Date().getFullYear()} Adamus IT | All Rights Reserved
-          </p>
-        </div>
-      </div>
-
-      {/* illustration */}
-      <div className="hidden md:flex-1 flex-col gap-4 items-center justify-center md:flex bg-slate-400/5 h-full rounded-bl-[12rem]">
-        <img
-          src={medicare}
-          alt="medicare illustration"
-          className="w-2/3 animate-bounce-slow"
-        />
-        <h1 className="font-montserrat font-extrabold text-5xl text-blue-600 text-center">
-          Med Treatment App
-        </h1>
+            <Button
+              type="submit"
+              form="login-form"
+              isLoading={navigation.state === "submitting"}
+              color="primary"
+              className="font-montserrat font-medium"
+            >
+              Submit
+            </Button>
+          </Form>
+        </Card>
       </div>
     </div>
   );
+}
+
+export const action: ActionFunction = async ({ request }) => {
+  const formData = await request.formData();
+  const formValues = Object.fromEntries(formData.entries());
+
+  return {};
 };
 
-export default AdminLogin;
+export function ErrorBoundary() {
+  const error = useRouteError();
+  const navigate = useNavigate();
 
-export const loader: LoaderFunction = async ({ request }) => {
-  const adminController = await new UserController(request);
-  const user = await adminController.checkUser();
+  if (isRouteErrorResponse(error)) {
+    return (
+      <div className="pt-16  h-full">
+        <div className="bg-red-500/10 h-full flex flex-col gap-6">
+          <img
+            src={errorIllustration}
+            alt="Error Illustration"
+            className="w-1/3"
+          />
+          <div>
+            <h1 className="font-montserrat font-extrabold text-5xl text-red-500 text-center">
+              {error.status} {error.statusText}
+            </h1>
+            <p className="font-nunito text-center text-lg">{error.data}</p>
+          </div>
 
-  return (await adminController.getUserId()) ? redirect(`/${user?.role}`) : {};
-};
+          <div className="flex items-center gap-4">
+            <Button
+              color="danger"
+              className="font-montserrat font-medium"
+              onPress={() => navigate(-1)}
+              size="sm"
+              startContent={<ArrowLeftAnimated className="size-5" />}
+            >
+              Go Back
+            </Button>
+            <p className="font-nunito text-sm">
+              Please contact the IT Team if the issue persists.
+            </p>
+          </div>
+        </div>
+      </div>
+    );
+  } else if (error instanceof Error) {
+    return (
+      <div className="pt-14 h-full">
+        <div className="bg-red-500/10 dark:bg-red-500/15 rounded-2xl h-full overflow-y-auto vertical-scrollbar flex flex-col gap-6 items-center justify-center">
+          <img
+            src={errorIllustration}
+            alt="Error Illustration"
+            className="w-1/3"
+          />
+          <div>
+            <h1 className="font-montserrat font-extrabold text-5xl text-red-500 text-center">
+              Unexpected Error!
+            </h1>
+            <p className="font-nunito text-center text-lg line-clamp-2">
+              {error.message}
+            </p>
+          </div>
+          <div className="flex items-center gap-4">
+            <Button
+              color="danger"
+              className="font-montserrat font-medium"
+              onPress={() => navigate(-1)}
+              size="sm"
+              startContent={<ArrowLeftAnimated className="size-5" />}
+            >
+              Go Back
+            </Button>
+            <p className="font-nunito text-sm">
+              Please contact the IT Team if the issue persists.
+            </p>
+          </div>
+        </div>
+      </div>
+    );
+  } else {
+    return <h1>Unknown Error</h1>;
+  }
+}

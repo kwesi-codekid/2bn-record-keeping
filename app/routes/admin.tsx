@@ -24,7 +24,7 @@ import { AdminNavLinkInterface, UserInterface } from "~/utils/types";
 import { SunIcon } from "~/components/icons/Sun";
 import { MoonIcon } from "~/components/icons/Moon";
 import ConfirmLogoutModal from "~/components/modals/ConfirmLogout";
-import logo from "~/assets/images/logo.png";
+import logo from "~/assets/images/Army-logo.png";
 
 import AdminNavHeader from "~/components/ui/nav-header";
 import { LoaderFunction, redirect } from "@remix-run/node";
@@ -33,7 +33,7 @@ import NavHeader from "~/components/ui/nav-header";
 
 const AdminLayout = () => {
   // loader data
-  const { user } = useLoaderData<{ user: UserInterface }>();
+  const { user } = useLoaderData<{ user: UserInterface }>() || {};
 
   // theme
   const { theme, setTheme } = useTheme();
@@ -80,7 +80,7 @@ const AdminLayout = () => {
 
             {isDesktopExpanded && (
               <h3 className="font-montserrat font-bold text-white text-lg">
-                Med Treatment
+                2BN Records
               </h3>
             )}
           </div>
@@ -133,8 +133,8 @@ const AdminLayout = () => {
             />
 
             {isDesktopExpanded && (
-              <h3 className="font-montserrat font-bold text-white text-xl">
-                Med Treatment
+              <h3 className="font-montserrat font-bold text-white text-xl mt-2">
+                2BN Records
               </h3>
             )}
           </div>
@@ -356,14 +356,14 @@ const AdminLayout = () => {
 
 export default AdminLayout;
 
-export const loader: LoaderFunction = async ({ request }) => {
-  const userController = new UserController(request);
-  const user = await userController.getUser();
-  await userController.checkUserRole("admin");
+// export const loader: LoaderFunction = async ({ request }) => {
+//   const userController = new UserController(request);
+//   const user = await userController.getUser();
+//   await userController.checkUserRole("admin");
 
-  if (!user) {
-    return redirect("/login");
-  }
+//   if (!user) {
+//     return redirect("/login");
+//   }
 
-  return { user };
-};
+//   return { user };
+// };

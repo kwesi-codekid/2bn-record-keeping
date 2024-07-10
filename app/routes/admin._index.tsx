@@ -1,64 +1,46 @@
-import { LoaderFunction, MetaFunction } from "@remix-run/node";
-import React from "react";
-import UserController from "~/controllers/UserController";
-import {
-  Card,
-  CardHeader,
-  CardBody,
-  CardFooter,
-  Divider,
-  Link,
-  Image,
-} from "@nextui-org/react";
+import { Card, IconCard } from "~/components/sections/cards";
 
-const AdminDashboard = () => {
+export default function AdminDashboard() {
+  const data = [
+    { title: "Total Members", value: 12 },
+    { title: "Total Tickets", value: 12 },
+    { title: "Total Stats", value: 12 },
+  ];
   return (
-    <div>
-      <Card className="max-w-[400px]">
-        <CardBody>
-          <p>Make beautiful websites regardless of your design experience.</p>
-        </CardBody>
-      </Card>
+    <div className="h-full grid grid-cols-3 gap-8">
+      {/* left-sided cards */}
+      <div className="col-span-2 flex flex-col gap-8">
+        <div className="flex flex-col gap-4">
+          {/* stats card */}
+          <div className="grid grid-cols-2 gap-4">
+            {[1, 2].map((idx, index) => (
+              <IconCard key={index} title={data[idx]?.title as string}>
+                <p className="font-nunito text-2xl font-semibold">
+                  {data[idx]?.value}
+                </p>
+              </IconCard>
+            ))}
+          </div>
+          <div className="grid grid-cols-3 gap-4">
+            {data.map((data, index) => (
+              <IconCard key={index} title={data.title}>
+                <p className="font-nunito text-2xl font-semibold">
+                  {data.value}
+                </p>
+              </IconCard>
+            ))}
+          </div>
+        </div>
+
+        {/* chart */}
+        <Card title="Analytics" />
+      </div>
+
+      {/* right-sided cards */}
+      <div className="flex flex-col gap-6 h-full">
+        <Card title="Recents" />
+        <Card title="Recents" />
+      </div>
     </div>
   );
-};
-
-export default AdminDashboard;
-
-export const loader: LoaderFunction = async ({ request, params }) => {
-  return {};
-};
-
-export const meta: MetaFunction = () => {
-  return [
-    { title: "Dashboard | Adamus Med Treatment" },
-    {
-      name: "description",
-      content: ".",
-    },
-    {
-      name: "author",
-      content: "KwaminaWhyte",
-    },
-    {
-      name: "author",
-      content: "Codekid",
-    },
-    { name: "og:title", content: "Adamus Med Treatment" },
-    {
-      name: "og:description",
-      content: "",
-    },
-    {
-      name: "og:image",
-      content:
-        "https://res.cloudinary.com/app-deity/image/upload/v1701282976/qfdbysyu0wqeugtcq9wq.jpg",
-    },
-    { name: "og:url", content: "https://marry-right.vercel.app" },
-    {
-      name: "keywords",
-      content:
-        "legal marriages in Ghana, Pastors to bless marriages, Is he/she married?, marriiage under ordinance, cases related to marriages in Ghana, mohammedans, ordinance, traditional, verify my marriage certificate, churches legally certified to bless marriages",
-    },
-  ];
-};
+}

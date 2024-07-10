@@ -36,7 +36,7 @@ const PackageCard = ({ packageId, title, bannerImage }: PackageCardProps) => {
           className="font-montserrat font-semibold"
           size="sm"
         >
-          Edit
+          edit
         </Button>
         <Button
           color="danger"

@@ -18,8 +18,7 @@ import {
 } from "@remix-run/react";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { EditIcon } from "~/components/icons/Edit";
-import { PlusIcon } from "~/components/icons/Plus";
+import { PlusIcon } from "~/components/icons/plus";
 import { SearchIcon } from "~/components/icons/Search";
 import CreateRecordModal from "~/components/modals/CreateRecord";
 import DeleteRecordModal from "~/components/modals/DeleteRecord";
@@ -50,18 +49,6 @@ const AdminDepartments = () => {
     message: string;
     errors: [{ field: string; message: string }];
   }>();
-  useEffect(() => {
-    if (actionData?.status === "error") {
-      errorToast("Error!", actionData.message);
-    }
-    if (actionData?.status === "success") {
-      deleteDisclosure.onClose();
-      createRecordDisclosure.onClose();
-      editDisclosure.onClose();
-      successToast("Success!", actionData.message);
-      navigate(".", { replace: true });
-    }
-  }, [actionData]);
 
   // create department modal
   const createRecordDisclosure = useDisclosure();
@@ -189,7 +176,7 @@ const AdminDepartments = () => {
                   editDisclosure.onOpen();
                 }}
               >
-                Edit
+                edit
               </Button>
               <Button
                 size="sm"
@@ -233,17 +220,12 @@ const AdminDepartments = () => {
             label="Description"
             name="description"
           />
-          <CustomSelect
-            label="Parent Department"
-            name="parent"
-            options={selectOptions}
-          />
         </div>
       </CreateRecordModal>
 
       {/* edit Department Modal */}
       <EditRecordModal
-        title="Edit Department"
+        title="edit Department"
         isModalOpen={editDisclosure.isOpen}
         onCloseModal={editDisclosure.onClose}
         size="md"
@@ -273,12 +255,6 @@ const AdminDepartments = () => {
             name="description"
             defaultValue={selectedDepartment?.description}
           />
-          <CustomSelect
-            label="Parent Department"
-            name="parent"
-            options={selectOptions}
-            defaultSelectedKeys={[selectedDepartment?.parent as string]}
-          />
           <CustomInput
             name="manager"
             label="Manager"
@@ -305,7 +281,7 @@ const AdminDepartments = () => {
           >
             {(item: UserInterface) => (
               <AutocompleteItem
-                key={item._id}
+                key={item._id as string}
                 textValue={`${item.firstName} ${item.lastName}`}
               >
                 <div className="flex gap-2 items-center">
