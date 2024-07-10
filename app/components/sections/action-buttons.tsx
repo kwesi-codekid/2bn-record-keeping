@@ -1,6 +1,6 @@
 import { Button } from "@nextui-org/react";
-import { AnimatedEditIcon } from "../icons/edit";
-import { DeleteOutlinedAnimatedIcon } from "../icons/delete";
+import { AnimatedEditIcon } from "../icons/Edit";
+import { DeleteOutlinedAnimatedIcon } from "../icons/Delete";
 
 export const EditButton = ({ action }: { action: () => void }) => (
   <Button

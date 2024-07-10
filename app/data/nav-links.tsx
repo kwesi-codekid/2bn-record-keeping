@@ -5,9 +5,9 @@ import BookListIcon from "~/components/icons/BookList";
 import BuildingIcon from "~/components/icons/Building";
 import WalkingIcon from "~/components/icons/Walking";
 import MicroscopeIcon from "~/components/icons/Microscope";
-import { UserAnimated } from "~/components/icons/user";
-import { LoginAnimatedIcon } from "~/components/icons/open";
-import { UserBadgeIcon } from "~/components/icons/user";
+import { UserAnimated } from "~/components/icons/User";
+import { LoginAnimatedIcon } from "~/components/icons/Open";
+import { UserBadgeIcon } from "~/components/icons/User";
 
 export const adminNavLinks: AdminNavLinkInterface[] = [
   {

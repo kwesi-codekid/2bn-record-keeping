@@ -1,5 +1,5 @@
 import { ReactNode } from "react";
-import { MoonIcon } from "../icons/theme";
+import { MoonIcon } from "../icons/Theme";
 
 export const Card = ({
   children,

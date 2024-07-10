@@ -16,8 +16,8 @@ import {
   useNavigation,
 } from "@remix-run/react";
 import { useEffect, useState } from "react";
-import { EditIcon } from "~/components/icons/edit";
-import { PlusIcon } from "~/components/icons/plus";
+import { EditIcon } from "~/components/icons/Edit";
+import { PlusIcon } from "~/components/icons/Plus";
 import { SearchIcon } from "~/components/icons/Search";
 import CreateRecordModal from "~/components/modals/CreateRecord";
 import DeleteRecordModal from "~/components/modals/DeleteRecord";

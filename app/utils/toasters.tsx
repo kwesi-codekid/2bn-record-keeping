@@ -1,5 +1,5 @@
 import toast from "react-hot-toast";
-import ExclamationIcon from "~/components/icons/exclamation";
+import ExclamationIcon from "~/components/icons/Exclamation";
 
 export const errorToast = (title: string, message: string) => {
   return toast(

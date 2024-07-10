@@ -1,6 +1,6 @@
 import { Input, InputProps } from "@nextui-org/react";
 import { useEffect, useState } from "react";
-import { EyeSlashFilled, EyeFilled } from "../icons/eye";
+import { EyeSlashFilled, EyeFilled } from "../icons/Eye";
 
 export default function PasswordInput({
   actionData,

@@ -18,7 +18,7 @@ import {
 } from "@remix-run/react";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { PlusIcon } from "~/components/icons/plus";
+import { PlusIcon } from "~/components/icons/Plus";
 import { SearchIcon } from "~/components/icons/Search";
 import CreateRecordModal from "~/components/modals/CreateRecord";
 import DeleteRecordModal from "~/components/modals/DeleteRecord";

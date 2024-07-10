@@ -6,7 +6,7 @@ import {
   Button,
   Skeleton,
 } from "@nextui-org/react";
-import { BellFilledIcon } from "../icons/bell";
+import { BellFilledIcon } from "../icons/Bell";
 import { useState } from "react";
 
 export default function NotificationDropdown({
