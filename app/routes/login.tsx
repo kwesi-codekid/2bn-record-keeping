@@ -1,5 +1,5 @@
 import { Button, Card, Link } from "@nextui-org/react";
-import { ActionFunction } from "@remix-run/node";
+import { ActionFunction, LoaderFunction, redirect } from "@remix-run/node";
 import {
   Form,
   isRouteErrorResponse,
@@ -92,6 +92,18 @@ export const action: ActionFunction = async ({ request }) => {
     email: formValues.email as string,
     password: formValues.password as string,
   });
+};
+
+export const loader: LoaderFunction = async ({ request }) => {
+  const userController = new UserController(request);
+  const userId = await userController.getUserId();
+
+  if (userId) {
+    const user = await userController.getUser();
+    return redirect(`/${user?.role}`);
+  }
+
+  return {};
 };
 
 export function ErrorBoundary() {

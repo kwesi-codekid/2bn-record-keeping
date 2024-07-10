@@ -356,14 +356,9 @@ const AdminLayout = () => {
 
 export default AdminLayout;
 
-// export const loader: LoaderFunction = async ({ request }) => {
-//   const userController = new UserController(request);
-//   const user = await userController.getUser();
-//   await userController.checkUserRole("admin");
+export const loader: LoaderFunction = async ({ request }) => {
+  const userController = new UserController(request);
+  const user = await userController.getUser();
 
-//   if (!user) {
-//     return redirect("/login");
-//   }
-
-//   return { user };
-// };
+  return { user };
+};
