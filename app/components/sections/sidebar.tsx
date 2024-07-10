@@ -1,6 +1,6 @@
 import { Button } from "@nextui-org/react";
 import { NavLink } from "@remix-run/react";
-import { MoonIcon } from "../icons/Theme";
+import { MoonIcon } from "../icons/ThemeIcons";
 import { ReactNode } from "react";
 import { MenuCloseIcon, MenuOpenIcon } from "../icons/menu";
 
