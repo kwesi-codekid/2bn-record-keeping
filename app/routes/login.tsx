@@ -12,6 +12,7 @@ import { ArrowLeftAnimated } from "~/components/icons/arrows";
 import errorIllustration from "~/assets/animated/503-error-animate.svg";
 import PasswordInput from "~/components/inputs/password";
 import TextInput from "~/components/inputs/text";
+import UserController from "~/controllers/UserController";
 
 export default function Login() {
   const navigation = useNavigation();
@@ -21,13 +22,13 @@ export default function Login() {
   const actionData = useActionData<typeof action>();
 
   return (
-    <div className="h-screen grid grid-cols-2 gap-8 bg-[url('assets/images/black-background-texture.jpeg')] bg-cover bg-no-repeat bg-center">
+    <div className="h-screen grid grid-cols-1 md:grid-cols-2 gap-8 bg-[url('assets/images/black-background-texture.jpeg')] bg-cover bg-no-repeat bg-center">
       {/* placeholder content */}
-      <div className="h-full bg-transparent"></div>
+      <div className="h-full bg-transparent hidden md:block"></div>
 
       {/* login form */}
       <div className="h-full flex flex-col gap-8 items-center justify-center">
-        <Card className="w-3/5 rounded-3xl flex flex-col gap-8 backdrop-blur-lg bg-[#18181b] pt-8 px-8 pb-12 border border-white/5">
+        <Card className="w-[95%] md:w-[50%] rounded-3xl flex flex-col gap-8 backdrop-blur-lg bg-[#18181b] pt-8 px-8 pb-12 border border-white/5">
           <h2 className="font-montserrat font-bold text-4xl text-white">
             Login To Your Dashboard
           </h2>
@@ -86,7 +87,13 @@ export const action: ActionFunction = async ({ request }) => {
   const formData = await request.formData();
   const formValues = Object.fromEntries(formData.entries());
 
-  return {};
+  const userController = new UserController(request);
+  const response = await userController.loginUser({
+    email: formValues.email as string,
+    password: formValues.password as string,
+  });
+
+  return response;
 };
 
 export function ErrorBoundary() {
