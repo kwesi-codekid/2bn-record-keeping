@@ -308,7 +308,7 @@ export default class UserController {
       });
     }
 
-    return this.createUserSession(user.id, "/user");
+    return this.createUserSession(user.id, `${user?.role}`);
   }
 
   public updateProfile = async ({
