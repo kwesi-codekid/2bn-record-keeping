@@ -296,8 +296,9 @@ export default class UserController {
     const valid = await bcrypt.compare(password, user.password);
 
     if (!valid) {
-      session.flash("message", {
-        title: "Invalid Credentials",
+      session.flash("alert", {
+        title: "Error",
+        message: "Invalid Credentials",
         status: "error",
       });
       return redirect(`/login`, {
