@@ -1,0 +1,63 @@
+import { Spinner } from "@nextui-org/react";
+import type { MetaFunction } from "@remix-run/node";
+import { useNavigate } from "@remix-run/react";
+import { useEffect } from "react";
+import { Fade } from "react-awesome-reveal";
+
+import logo from "~/assets/images/logo.png";
+
+export default function SplashScreen() {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    setTimeout(() => {
+      navigate("/login");
+    }, 2800);
+  }, []);
+
+  return (
+    <div className="h-screen bg-slate-950 flex flex-col items-center justify-center">
+      <Fade direction="up" duration={600} cascade>
+        <img src={logo} alt="company logo" className="w-[20rem]" />
+        <h1 className="text-3xl md:text-5xl text-white text-center font-montserrat font-extrabold mb-6">
+          Med Treatment App
+        </h1>
+        <Spinner size="lg" />
+      </Fade>
+    </div>
+  );
+}
+
+export const meta: MetaFunction = () => {
+  return [
+    { title: "Adamus Med Treatment" },
+    {
+      name: "description",
+      content: ".",
+    },
+    {
+      name: "author",
+      content: "KwaminaWhyte",
+    },
+    {
+      name: "author",
+      content: "Codekid",
+    },
+    { name: "og:title", content: "Adamus Med Treatment" },
+    {
+      name: "og:description",
+      content: "",
+    },
+    {
+      name: "og:image",
+      content:
+        "https://res.cloudinary.com/app-deity/image/upload/v1701282976/qfdbysyu0wqeugtcq9wq.jpg",
+    },
+    { name: "og:url", content: "https://marry-right.vercel.app" },
+    {
+      name: "keywords",
+      content:
+        "legal marriages in Ghana, Pastors to bless marriages, Is he/she married?, marriiage under ordinance, cases related to marriages in Ghana, mohammedans, ordinance, traditional, verify my marriage certificate, churches legally certified to bless marriages",
+    },
+  ];
+};
