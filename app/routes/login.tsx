@@ -88,12 +88,10 @@ export const action: ActionFunction = async ({ request }) => {
   const formValues = Object.fromEntries(formData.entries());
 
   const userController = new UserController(request);
-  const response = await userController.loginUser({
+  return await userController.loginUser({
     email: formValues.email as string,
     password: formValues.password as string,
   });
-
-  return response;
 };
 
 export function ErrorBoundary() {
