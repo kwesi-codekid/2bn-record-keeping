@@ -4,6 +4,8 @@ import {
   Avatar,
   Button,
   Input,
+  Select,
+  SelectItem,
   TableCell,
   TableRow,
   User,
@@ -16,11 +18,13 @@ import {
   useLoaderData,
   useNavigate,
   useNavigation,
+  useSubmit,
 } from "@remix-run/react";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { PlusIcon } from "~/components/icons/Plus";
 import { SearchIcon } from "~/components/icons/Search";
+import ConfirmModal from "~/components/modals/ConfirmModal";
 import CreateRecordModal from "~/components/modals/CreateRecord";
 import DeleteRecordModal from "~/components/modals/DeleteRecord";
 import EditRecordModal from "~/components/modals/EditRecord";
@@ -29,6 +33,7 @@ import CustomSelect from "~/components/ui/inputs/select";
 import CustomTextarea from "~/components/ui/inputs/textarea";
 import CustomTable from "~/components/ui/new-table";
 import DepartmentController from "~/controllers/DepartmentController";
+import UserController from "~/controllers/UserController";
 import { deptTableCols } from "~/data/table-cols";
 import { getInitials } from "~/utils/string-manipulation";
 import { errorToast, successToast } from "~/utils/toasters";
@@ -36,15 +41,22 @@ import { DepartmentInterface, UserInterface } from "~/utils/types";
 
 const AdminDepartments = () => {
   const [isCreateModalOpened, setIsCreateModalOpened] = useState(false)
+  const [isConfirmedModalOpened, setIsConfirmedModalOpened] = useState(false)
+  const submit = useSubmit()
+  const navigation = useNavigation();
+  const navigate = useNavigate();
   const handleCreateModalClosed = () => {
     setIsCreateModalOpened(false)
   }
-  const navigation = useNavigation();
-  const navigate = useNavigate();
+  const handleConfirmModalClosed = () => {
+    setIsConfirmedModalOpened(false)
+  }
+
   // loader data
-  const { departments, totalPages } = useLoaderData<{
-    departments: any;
+  const { departments, totalPages, users } = useLoaderData<{
+    departments: DepartmentInterface[];
     totalPages: number;
+    users: UserInterface[]
   }>();
 
   // action data
@@ -60,7 +72,7 @@ const AdminDepartments = () => {
   // edit department modal
   const editDisclosure = useDisclosure();
   const [selectedDepartment, setSelectedDepartment] =
-    useState<DepartmentInterface | null>(null);
+    useState<any>();
   useEffect(() => {
     if (!editDisclosure.isOpen) setSelectedDepartment(null);
   }, [editDisclosure.onOpenChange]);
@@ -160,22 +172,13 @@ const AdminDepartments = () => {
       >
         {departments?.map((department: DepartmentInterface) => (
           <TableRow key={department._id}>
-            <TableCell className="text-sm">{department.name}</TableCell>
-            <TableCell className="text-sm">{department.commandingOfficer}</TableCell>
-            <TableCell className="text-sm">{department.commandingOfficer}</TableCell>
-            <TableCell className="text-sm">{department.commandingOfficer}</TableCell>
-            <TableCell>
-              {department.manager
-                ? department.manager?.firstName +
-                " " +
-                department?.manager?.lastName
-                : "N/A"}
-            </TableCell>
+            <TableCell className="text-sm">{department?.name}</TableCell>
+            <TableCell className="text-sm">{department?.commandingOfficer.firstName + "" + department?.commandingOfficer.lastName}</TableCell>
+            <TableCell className="text-sm">{department.departmentSeargent.firstName + "" + department?.departmentSeargent.lastName}</TableCell>
+            <TableCell className="text-sm">{department?.platoonCommander.firstName + "" + department?.platoonCommander.lastName}</TableCell>
+            <TableCell className="text-sm">{department?.administrationWarranty.firstName + "" + department?.administrationWarranty.lastName}</TableCell>
             <TableCell>{department.description}</TableCell>
             <TableCell className="flex items-center">
-              <Button size="sm" color="success" variant="light">
-                View
-              </Button>
               <Button
                 size="sm"
                 color="primary"
@@ -191,9 +194,9 @@ const AdminDepartments = () => {
                 size="sm"
                 color="danger"
                 variant="light"
-                onPress={() => {
-                  setDeleteId(department._id as string);
-                  deleteDisclosure.onOpen();
+                onClick={() => {
+                  setIsConfirmedModalOpened(true)
+                  setSelectedDepartment(department)
                 }}
               >
                 Delete
@@ -233,46 +236,117 @@ const AdminDepartments = () => {
                   : false
               }
             />
-            <CustomInput
-              isRequired={true}
+            <Select
               label="Commanding Officer"
-              name="commandingOfficer"
+              labelPlacement="outside"
+              placeholder=" "
+              isRequired
+              variant="bordered"
               isInvalid={
                 actionData?.errors?.find((error) => error.field === "commandingOfficer")
                   ? true
                   : false
               }
-            />
-            <CustomInput
-              isRequired={true}
-              label="Company Seargent"
-              name="departmentSeargent"
-              isInvalid={
-                actionData?.errors?.find((error) => error.field === "departmentSeargent")
-                  ? true
-                  : false
-              }
-            />
-            <CustomInput
-              isRequired={true}
-              label="Platoon Commander"
-              name="platoonCommander"
-              isInvalid={
-                actionData?.errors?.find((error) => error.field === "platoonCommander")
-                  ? true
-                  : false
-              }
-            />
-            <CustomInput
-              isRequired={true}
+              className="mt-4"
+              name="commandingOfficer"
+              classNames={{
+                label: "text-sm md:text-base font-medium font-sen text-slate-800 dark:text-slate-100",
+                trigger: " !shadow-none dark:border-slate-700  ",
+                popoverContent: "bg-white shadow-sm dark:bg-slate-900 border border-white/5  "
+              }}
+
+            >
+              {users.map((user: UserInterface) => (
+                <SelectItem textValue={user?.firstName + " " + user?.lastName} className="mt-4" key={user._id}>
+                  {user?.firstName + " " + user?.lastName}
+                </SelectItem>
+              ))}
+
+            </Select>
+            <div className="flex gap-4">
+              <Select
+                variant="bordered"
+                label="Department Seargent"
+                labelPlacement="outside"
+                placeholder=" "
+                isRequired
+                isInvalid={
+                  actionData?.errors?.find((error) => error.field === "departmentSeargent")
+                    ? true
+                    : false
+                }
+                className="mt-4"
+                name="departmentSeargent"
+                classNames={{
+                  label: "text-sm md:text-base font-medium font-sen text-slate-800 dark:text-slate-100",
+                  trigger: "!shadow-none dark:border-slate-700  ",
+                  popoverContent: "bg-white shadow-sm dark:bg-slate-900 border border-white/5 focus:bg-slate-900 "
+                }}
+
+              >
+                {users.map((user: UserInterface) => (
+                  <SelectItem textValue={user?.firstName + " " + user?.lastName} className="mt-4" key={user._id}>
+                    {user?.firstName + " " + user?.lastName}
+                  </SelectItem>
+                ))}
+
+              </Select>
+              <Select
+                label="Platoon Commander"
+                labelPlacement="outside"
+                placeholder=" "
+                variant="bordered"
+                isRequired
+                isInvalid={
+                  actionData?.errors?.find((error) => error.field === "platoonCommander")
+                    ? true
+                    : false
+                }
+                className="mt-4"
+                name="platoonCommander"
+                classNames={{
+                  label: "text-sm md:text-base font-medium font-sen text-slate-800 dark:text-slate-100",
+                  trigger: " !shadow-none dark:border-slate-700  ",
+                  popoverContent: "bg-white shadow-sm dark:bg-slate-900 border border-white/5  "
+                }}
+
+              >
+                {users.map((user: UserInterface) => (
+                  <SelectItem textValue={user?.firstName + " " + user?.lastName} className="mt-4" key={user._id}>
+                    {user?.firstName + " " + user?.lastName}
+                  </SelectItem>
+                ))}
+
+              </Select>
+            </div>
+
+            <Select
               label="Administration Warranty"
-              name="administrationWarranty"
+              labelPlacement="outside"
+              placeholder=" "
+              isRequired
+              variant="bordered"
               isInvalid={
                 actionData?.errors?.find((error) => error.field === "administrationWarranty")
                   ? true
                   : false
               }
-            />
+              className="mt-4"
+              name="administrationWarranty"
+              classNames={{
+                label: "text-sm md:text-base font-medium font-sen text-slate-800 dark:text-slate-100",
+                trigger: " !shadow-none dark:border-slate-700  ",
+                popoverContent: "bg-white shadow-sm dark:bg-slate-900 border border-white/5  "
+              }}
+
+            >
+              {users.map((user: UserInterface) => (
+                <SelectItem textValue={user?.firstName + " " + user?.lastName} className="mt-4" key={user._id}>
+                  {user?.firstName + " " + user?.lastName}
+                </SelectItem>
+              ))}
+
+            </Select>
             <CustomTextarea
               isRequired={true}
               label="Description"
@@ -375,6 +449,26 @@ const AdminDepartments = () => {
           </Autocomplete>
         </div>
       </EditRecordModal>
+      <ConfirmModal className="bg-gray-200 dark:bg-slate-950 border border-white/5" content="Are you sure to delete product" header="Comfirm Delete" isOpen={isConfirmedModalOpened} onOpenChange={handleConfirmModalClosed}>
+        <div className="flex gap-4">
+          <Button size="sm" color="danger" className="font-nunito " onPress={handleConfirmModalClosed}>
+            No
+          </Button>
+          <Button size="sm" color="primary" className="font-nunito" onClick={() => {
+            if (selectedDepartment) {
+              submit({
+                intent: "delete",
+                id: selectedDepartment?._id
+
+              }, {
+                method: "post"
+              })
+            }
+          }} >
+            Yes
+          </Button>
+        </div>
+      </ConfirmModal>
 
       {/* Delete department */}
       <DeleteRecordModal
@@ -407,13 +501,13 @@ export const action: ActionFunction = async ({ request }) => {
   const administrationWarranty = formData.get("administrationWarranty") as string
   const description = formData.get("description") as string
   const intent = formData.get("intent") as string
+  const _id = formData.get("id") as string
 
 
   const departmentController = new DepartmentController(request);
   switch (intent) {
     case "create":
       const createDepartment = await departmentController.createDepartment({
-        intent,
         name,
         description,
         commandingOfficer,
@@ -421,20 +515,14 @@ export const action: ActionFunction = async ({ request }) => {
         platoonCommander,
         administrationWarranty,
       })
-
       return createDepartment
-
-      break;
-
+    
+      case "delete":
+      const deleteDepartment = await departmentController.deleteDepartment({_id})
+      return deleteDepartment
     default:
       break;
   }
-
-
-
-
-
-
 
   return null;
 };
@@ -443,13 +531,21 @@ export const loader: LoaderFunction = async ({ request }) => {
   const url = new URL(request.url);
   const page = parseInt(url.searchParams.get("page") as string) || 1;
   const search_term = url.searchParams.get("search_term") as string;
-
   const departmentController = new DepartmentController(request);
+  const usersController = new UserController(request)
 
-  return await departmentController.getDepartments({
+  const { users } = await usersController.getUsers({
+    page,
+    search_term
+  })
+  const { departments } = await departmentController.getDepartments({
     page,
     search_term,
-  });
+  })
+  console.log(departments);
+
+
+  return { users, departments }
 };
 
 export const meta: MetaFunction = () => {
