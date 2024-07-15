@@ -38,7 +38,7 @@ export type UserRoleInterface = {
   display_name: string;
 };
 
-export type DepartmentInterface = {
+export type CompanyInterface = {
   _id?: string;
   name: string;
   description: string;

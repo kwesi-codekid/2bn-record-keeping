@@ -33,12 +33,13 @@ import CustomInput from "~/components/ui/inputs/input";
 import CustomSelect from "~/components/ui/inputs/select";
 import CustomTextarea from "~/components/ui/inputs/textarea";
 import CustomTable from "~/components/ui/new-table";
+import CompanyController from "~/controllers/CompanyController";
 import DepartmentController from "~/controllers/DepartmentController";
 import UserController from "~/controllers/UserController";
 import { deptTableCols } from "~/data/table-cols";
 import { getInitials } from "~/utils/string-manipulation";
 import { errorToast, successToast } from "~/utils/toasters";
-import { DepartmentInterface, UserInterface } from "~/utils/types";
+import { CompanyInterface, DepartmentInterface, UserInterface } from "~/utils/types";
 
 const AdminDepartments = () => {
   const [isCreateModalOpened, setIsCreateModalOpened] = useState(false)
@@ -58,8 +59,8 @@ const AdminDepartments = () => {
   }
 
   // loader data
-  const { departments, totalPages, users } = useLoaderData<{
-    departments: DepartmentInterface[];
+  const { companys, totalPages, users } = useLoaderData<{
+    companys: CompanyInterface[];
     totalPages: number;
     users: UserInterface[]
   }>();
@@ -92,7 +93,7 @@ const AdminDepartments = () => {
   // select department data
   let selectOptions: { key: string; value: string; display_name: string }[] =
     [];
-  departments?.map((department: DepartmentInterface) => {
+  companys?.map((department: DepartmentInterface) => {
     selectOptions.push({
       key: department._id as string,
       value: department._id as string,
@@ -175,14 +176,14 @@ const AdminDepartments = () => {
         }}
         totalPages={totalPages}
       >
-        {departments?.map((department: DepartmentInterface) => (
-          <TableRow key={department._id}>
-            <TableCell className="text-sm">{department?.name}</TableCell>
-            <TableCell className="text-sm">{department?.commandingOfficer.firstName + "" + department?.commandingOfficer.lastName}</TableCell>
-            <TableCell className="text-sm">{department.departmentSeargent.firstName + "" + department?.departmentSeargent.lastName}</TableCell>
-            <TableCell className="text-sm">{department?.platoonCommander.firstName + "" + department?.platoonCommander.lastName}</TableCell>
-            <TableCell className="text-sm">{department?.administrationWarranty.firstName + "" + department?.administrationWarranty.lastName}</TableCell>
-            <TableCell>{department.description}</TableCell>
+        {companys?.map((company: CompanyInterface) => (
+          <TableRow key={company._id}>
+            <TableCell className="text-sm">{company?.name}</TableCell>
+            <TableCell className="text-sm">{company?.commandingOfficer.firstName + "" + company?.commandingOfficer.lastName}</TableCell>
+            <TableCell className="text-sm">{company.departmentSeargent.firstName + "" + company?.departmentSeargent.lastName}</TableCell>
+            <TableCell className="text-sm">{company?.platoonCommander.firstName + "" + company?.platoonCommander.lastName}</TableCell>
+            <TableCell className="text-sm">{company?.administrationWarranty.firstName + "" + company?.administrationWarranty.lastName}</TableCell>
+            <TableCell>{company.description}</TableCell>
             <TableCell className="flex items-center">
               <Button
                 size="sm"
@@ -190,7 +191,7 @@ const AdminDepartments = () => {
                 variant="light"
                 onClick={() => {
                   setIsEditModalOpened(true)
-                  setSelectedDepartment(department)
+                  setSelectedDepartment(company)
                 }}
               >
                 edit
@@ -201,7 +202,7 @@ const AdminDepartments = () => {
                 variant="light"
                 onClick={() => {
                   setIsConfirmedModalOpened(true)
-                  setSelectedDepartment(department)
+                  setSelectedDepartment(company)
                 }}
               >
                 Delete
@@ -578,7 +579,7 @@ export const action: ActionFunction = async ({ request }) => {
   const formData = await request.formData()
   const name = formData.get("name") as string
   const commandingOfficer = formData.get("commandingOfficer") as string
-  const departmentSeargent = formData.get("departmentSeargent") as string
+  const companySeargent = formData.get("departmentSeargent") as string
   const platoonCommander = formData.get("platoonCommander") as string
   const administrationWarranty = formData.get("administrationWarranty") as string
   const description = formData.get("description") as string
@@ -586,30 +587,30 @@ export const action: ActionFunction = async ({ request }) => {
   const _id = formData.get("id") as string
 
 
-  const departmentController = new DepartmentController(request);
+  const companyController = new CompanyController(request);
   switch (intent) {
     case "create":
-      const createDepartment = await departmentController.createDepartment({
+      const createDepartment = await companyController.createCompany({
         name,
         description,
         commandingOfficer,
-        departmentSeargent,
+        companySeargent,
         platoonCommander,
         administrationWarranty,
       })
       return createDepartment
     
       case "delete":
-      const deleteDepartment = await departmentController.deleteDepartment({_id})
+      const deleteDepartment = await companyController.deleteCompany({_id})
       return deleteDepartment
 
       case "update":
-        const updateDepartment = await departmentController.updateDepartment({
+        const updateDepartment = await companyController.updateCompany({
           _id,
           name,
           description,
           commandingOfficer,
-          departmentSeargent,
+          companySeargent,
           platoonCommander,
           administrationWarranty,
         })
@@ -625,21 +626,22 @@ export const loader: LoaderFunction = async ({ request }) => {
   const url = new URL(request.url);
   const page = parseInt(url.searchParams.get("page") as string) || 1;
   const search_term = url.searchParams.get("search_term") as string;
-  const departmentController = new DepartmentController(request);
+  const companyController = new CompanyController(request);
   const usersController = new UserController(request)
 
   const { users } = await usersController.getUsers({
     page,
     search_term
   })
-  const { departments } = await departmentController.getDepartments({
+  const { companys } = await companyController.getCompanys({
     page,
     search_term,
   })
-  console.log(departments);
+  console.log(companys);
+  
 
 
-  return { users, departments }
+  return { users, companys }
 };
 
 export const meta: MetaFunction = () => {

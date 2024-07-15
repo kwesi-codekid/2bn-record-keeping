@@ -81,7 +81,7 @@ export default class CompanyController {
         searchFilter
       ).exec();
       const totalPages = Math.ceil(totalCompanysCount / limit);
-
+    
       return { companys, totalPages };
     } catch (error) {
       console.log(error);
