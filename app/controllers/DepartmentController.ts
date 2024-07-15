@@ -157,18 +157,29 @@ export default class DepartmentController {
       const existingDepartment = await Department.findOne({ name });
 
       if (existingDepartment) {
-        return {
+        session.flash("alert", {
+          title: "Error",
           status: "error",
-          code: 400,
-          message: "Department already exists",
-          errors: [
-            {
-              field: "name",
-              message:
-                "A department with this name already exists. Please choose a different name.",
-            },
-          ],
-        };
+          message: "Department already exist",
+        });
+
+        return redirect(this.path, {
+          headers: {
+            "Set-Cookie": await commitFlashSession(session),
+          },
+        });
+        // return {
+        //   status: "error",
+        //   code: 400,
+        //   message: "Department already exists",
+        //   errors: [
+        //     {
+        //       field: "name",
+        //       message:
+        //         "A department with this name already exists. Please choose a different name.",
+        //     },
+        //   ],
+        // };
       }
 
       const department = await Department.create({
@@ -181,33 +192,67 @@ export default class DepartmentController {
       });
 
       if (!department) {
-        return {
+        // return {
+        //   status: "error",
+        //   code: 400,
+        //   message: "Error adding department",
+        //   errors: [
+        //     {
+        //       field: "name",
+        //       message: "Error adding department",
+        //     },
+        //   ],
+        // };
+        session.flash("alert", {
+          title: "Error",
           status: "error",
-          code: 400,
           message: "Error adding department",
-          errors: [
-            {
-              field: "name",
-              message: "Error adding department",
-            },
-          ],
-        };
+        });
+
+        return redirect(this.path, {
+          headers: {
+            "Set-Cookie": await commitFlashSession(session),
+          },
+        });
       }
 
-      return {
+      // return {
+      //   status: "success",
+      //   code: 200,
+      //   message: "Department added successfully",
+      //   data: department,
+      // };
+
+      session.flash("alert", {
+        title: "Success",
         status: "success",
-        code: 200,
-        message: "Department added successfully",
-        data: department,
-      };
+        message: "Department craeted successfully",
+      });
+
+      return redirect(this.path, {
+        headers: {
+          "Set-Cookie": await commitFlashSession(session),
+        },
+      });
     } catch (error) {
       console.log(error);
 
-      return {
+      // return {
+      //   status: "error",
+      //   code: 400,
+      //   message: "Error adding department",
+      // };
+
+      session.flash("alert", {
+        title: "Error",
         status: "error",
-        code: 400,
-        message: "Error adding department",
-      };
+        message: "Error craeting department",
+      });
+      return redirect(this.path, {
+        headers: {
+          "Set-Cookie": await commitFlashSession(session),
+        },
+      });
     }
   };
 
@@ -252,18 +297,38 @@ export default class DepartmentController {
         { new: true }
       );
 
-      return {
+      // return {
+      //   status: "success",
+      //   code: 200,
+      //   message: "Department updated successfully",
+      //   data: updated,
+      // };
+      session.flash("alert", {
+        title: "Success",
         status: "success",
-        code: 200,
         message: "Department updated successfully",
-        data: updated,
-      };
+      });
+      return redirect(this.path, {
+        headers: {
+          "Set-Cookie": await commitFlashSession(session),
+        },
+      });
     } catch (error) {
-      return {
+      session.flash("alert", {
+        title: "Error",
         status: "error",
-        code: 400,
         message: "Error updating department",
-      };
+      });
+      return redirect(this.path, {
+        headers: {
+          "Set-Cookie": await commitFlashSession(session),
+        },
+      });
+      // return {
+      //   status: "error",
+      //   code: 400,
+      //   message: "Error updating department",
+      // };
     }
   };
 
@@ -278,19 +343,39 @@ export default class DepartmentController {
     try {
       await Department.findByIdAndDelete(_id);
 
-      return {
+      session.flash("alert", {
+        title: "Success",
         status: "success",
-        code: 200,
-        message: "Department deleted successfully",
-      };
+        message: "Department Deleted Successfully",
+      });
+      return redirect(this.path, {
+        headers: {
+          "Set-Cookie": await commitFlashSession(session),
+        },
+      });
+
+      // return {
+      //   status: "success",
+      //   code: 200,
+      //   message: "Department deleted successfully",
+      // };
     } catch (error) {
       console.log(error);
-
-      return {
+      session.flash("alert", {
+        title: "Error",
         status: "error",
-        code: 400,
         message: "Error deleting department",
-      };
+      });
+      return redirect(this.path, {
+        headers: {
+          "Set-Cookie": await commitFlashSession(session),
+        },
+      });
+      // return {
+      //   status: "error",
+      //   code: 400,
+      //   message: "Error deleting department",
+      // };
     }
   };
 }
