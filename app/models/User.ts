@@ -49,30 +49,14 @@ const userSchema = new Schema<UserInterface>(
       ref: "departments",
       required: false,
     },
+    company: {
+      type: Schema.Types.ObjectId,
+      ref: "companys",
+      required: false,
+    },
     phone: {
       type: String,
       required: true,
-    },
-    otp: {
-      type: String,
-      required: false,
-    },
-    permissions: [
-      {
-        type: String,
-      },
-    ],
-    generalManager: {
-      type: Boolean,
-      default: false,
-    },
-    contractor: {
-      type: String,
-    },
-    employeeStatus: {
-      type: String,
-      enum: ["active", "inactive"],
-      default: "active",
     },
   },
   {
