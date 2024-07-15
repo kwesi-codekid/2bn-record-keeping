@@ -43,7 +43,7 @@ export type CompanyInterface = {
   name: string;
   description: string;
   commandingOfficer: UserInterface;
-  departmentSeargent: UserInterface;
+  companySeargent: UserInterface;
   platoonCommander: UserInterface;
   administrationWarranty: UserInterface;
 };

@@ -39,7 +39,7 @@ import UserController from "~/controllers/UserController";
 import { deptTableCols } from "~/data/table-cols";
 import { getInitials } from "~/utils/string-manipulation";
 import { errorToast, successToast } from "~/utils/toasters";
-import { CompanyInterface, DepartmentInterface, UserInterface } from "~/utils/types";
+import { CompanyInterface,  UserInterface } from "~/utils/types";
 
 const AdminDepartments = () => {
   const [isCreateModalOpened, setIsCreateModalOpened] = useState(false);
@@ -64,7 +64,6 @@ const AdminDepartments = () => {
     totalPages: number;
     users: UserInterface[];
   }>();
-  console.log(departments);
 
   // action data
   const actionData = useActionData<{
@@ -93,7 +92,7 @@ const AdminDepartments = () => {
   // select department data
   let selectOptions: { key: string; value: string; display_name: string }[] =
     [];
-  companys?.map((department: DepartmentInterface) => {
+  companys?.map((department: CompanyInterface) => {
     selectOptions.push({
       key: department._id as string,
       value: department._id as string,
@@ -179,11 +178,11 @@ const AdminDepartments = () => {
         {companys?.map((company: CompanyInterface) => (
           <TableRow key={company._id}>
             <TableCell className="text-sm">{company?.name}</TableCell>
-            <TableCell className="text-sm">{company?.commandingOfficer.firstName + "" + company?.commandingOfficer.lastName}</TableCell>
-            <TableCell className="text-sm">{company.departmentSeargent.firstName + "" + company?.departmentSeargent.lastName}</TableCell>
-            <TableCell className="text-sm">{company?.platoonCommander.firstName + "" + company?.platoonCommander.lastName}</TableCell>
-            <TableCell className="text-sm">{company?.administrationWarranty.firstName + "" + company?.administrationWarranty.lastName}</TableCell>
-            <TableCell>{company.description}</TableCell>
+            <TableCell className="text-sm">{company?.commandingOfficer?.firstName + "" + company?.commandingOfficer?.lastName}</TableCell>
+            <TableCell className="text-sm">{company.companySeargent?.firstName + "" + company?.companySeargent?.lastName}</TableCell>
+            <TableCell className="text-sm">{company?.platoonCommander?.firstName + "" + company?.platoonCommander?.lastName}</TableCell>
+            <TableCell className="text-sm">{company?.administrationWarranty?.firstName + "" + company?.administrationWarranty?.lastName}</TableCell>
+            <TableCell>{company?.description}</TableCell>
             <TableCell className="flex items-center">
               <Button
                 size="sm"
