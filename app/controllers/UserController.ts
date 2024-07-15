@@ -13,7 +13,7 @@ import sendSMS from "~/utils/sendSMS";
 export default class UserController {
   private request: Request;
   private storage: SessionStorage;
-
+  private path: string;
   /**
    * Initialize a UserController instance
    * @param request This Fetch API interface represents a resource request.
@@ -21,6 +21,7 @@ export default class UserController {
    */
   constructor(request: Request) {
     this.request = request;
+    const path = url.pathname + url.search;
 
     const secret = process.env.SESSION_SECRET;
     if (!secret) {
@@ -163,110 +164,6 @@ export default class UserController {
     }
   }
 
-  /**
-   * Login user with phone number
-   * @param phone
-   * @returns redirect
-   * @throws Error
-   **/
-  public async loginUserWithPhone({ phone }: { phone: string }) {
-    const session = await getFlashSession(this.request.headers.get("Cookie"));
-
-    try {
-      const user = await User.findOne({
-        phone,
-      });
-
-      if (!user) {
-        return json({
-          status: "error",
-          message: "Bad Request. The provided input is invalid.",
-          errors: [
-            {
-              field: "phone",
-              message: "Phonne number does not exist.",
-            },
-          ],
-        });
-      }
-
-      const otp = await generateOTP();
-
-      await User.findOneAndUpdate(
-        { phone },
-        {
-          otp: otp,
-        },
-        {
-          new: true,
-        }
-      );
-
-      // send otp here
-      const smsRess = await sendSMS({
-        smsText: `Your verification code is ${otp} - Adamus IT`,
-        recipient: phone,
-      });
-
-      session.flash("alert", {
-        title: "Success!",
-        message:
-          "Sending OTP to your phone number. This may take a few seconds.",
-        status: "success",
-      });
-      return redirect(`/login/verify-otp`, {
-        headers: {
-          "Set-Cookie": await commitFlashSession(session),
-        },
-      });
-    } catch (error) {
-      return {
-        status: "error",
-        message: "Bad Request. The provided input is invalid.",
-        errors: [
-          {
-            field: "phone",
-            message: "Phone number does not exist.",
-          },
-        ],
-      };
-    }
-  }
-
-  public async verifyOTP({ otp }: { otp: string }) {
-    const session = await getFlashSession(this.request.headers.get("Cookie"));
-
-    const user = await User.findOne({
-      otp,
-    });
-
-    if (!user) {
-      return {
-        status: "error",
-        message: "",
-        errors: [
-          {
-            field: "otp",
-            message: "OTP is invalid.",
-          },
-        ],
-      };
-    }
-
-    // clear otp
-    await User.findOneAndUpdate(
-      { otp },
-      {
-        otp: "",
-      },
-      {
-        new: true,
-      }
-    );
-
-    return await this.createUserSession(user.id, `/${user.role}`);
-  }
-
   public async loginUser({
     email,
     password,
@@ -335,9 +232,10 @@ export default class UserController {
           new: true,
         }
       );
-      session.flash("message", {
-        title: "Profile Updated",
+      session.flash("alert", {
+        title: "Success",
         status: "success",
+        message: "Profile Updated Successfully!",
       });
       return redirect(`/user/profile`, {
         headers: {
@@ -345,9 +243,10 @@ export default class UserController {
         },
       });
     } catch (error) {
-      session.flash("message", {
-        title: "Error Updating Profile!",
+      session.flash("alert", {
+        title: "Error",
         status: "error",
+        message: "Error Updating Profile!",
       });
       return redirect(`/user/profile`, {
         headers: {
@@ -387,9 +286,10 @@ export default class UserController {
       const valid = await bcrypt.compare(currentPassword, user.password);
 
       if (!valid) {
-        session.flash("message", {
-          title: "Incorrect Password!",
+        session.flash("alert", {
+          title: "Error",
           status: "error",
+          message: "Incorrect Password!",
         });
         return redirect(`/user/profile`, {
           headers: {
@@ -402,7 +302,7 @@ export default class UserController {
       await User.findByIdAndUpdate(user._id, {
         password: hashedPassword,
       });
-      session.flash("message", {
+      session.flash("alert", {
         title: "Password Changed",
         status: "success",
       });
@@ -412,7 +312,7 @@ export default class UserController {
         },
       });
     } else {
-      session.flash("message", {
+      session.flash("alert", {
         title: "User does not exist!",
         status: "error",
       });
@@ -490,13 +390,25 @@ export default class UserController {
       if (errors.length > 0) {
         console.log({ errors });
 
-        return {
+        session.flash("alert", {
+          title: "Error",
           status: "error",
-          code: 400,
           message:
             "User with phone number or staff ID or email already exists.",
-          errors,
-        };
+        });
+        return redirect(this.path, {
+          headers: {
+            "Set-Cookie": await commitFlashSession(session),
+          },
+        });
+
+        // return {
+        //   status: "error",
+        //   code: 400,
+        //   message:
+        //     "User with phone number or staff ID or email already exists.",
+        //   errors,
+        // };
       }
 
       const user = await User.create({
@@ -512,26 +424,47 @@ export default class UserController {
         position,
       });
 
-      return {
+      // return {
+      //   status: "success",
+      //   code: 200,
+      //   message: "User created successfully",
+      //   data: user,
+      // };
+      session.flash("alert", {
+        title: "Success",
         status: "success",
-        code: 200,
-        message: "User created successfully",
-        data: user,
-      };
+        message: "User created Successfully!",
+      });
+      return redirect(this.path, {
+        headers: {
+          "Set-Cookie": await commitFlashSession(session),
+        },
+      });
     } catch (error) {
       console.log(error);
 
-      return {
+      session.flash("alert", {
+        title: "Error",
         status: "error",
-        code: 400,
         message: "Error Creating User",
-        errors: [
-          {
-            field: "error",
-            message: error.message,
-          },
-        ],
-      };
+      });
+      return redirect(this.path, {
+        headers: {
+          "Set-Cookie": await commitFlashSession(session),
+        },
+      });
+
+      // return {
+      //   status: "error",
+      //   code: 400,
+      //   message: "Error Creating User",
+      //   errors: [
+      //     {
+      //       field: "error",
+      //       message: error.message,
+      //     },
+      //   ],
+      // };
     }
   };
 
@@ -544,6 +477,8 @@ export default class UserController {
     search_term: string;
     limit?: number;
   }) => {
+    const session = await getFlashSession(this.request.headers.get("Cookie"));
+
     const skipCount = (page - 1) * limit; // Calculate the number of documents to skip
 
     const searchFilter = search_term
@@ -624,6 +559,16 @@ export default class UserController {
       return { users, totalPages };
     } catch (error) {
       console.error("Error retrieving users:", error);
+      session.flash("alert", {
+        title: "Error",
+        status: "error",
+        message: "Error retrieving users",
+      });
+      return redirect(this.path, {
+        headers: {
+          "Set-Cookie": await commitFlashSession(session),
+        },
+      });
     }
   };
 
@@ -746,7 +691,7 @@ export default class UserController {
 
     try {
       await User.findByIdAndDelete(userId);
-      // session.flash("message", {
+      // session.flash("alert", {
       //   title: "User Deleted",
       //   status: "success",
       // });
@@ -761,7 +706,7 @@ export default class UserController {
         message: "User account deleted successfully",
       };
     } catch (error) {
-      // session.flash("message", {
+      // session.flash("alert", {
       //   title: "Error Deleting User!",
       //   status: "error",
       // });
@@ -921,7 +866,7 @@ export default class UserController {
       await User.findByIdAndUpdate(userId, {
         password: hashedPassword,
       });
-      session.flash("message", {
+      session.flash("alert", {
         title: "Password Reset",
         status: "success",
       });
@@ -931,7 +876,7 @@ export default class UserController {
         },
       });
     } catch (error) {
-      session.flash("message", {
+      session.flash("alert", {
         title: "Error Resetting Password!",
         status: "error",
       });
