@@ -246,7 +246,6 @@ export default class DepartmentController {
         status: "error",
         message: "Error craeting department",
       });
-
       return redirect(this.path, {
         headers: {
           "Set-Cookie": await commitFlashSession(session),
@@ -296,18 +295,38 @@ export default class DepartmentController {
         { new: true }
       );
 
-      return {
+      // return {
+      //   status: "success",
+      //   code: 200,
+      //   message: "Department updated successfully",
+      //   data: updated,
+      // };
+      session.flash("alert", {
+        title: "Success",
         status: "success",
-        code: 200,
         message: "Department updated successfully",
-        data: updated,
-      };
+      });
+      return redirect(this.path, {
+        headers: {
+          "Set-Cookie": await commitFlashSession(session),
+        },
+      });
     } catch (error) {
-      return {
+      session.flash("alert", {
+        title: "Error",
         status: "error",
-        code: 400,
         message: "Error updating department",
-      };
+      });
+      return redirect(this.path, {
+        headers: {
+          "Set-Cookie": await commitFlashSession(session),
+        },
+      });
+      // return {
+      //   status: "error",
+      //   code: 400,
+      //   message: "Error updating department",
+      // };
     }
   };
 
@@ -322,19 +341,39 @@ export default class DepartmentController {
     try {
       await Department.findByIdAndDelete(_id);
 
-      return {
+      session.flash("alert", {
+        title: "Success",
         status: "success",
-        code: 200,
-        message: "Department deleted successfully",
-      };
+        message: "Department Deleted Successfully",
+      });
+      return redirect(this.path, {
+        headers: {
+          "Set-Cookie": await commitFlashSession(session),
+        },
+      });
+
+      // return {
+      //   status: "success",
+      //   code: 200,
+      //   message: "Department deleted successfully",
+      // };
     } catch (error) {
       console.log(error);
-
-      return {
+      session.flash("alert", {
+        title: "Error",
         status: "error",
-        code: 400,
         message: "Error deleting department",
-      };
+      });
+      return redirect(this.path, {
+        headers: {
+          "Set-Cookie": await commitFlashSession(session),
+        },
+      });
+      // return {
+      //   status: "error",
+      //   code: 400,
+      //   message: "Error deleting department",
+      // };
     }
   };
 }
