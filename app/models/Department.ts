@@ -17,7 +17,7 @@ const schema = new Schema<DepartmentInterface>(
       ref: "users",
       required: false,
     },
-    companySeargent: {
+    departmentSeargent: {
       type: Schema.Types.ObjectId,
       ref: "users",
       required: false,
