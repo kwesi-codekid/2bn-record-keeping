@@ -3,7 +3,6 @@ import type { MetaFunction } from "@remix-run/node";
 import { useNavigate } from "@remix-run/react";
 import { useEffect } from "react";
 import { Fade } from "react-awesome-reveal";
-
 import logo from "~/assets/images/Army-logo.png";
 
 export default function SplashScreen() {

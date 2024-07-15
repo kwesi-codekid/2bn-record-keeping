@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const databaseUrl = process.env.MONGODB_URI as string;
+const databaseUrl = process.env.MONGODB_URI || "mongodb://localhost:27017/adamus_med_treatment";
 
 let isConnected = false; // Track the connection status
 
