@@ -97,7 +97,6 @@ export default class DepartmentController {
           "Set-Cookie": await commitFlashSession(session),
         },
       });
-      // throw new Error("Error retrieving departments");
     }
   }
 
@@ -112,6 +111,18 @@ export default class DepartmentController {
       return department;
     } catch (error) {
       console.error("Error retrieving department:", error);
+      return {
+        status: "error",
+        code: 400,
+        message: "Error getting department details",
+        errors: [
+          {
+            field: "name",
+            message:
+              "A department with this name already exists. Please choose a different name.",
+          },
+        ],
+      };
     }
   }
 
@@ -125,12 +136,18 @@ export default class DepartmentController {
    */
   public createDepartment = async ({
     name,
-    parent,
     description,
+    commandingOfficer,
+    companySeargent,
+    platoonCommander,
+    administrationWarranty,
   }: {
     name: string;
-    parent: string;
     description: string;
+    commandingOfficer: string;
+    companySeargent: string;
+    platoonCommander: string;
+    administrationWarranty: string;
   }) => {
     const session = await getFlashSession(this.request.headers.get("Cookie"));
 
@@ -154,9 +171,11 @@ export default class DepartmentController {
 
       const department = await Department.create({
         name,
-        parent: parent || null,
         description,
-        isParent: parent ? false : true,
+        commandingOfficer,
+        companySeargent,
+        platoonCommander,
+        administrationWarranty,
       });
 
       if (!department) {
@@ -201,17 +220,19 @@ export default class DepartmentController {
   public updateDepartment = async ({
     _id,
     name,
-    parent,
     description,
-    supervisors,
-    manager,
+    commandingOfficer,
+    companySeargent,
+    platoonCommander,
+    administrationWarranty,
   }: {
     _id: string;
     name: string;
-    parent: string;
     description: string;
-    supervisors: string[];
-    manager: string;
+    commandingOfficer: string;
+    companySeargent: string;
+    platoonCommander: string;
+    administrationWarranty: string;
   }) => {
     const session = await getFlashSession(this.request.headers.get("Cookie"));
 
@@ -220,10 +241,11 @@ export default class DepartmentController {
         _id,
         {
           name,
-          parent,
           description,
-          supervisors,
-          manager: manager || null,
+          commandingOfficer,
+          companySeargent,
+          platoonCommander,
+          administrationWarranty,
         },
         { new: true }
       );

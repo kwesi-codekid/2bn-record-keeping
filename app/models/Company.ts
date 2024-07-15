@@ -9,28 +9,29 @@ const schema = new Schema<DepartmentInterface>(
       required: true,
       unique: true,
     },
+    parent: {
+      type: Schema.Types.ObjectId,
+      ref: "departments",
+      required: false,
+    },
     description: {
       type: String,
     },
-    commandingOfficer: {
+    manager: {
       type: Schema.Types.ObjectId,
       ref: "users",
       required: false,
     },
-    companySeargent: {
-      type: Schema.Types.ObjectId,
-      ref: "users",
-      required: false,
-    },
-    platoonCommander: {
-      type: Schema.Types.ObjectId,
-      ref: "users",
-      required: false,
-    },
-    administrationWarranty: {
-      type: Schema.Types.ObjectId,
-      ref: "users",
-      required: false,
+    supervisors: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "users",
+        required: false,
+      },
+    ],
+    isParent: {
+      type: Boolean,
+      default: false,
     },
   },
   {
