@@ -153,7 +153,7 @@ const AdminDepartments = () => {
             startContent={<PlusIcon className="size-5" />}
             className="font-montserrat font-semibold"
             onClick={() => {
-              setIsCreateModalOpened(true)
+              setIsCreateModalOpened(true);
             }}
           >
             Create Department
@@ -210,10 +210,10 @@ const AdminDepartments = () => {
       {/* export interface CompanyInterface {
    name:string
    logo: string
-   commandingOfficer: UserInterface, 
-   companySeargent:UserInterface, 
+   commandingOfficer: UserInterface,
+   companySeargent:UserInterface,
    platoonCommander: UserInterface,
-   administrationWarranty: UserInterface, 
+   administrationWarranty: UserInterface,
    descriptio:string
   createdAt?: Date;
   updatedAt?: Date;
@@ -243,7 +243,9 @@ const AdminDepartments = () => {
               isRequired
               variant="bordered"
               isInvalid={
-                actionData?.errors?.find((error) => error.field === "commandingOfficer")
+                actionData?.errors?.find(
+                  (error) => error.field === "commandingOfficer"
+                )
                   ? true
                   : false
               }
@@ -327,7 +329,9 @@ const AdminDepartments = () => {
               isRequired
               variant="bordered"
               isInvalid={
-                actionData?.errors?.find((error) => error.field === "administrationWarranty")
+                actionData?.errors?.find(
+                  (error) => error.field === "administrationWarranty"
+                )
                   ? true
                   : false
               }
@@ -358,7 +362,7 @@ const AdminDepartments = () => {
               <Button color="danger" onPress={onClose}>
                 Close
               </Button>
-              <button className="bg-primary-400 rounded-xl text-white font-nunito px-4" >
+              <button className="bg-primary-400 rounded-xl text-white font-nunito px-4">
                 Submit
               </button>
             </div>

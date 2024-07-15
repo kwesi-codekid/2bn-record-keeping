@@ -28,7 +28,7 @@ import CustomInput from "~/components/ui/inputs/input";
 import CustomSelect from "~/components/ui/inputs/select";
 import CustomTextarea from "~/components/ui/inputs/textarea";
 import CustomTable from "~/components/ui/new-table";
-import DepartmentController from "~/controllers/DepartmentController";
+import DepartmentController from "~/controllers/CompanyController";
 import UserController from "~/controllers/UserController";
 import { roles } from "~/data/select-items";
 import { deptTableCols, userTableCols } from "~/data/table-cols";

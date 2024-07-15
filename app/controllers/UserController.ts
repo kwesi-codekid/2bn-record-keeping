@@ -699,37 +699,39 @@ export default class UserController {
 
     try {
       await User.findByIdAndDelete(userId);
-      // session.flash("alert", {
-      //   title: "User Deleted",
-      //   status: "success",
-      // });
-      // return redirect(path, {
-      //   headers: {
-      //     "Set-Cookie": await commitFlashSession(session),
-      //   },
-      // });
-      return {
+      session.flash("alert", {
+        title: "Success",
         status: "success",
-        code: 200,
-        message: "User account deleted successfully",
-      };
+        message: "User deleted successfully!",
+      });
+      return redirect(this.path, {
+        headers: {
+          "Set-Cookie": await commitFlashSession(session),
+        },
+      });
+      // return {
+      //   status: "success",
+      //   code: 200,
+      //   message: "User account deleted successfully",
+      // };
     } catch (error) {
-      // session.flash("alert", {
-      //   title: "Error Deleting User!",
-      //   status: "error",
-      // });
-      // return redirect(path, {
-      //   headers: {
-      //     "Set-Cookie": await commitFlashSession(session),
-      //   },
-      // });
-
-      return {
+      session.flash("alert", {
+        title: "Error",
         status: "error",
-        code: 400,
-        message: "Error Deleting User",
-        errors: [],
-      };
+        message: "Error Deleting User!",
+      });
+      return redirect(path, {
+        headers: {
+          "Set-Cookie": await commitFlashSession(session),
+        },
+      });
+
+      // return {
+      //   status: "error",
+      //   code: 400,
+      //   message: "Error Deleting User",
+      //   errors: [],
+      // };
     }
   };
 
@@ -808,13 +810,25 @@ export default class UserController {
 
       // If there are validation errors, return them
       if (errors.length > 0) {
-        return {
+        session.flash("alert", {
+          title: "Error",
           status: "error",
-          code: 400,
           message:
             "User with phone number or staff ID or email already exists.",
-          errors,
-        };
+        });
+        return redirect(this.path, {
+          headers: {
+            "Set-Cookie": await commitFlashSession(session),
+          },
+        });
+
+        // return {
+        //   status: "error",
+        //   code: 400,
+        //   message:
+        //     "User with phone number or staff ID or email already exists.",
+        //   errors,
+        // };
       }
 
       const updatedUser = await User.findOneAndUpdate(
@@ -841,20 +855,42 @@ export default class UserController {
         throw new Error("User not found");
       }
 
-      return {
+      session.flash("alert", {
+        title: "Success",
         status: "success",
-        code: 200,
-        message: "User updated successfully",
-        data: updatedUser,
-      };
+        message: "User updated successfully!",
+      });
+      return redirect(this.path, {
+        headers: {
+          "Set-Cookie": await commitFlashSession(session),
+        },
+      });
+
+      // return {
+      //   status: "success",
+      //   code: 200,
+      //   message: "User updated successfully",
+      //   data: updatedUser,
+      // };
     } catch (error) {
       console.log(error);
 
-      return {
+      session.flash("alert", {
+        title: "Error",
         status: "error",
-        code: 400,
         message: "Error updating User",
-      };
+      });
+      return redirect(this.path, {
+        headers: {
+          "Set-Cookie": await commitFlashSession(session),
+        },
+      });
+
+      // return {
+      //   status: "error",
+      //   code: 400,
+      //   message: "Error updating User",
+      // };
     }
   };
 

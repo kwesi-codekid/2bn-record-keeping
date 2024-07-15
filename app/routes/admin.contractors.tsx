@@ -27,7 +27,7 @@ import CustomInput from "~/components/ui/inputs/input";
 import CustomSelect from "~/components/ui/inputs/select";
 import CustomTextarea from "~/components/ui/inputs/textarea";
 import CustomTable from "~/components/ui/new-table";
-import DepartmentController from "~/controllers/DepartmentController";
+import DepartmentController from "~/controllers/CompanyController";
 import { deptTableCols } from "~/data/table-cols";
 import { getInitials } from "~/utils/string-manipulation";
 import { errorToast, successToast } from "~/utils/toasters";
