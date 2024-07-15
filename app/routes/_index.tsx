@@ -1,17 +1,21 @@
 import { Spinner } from "@nextui-org/react";
-import type { MetaFunction } from "@remix-run/node";
-import { useNavigate } from "@remix-run/react";
+import type { LoaderFunction, MetaFunction } from "@remix-run/node";
+import { useLoaderData, useNavigate } from "@remix-run/react";
 import { useEffect } from "react";
 import { Fade } from "react-awesome-reveal";
 import logo from "~/assets/images/Army-logo.png";
+import UserController from "~/controllers/UserController";
 
 export default function SplashScreen() {
   const navigate = useNavigate();
+  const { user } = useLoaderData<typeof loader>();
 
   useEffect(() => {
     setTimeout(() => {
-      navigate("/login");
-    }, 5800);
+      if (user) {
+        navigate(`/${user?.role}`);
+      }
+    }, 2800);
   }, []);
 
   return (
@@ -26,6 +30,13 @@ export default function SplashScreen() {
     </div>
   );
 }
+
+export const loader: LoaderFunction = async ({ request }) => {
+  const userController = new UserController(request);
+  const user = await userController.getUser();
+
+  return { user };
+};
 
 export const meta: MetaFunction = () => {
   return [

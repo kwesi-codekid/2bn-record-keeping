@@ -18,6 +18,10 @@ const userSchema = new Schema<UserInterface>(
       type: String,
       required: false,
     },
+    password: {
+      type: String,
+      required: true,
+    },
     role: {
       type: String,
       enum: [
@@ -70,8 +74,6 @@ const userSchema = new Schema<UserInterface>(
       enum: ["active", "inactive"],
       default: "active",
     },
-    rowDepartment: String,
-    rowApprovedBy: String,
   },
   {
     timestamps: true,
