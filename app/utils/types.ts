@@ -24,6 +24,7 @@ export type UserInterface = {
   staffId?: string;
   role?: string;
   position?: string;
+  company?: string;
   permissions?: string[];
   generalManager?: boolean;
   employeeStatus?: "active" | "inactive";
