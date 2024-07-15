@@ -42,28 +42,29 @@ import { errorToast, successToast } from "~/utils/toasters";
 import { CompanyInterface, DepartmentInterface, UserInterface } from "~/utils/types";
 
 const AdminDepartments = () => {
-  const [isCreateModalOpened, setIsCreateModalOpened] = useState(false)
-  const [isConfirmedModalOpened, setIsConfirmedModalOpened] = useState(false)
-  const [isEditModalOpened, setIsEditModalOpened] = useState(false)
-  const submit = useSubmit()
+  const [isCreateModalOpened, setIsCreateModalOpened] = useState(false);
+  const [isConfirmedModalOpened, setIsConfirmedModalOpened] = useState(false);
+  const [isEditModalOpened, setIsEditModalOpened] = useState(false);
+  const submit = useSubmit();
   const navigation = useNavigation();
   const navigate = useNavigate();
   const handleCreateModalClosed = () => {
-    setIsCreateModalOpened(false)
-  }
+    setIsCreateModalOpened(false);
+  };
   const handleConfirmModalClosed = () => {
-    setIsConfirmedModalOpened(false)
-  }
+    setIsConfirmedModalOpened(false);
+  };
   const handleEditModalClosed = () => {
-    setIsEditModalOpened(false)
-  }
+    setIsEditModalOpened(false);
+  };
 
   // loader data
   const { companys, totalPages, users } = useLoaderData<{
     companys: CompanyInterface[];
     totalPages: number;
-    users: UserInterface[]
+    users: UserInterface[];
   }>();
+  console.log(departments);
 
   // action data
   const actionData = useActionData<{
@@ -77,8 +78,7 @@ const AdminDepartments = () => {
 
   // edit department modal
   const editDisclosure = useDisclosure();
-  const [selectedDepartment, setSelectedDepartment] =
-    useState<any>();
+  const [selectedDepartment, setSelectedDepartment] = useState<any>();
   useEffect(() => {
     if (!editDisclosure.isOpen) setSelectedDepartment(null);
   }, [editDisclosure.onOpenChange]);
@@ -258,18 +258,22 @@ const AdminDepartments = () => {
               className="mt-4"
               name="commandingOfficer"
               classNames={{
-                label: "text-sm md:text-base font-medium font-sen text-slate-800 dark:text-slate-100",
+                label:
+                  "text-sm md:text-base font-medium font-sen text-slate-800 dark:text-slate-100",
                 trigger: " !shadow-none dark:border-slate-700  ",
-                popoverContent: "bg-white shadow-sm dark:bg-slate-900 border border-white/5  "
+                popoverContent:
+                  "bg-white shadow-sm dark:bg-slate-900 border border-white/5  ",
               }}
-
             >
               {users.map((user: UserInterface) => (
-                <SelectItem textValue={user?.firstName + " " + user?.lastName} className="mt-4" key={user._id}>
+                <SelectItem
+                  textValue={user?.firstName + " " + user?.lastName}
+                  className="mt-4"
+                  key={user._id}
+                >
                   {user?.firstName + " " + user?.lastName}
                 </SelectItem>
               ))}
-
             </Select>
             <div className="flex gap-4">
               <Select
@@ -286,18 +290,22 @@ const AdminDepartments = () => {
                 className="mt-4"
                 name="companySeargent"
                 classNames={{
-                  label: "text-sm md:text-base font-medium font-sen text-slate-800 dark:text-slate-100",
+                  label:
+                    "text-sm md:text-base font-medium font-sen text-slate-800 dark:text-slate-100",
                   trigger: "!shadow-none dark:border-slate-700  ",
-                  popoverContent: "bg-white shadow-sm dark:bg-slate-900 border border-white/5 focus:bg-slate-900 "
+                  popoverContent:
+                    "bg-white shadow-sm dark:bg-slate-900 border border-white/5 focus:bg-slate-900 ",
                 }}
-
               >
                 {users.map((user: UserInterface) => (
-                  <SelectItem textValue={user?.firstName + " " + user?.lastName} className="mt-4" key={user._id}>
+                  <SelectItem
+                    textValue={user?.firstName + " " + user?.lastName}
+                    className="mt-4"
+                    key={user._id}
+                  >
                     {user?.firstName + " " + user?.lastName}
                   </SelectItem>
                 ))}
-
               </Select>
               <Select
                 label="Platoon Commander"
@@ -306,25 +314,31 @@ const AdminDepartments = () => {
                 variant="bordered"
                 isRequired
                 isInvalid={
-                  actionData?.errors?.find((error) => error.field === "platoonCommander")
+                  actionData?.errors?.find(
+                    (error) => error.field === "platoonCommander"
+                  )
                     ? true
                     : false
                 }
                 className="mt-4"
                 name="platoonCommander"
                 classNames={{
-                  label: "text-sm md:text-base font-medium font-sen text-slate-800 dark:text-slate-100",
+                  label:
+                    "text-sm md:text-base font-medium font-sen text-slate-800 dark:text-slate-100",
                   trigger: " !shadow-none dark:border-slate-700  ",
-                  popoverContent: "bg-white shadow-sm dark:bg-slate-900 border border-white/5  "
+                  popoverContent:
+                    "bg-white shadow-sm dark:bg-slate-900 border border-white/5  ",
                 }}
-
               >
                 {users.map((user: UserInterface) => (
-                  <SelectItem textValue={user?.firstName + " " + user?.lastName} className="mt-4" key={user._id}>
+                  <SelectItem
+                    textValue={user?.firstName + " " + user?.lastName}
+                    className="mt-4"
+                    key={user._id}
+                  >
                     {user?.firstName + " " + user?.lastName}
                   </SelectItem>
                 ))}
-
               </Select>
             </div>
 
@@ -344,18 +358,22 @@ const AdminDepartments = () => {
               className="mt-4"
               name="administrationWarranty"
               classNames={{
-                label: "text-sm md:text-base font-medium font-sen text-slate-800 dark:text-slate-100",
+                label:
+                  "text-sm md:text-base font-medium font-sen text-slate-800 dark:text-slate-100",
                 trigger: " !shadow-none dark:border-slate-700  ",
-                popoverContent: "bg-white shadow-sm dark:bg-slate-900 border border-white/5  "
+                popoverContent:
+                  "bg-white shadow-sm dark:bg-slate-900 border border-white/5  ",
               }}
-
             >
               {users.map((user: UserInterface) => (
-                <SelectItem textValue={user?.firstName + " " + user?.lastName} className="mt-4" key={user._id}>
+                <SelectItem
+                  textValue={user?.firstName + " " + user?.lastName}
+                  className="mt-4"
+                  key={user._id}
+                >
                   {user?.firstName + " " + user?.lastName}
                 </SelectItem>
               ))}
-
             </Select>
             <CustomTextarea
               isRequired={true}
@@ -402,6 +420,7 @@ const AdminDepartments = () => {
               isRequired
               variant="bordered"
               defaultSelectedKeys={[selectedDepartment?._id]}
+              // selectedKeys={[Array.from(set) || ""]}
               isInvalid={
                 actionData?.errors?.find(
                   (error) => error.field === "commandingOfficer"
@@ -412,18 +431,22 @@ const AdminDepartments = () => {
               className="mt-4"
               name="commandingOfficer"
               classNames={{
-                label: "text-sm md:text-base font-medium font-sen text-slate-800 dark:text-slate-100",
+                label:
+                  "text-sm md:text-base font-medium font-sen text-slate-800 dark:text-slate-100",
                 trigger: " !shadow-none dark:border-slate-700  ",
-                popoverContent: "bg-white shadow-sm dark:bg-slate-900 border border-white/5  "
+                popoverContent:
+                  "bg-white shadow-sm dark:bg-slate-900 border border-white/5  ",
               }}
-
             >
               {users.map((user: UserInterface) => (
-                <SelectItem textValue={user?.firstName + " " + user?.lastName} className="mt-4" key={user._id}>
+                <SelectItem
+                  textValue={user?.firstName + " " + user?.lastName}
+                  className="mt-4"
+                  key={user._id}
+                >
                   {user?.firstName + " " + user?.lastName}
                 </SelectItem>
               ))}
-
             </Select>
             <div className="flex gap-4">
               <Select
@@ -433,25 +456,31 @@ const AdminDepartments = () => {
                 placeholder=" "
                 isRequired
                 isInvalid={
-                  actionData?.errors?.find((error) => error.field === "departmentSeargent")
+                  actionData?.errors?.find(
+                    (error) => error.field === "departmentSeargent"
+                  )
                     ? true
                     : false
                 }
                 className="mt-4"
                 name="departmentSeargent"
                 classNames={{
-                  label: "text-sm md:text-base font-medium font-sen text-slate-800 dark:text-slate-100",
+                  label:
+                    "text-sm md:text-base font-medium font-sen text-slate-800 dark:text-slate-100",
                   trigger: "!shadow-none dark:border-slate-700  ",
-                  popoverContent: "bg-white shadow-sm dark:bg-slate-900 border border-white/5 focus:bg-slate-900 "
+                  popoverContent:
+                    "bg-white shadow-sm dark:bg-slate-900 border border-white/5 focus:bg-slate-900 ",
                 }}
-
               >
                 {users.map((user: UserInterface) => (
-                  <SelectItem textValue={user?.firstName + " " + user?.lastName} className="mt-4" key={user._id}>
+                  <SelectItem
+                    textValue={user?.firstName + " " + user?.lastName}
+                    className="mt-4"
+                    key={user._id}
+                  >
                     {user?.firstName + " " + user?.lastName}
                   </SelectItem>
                 ))}
-
               </Select>
               <Select
                 label="Platoon Commander"
@@ -460,25 +489,31 @@ const AdminDepartments = () => {
                 variant="bordered"
                 isRequired
                 isInvalid={
-                  actionData?.errors?.find((error) => error.field === "platoonCommander")
+                  actionData?.errors?.find(
+                    (error) => error.field === "platoonCommander"
+                  )
                     ? true
                     : false
                 }
                 className="mt-4"
                 name="platoonCommander"
                 classNames={{
-                  label: "text-sm md:text-base font-medium font-sen text-slate-800 dark:text-slate-100",
+                  label:
+                    "text-sm md:text-base font-medium font-sen text-slate-800 dark:text-slate-100",
                   trigger: " !shadow-none dark:border-slate-700  ",
-                  popoverContent: "bg-white shadow-sm dark:bg-slate-900 border border-white/5  "
+                  popoverContent:
+                    "bg-white shadow-sm dark:bg-slate-900 border border-white/5  ",
                 }}
-
               >
                 {users.map((user: UserInterface) => (
-                  <SelectItem textValue={user?.firstName + " " + user?.lastName} className="mt-4" key={user._id}>
+                  <SelectItem
+                    textValue={user?.firstName + " " + user?.lastName}
+                    className="mt-4"
+                    key={user._id}
+                  >
                     {user?.firstName + " " + user?.lastName}
                   </SelectItem>
                 ))}
-
               </Select>
             </div>
 
@@ -498,18 +533,22 @@ const AdminDepartments = () => {
               className="mt-4"
               name="administrationWarranty"
               classNames={{
-                label: "text-sm md:text-base font-medium font-sen text-slate-800 dark:text-slate-100",
+                label:
+                  "text-sm md:text-base font-medium font-sen text-slate-800 dark:text-slate-100",
                 trigger: " !shadow-none dark:border-slate-700  ",
-                popoverContent: "bg-white shadow-sm dark:bg-slate-900 border border-white/5  "
+                popoverContent:
+                  "bg-white shadow-sm dark:bg-slate-900 border border-white/5  ",
               }}
-
             >
               {users.map((user: UserInterface) => (
-                <SelectItem textValue={user?.firstName + " " + user?.lastName} className="mt-4" key={user._id}>
+                <SelectItem
+                  textValue={user?.firstName + " " + user?.lastName}
+                  className="mt-4"
+                  key={user._id}
+                >
                   {user?.firstName + " " + user?.lastName}
                 </SelectItem>
               ))}
-
             </Select>
             <CustomTextarea
               isRequired={true}
@@ -531,23 +570,41 @@ const AdminDepartments = () => {
           </Form>
         )}
       </EditModal>
-   
-      <ConfirmModal className="bg-gray-200 dark:bg-slate-950 border border-white/5" content="Are you sure to delete product" header="Comfirm Delete" isOpen={isConfirmedModalOpened} onOpenChange={handleConfirmModalClosed}>
+
+      <ConfirmModal
+        className="bg-gray-200 dark:bg-slate-950 border border-white/5"
+        content="Are you sure to delete product"
+        header="Comfirm Delete"
+        isOpen={isConfirmedModalOpened}
+        onOpenChange={handleConfirmModalClosed}
+      >
         <div className="flex gap-4">
-          <Button size="sm" color="danger" className="font-nunito " onPress={handleConfirmModalClosed}>
+          <Button
+            size="sm"
+            color="danger"
+            className="font-nunito "
+            onPress={handleConfirmModalClosed}
+          >
             No
           </Button>
-          <Button size="sm" color="primary" className="font-nunito" onClick={() => {
-            if (selectedDepartment) {
-              submit({
-                intent: "delete",
-                id: selectedDepartment?._id
-
-              }, {
-                method: "post"
-              })
-            }
-          }} >
+          <Button
+            size="sm"
+            color="primary"
+            className="font-nunito"
+            onClick={() => {
+              if (selectedDepartment) {
+                submit(
+                  {
+                    intent: "delete",
+                    id: selectedDepartment?._id,
+                  },
+                  {
+                    method: "post",
+                  }
+                );
+              }
+            }}
+          >
             Yes
           </Button>
         </div>
