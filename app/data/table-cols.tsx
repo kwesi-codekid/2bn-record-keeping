@@ -1,6 +1,9 @@
 export const deptTableCols = [
   { title: "Name", allowSort: true },
-  { title: "Manager", allowSort: true },
+  { title: "Commanding Officer", allowSort: true },
+  { title: "Department Seargent", allowSort: true },   
+  { title: "Platton Commander", allowSort: true },   
+  { title: "Administration Warranty", allowSort: true },   
   { title: "Description", allowSort: true },
   { title: "Actions", allowSort: false },
 ];

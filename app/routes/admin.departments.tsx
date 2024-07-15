@@ -11,6 +11,7 @@ import {
 } from "@nextui-org/react";
 import { ActionFunction, LoaderFunction, MetaFunction } from "@remix-run/node";
 import {
+  Form,
   useActionData,
   useLoaderData,
   useNavigate,
@@ -34,9 +35,12 @@ import { errorToast, successToast } from "~/utils/toasters";
 import { DepartmentInterface, UserInterface } from "~/utils/types";
 
 const AdminDepartments = () => {
+  const [isCreateModalOpened, setIsCreateModalOpened] = useState(false)
+  const handleCreateModalClosed = () => {
+    setIsCreateModalOpened(false)
+  }
   const navigation = useNavigation();
   const navigate = useNavigate();
-
   // loader data
   const { departments, totalPages } = useLoaderData<{
     departments: any;
@@ -136,7 +140,9 @@ const AdminDepartments = () => {
             radius="md"
             startContent={<PlusIcon className="size-5" />}
             className="font-montserrat font-semibold"
-            onPress={() => createRecordDisclosure.onOpen()}
+            onClick={() => {
+              setIsCreateModalOpened(true)
+            }}
           >
             Create Department
           </Button>
@@ -155,11 +161,14 @@ const AdminDepartments = () => {
         {departments?.map((department: DepartmentInterface) => (
           <TableRow key={department._id}>
             <TableCell className="text-sm">{department.name}</TableCell>
+            <TableCell className="text-sm">{department.commandingOfficer}</TableCell>
+            <TableCell className="text-sm">{department.commandingOfficer}</TableCell>
+            <TableCell className="text-sm">{department.commandingOfficer}</TableCell>
             <TableCell>
               {department.manager
                 ? department.manager?.firstName +
-                  " " +
-                  department?.manager?.lastName
+                " " +
+                department?.manager?.lastName
                 : "N/A"}
             </TableCell>
             <TableCell>{department.description}</TableCell>
@@ -195,32 +204,92 @@ const AdminDepartments = () => {
       </CustomTable>
 
       {/* Create Department Modal */}
+      {/* export interface CompanyInterface {
+   name:string
+   logo: string
+   commandingOfficer: UserInterface, 
+   companySeargent:UserInterface, 
+   platoonCommander: UserInterface,
+   administrationWarranty: UserInterface, 
+   descriptio:string
+  createdAt?: Date;
+  updatedAt?: Date;
+} */}
       <CreateRecordModal
-        title="Create Department"
-        isOpen={createRecordDisclosure.isOpen}
-        onCloseModal={createRecordDisclosure.onClose}
-        onOpenChange={createRecordDisclosure.onOpenChange}
-        actionText="Save Department"
-        size="md"
-        intent="create"
+        isOpen={isCreateModalOpened}
+        onOpenChange={handleCreateModalClosed}
+        modalTitle=" Create Department"
+        className=""
       >
-        <div className="flex flex-col gap-5">
-          <CustomInput
-            isRequired={true}
-            label="Department Name"
-            name="name"
-            isInvalid={
-              actionData?.errors?.find((error) => error.field === "name")
-                ? true
-                : false
-            }
-          />
-          <CustomTextarea
-            isRequired={true}
-            label="Description"
-            name="description"
-          />
-        </div>
+        {(onClose) => (
+          <Form method="post" className="flex flex-col gap-4">
+            <CustomInput
+              isRequired={true}
+              label="Department Name"
+              name="name"
+              isInvalid={
+                actionData?.errors?.find((error) => error.field === "name")
+                  ? true
+                  : false
+              }
+            />
+            <CustomInput
+              isRequired={true}
+              label="Commanding Officer"
+              name="commandingOfficer"
+              isInvalid={
+                actionData?.errors?.find((error) => error.field === "commandingOfficer")
+                  ? true
+                  : false
+              }
+            />
+            <CustomInput
+              isRequired={true}
+              label="Company Seargent"
+              name="departmentSeargent"
+              isInvalid={
+                actionData?.errors?.find((error) => error.field === "departmentSeargent")
+                  ? true
+                  : false
+              }
+            />
+            <CustomInput
+              isRequired={true}
+              label="Platoon Commander"
+              name="platoonCommander"
+              isInvalid={
+                actionData?.errors?.find((error) => error.field === "platoonCommander")
+                  ? true
+                  : false
+              }
+            />
+            <CustomInput
+              isRequired={true}
+              label="Administration Warranty"
+              name="administrationWarranty"
+              isInvalid={
+                actionData?.errors?.find((error) => error.field === "administrationWarranty")
+                  ? true
+                  : false
+              }
+            />
+            <CustomTextarea
+              isRequired={true}
+              label="Description"
+              name="description"
+            />
+            <input name="intent" value="create" type="hidden" />
+
+            <div className="flex justify-end gap-2 mt-10 font-nunito">
+              <Button color="danger" onPress={onClose}>
+                Close
+              </Button>
+              <button className="bg-primary-400 rounded-xl text-white font-nunito px-4" >
+                Submit
+              </button>
+            </div>
+          </Form>
+        )}
       </CreateRecordModal>
 
       {/* edit Department Modal */}
@@ -330,35 +399,42 @@ const AdminDepartments = () => {
 export default AdminDepartments;
 
 export const action: ActionFunction = async ({ request }) => {
-  const formData = await request.formData();
-  const formValues = Object.fromEntries(formData.entries());
+  const formData = await request.formData()
+  const name = formData.get("name") as string
+  const commandingOfficer = formData.get("commandingOfficer") as string
+  const departmentSeargent = formData.get("departmentSeargent") as string
+  const platoonCommander = formData.get("platoonCommander") as string
+  const administrationWarranty = formData.get("administrationWarranty") as string
+  const description = formData.get("description") as string
+  const intent = formData.get("intent") as string
+
 
   const departmentController = new DepartmentController(request);
+  switch (intent) {
+    case "create":
+      const createDepartment = await departmentController.createDepartment({
+        intent,
+        name,
+        description,
+        commandingOfficer,
+        departmentSeargent,
+        platoonCommander,
+        administrationWarranty,
+      })
 
-  if (formValues.intent === "create") {
-    return await departmentController.createDepartment({
-      name: formValues.name as string,
-      parent: formValues.parent as string,
-      description: formValues.description as string,
-    });
+      return createDepartment
+
+      break;
+
+    default:
+      break;
   }
 
-  if (formValues.intent === "edit-department") {
-    return await departmentController.updateDepartment({
-      _id: formValues._id as string,
-      name: formValues.name as string,
-      parent: formValues.parent as string,
-      description: formValues.description as string,
-      manager: formValues.manager as string,
-      supervisors: [],
-    });
-  }
 
-  if (formValues.intent === "delete") {
-    return await departmentController.deleteDepartment({
-      _id: formValues._id as string,
-    });
-  }
+
+
+
+
 
   return null;
 };

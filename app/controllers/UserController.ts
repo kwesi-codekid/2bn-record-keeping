@@ -6,9 +6,14 @@ import {
 } from "@remix-run/node";
 import bcrypt from "bcryptjs";
 import User from "~/models/User";
-import { commitFlashSession, getFlashSession } from "~/flash-session";
+import {
+  commitFlashSession,
+  FlashSessionInterface,
+  getFlashSession,
+} from "~/flash-session";
 import generateOTP from "~/utils/generateOTP";
 import sendSMS from "~/utils/sendSMS";
+import { UserInterface } from "~/utils/types";
 
 export default class UserController {
   private request: Request;
@@ -79,7 +84,7 @@ export default class UserController {
     return await User.findById(userId).select("-password");
   }
 
-  public async getUser() {
+  public async getUser(): Promise<UserInterface | any> {
     const session = await getFlashSession(this.request.headers.get("Cookie"));
 
     const userId = await this.getUserId();
@@ -205,7 +210,7 @@ export default class UserController {
       });
     }
 
-    return this.createUserSession(user.id, `${user?.role}`);
+    return this.createUserSession(user.id, `/${user?.role}`);
   }
 
   public updateProfile = async ({
