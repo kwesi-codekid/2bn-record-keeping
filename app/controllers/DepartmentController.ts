@@ -135,17 +135,19 @@ export default class DepartmentController {
    * @returns DepartmentInterface
    */
   public createDepartment = async ({
+    intent,
     name,
     description,
     commandingOfficer,
-    companySeargent,
+    departmentSeargent,
     platoonCommander,
     administrationWarranty,
   }: {
+    intent:string
     name: string;
     description: string;
     commandingOfficer: string;
-    companySeargent: string;
+    departmentSeargent: string;
     platoonCommander: string;
     administrationWarranty: string;
   }) => {
@@ -173,7 +175,7 @@ export default class DepartmentController {
         name,
         description,
         commandingOfficer,
-        companySeargent,
+        departmentSeargent,
         platoonCommander,
         administrationWarranty,
       });

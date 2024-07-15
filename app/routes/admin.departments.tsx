@@ -161,6 +161,9 @@ const AdminDepartments = () => {
         {departments?.map((department: DepartmentInterface) => (
           <TableRow key={department._id}>
             <TableCell className="text-sm">{department.name}</TableCell>
+            <TableCell className="text-sm">{department.commandingOfficer}</TableCell>
+            <TableCell className="text-sm">{department.commandingOfficer}</TableCell>
+            <TableCell className="text-sm">{department.commandingOfficer}</TableCell>
             <TableCell>
               {department.manager
                 ? department.manager?.firstName +
@@ -276,6 +279,15 @@ const AdminDepartments = () => {
               name="description"
             />
             <input name="intent" value="create" type="hidden" />
+
+            <div className="flex justify-end gap-2 mt-10 font-nunito">
+              <Button color="danger" onPress={onClose}>
+                Close
+              </Button>
+              <button className="bg-primary-400 rounded-xl text-white font-nunito px-4" >
+                Submit
+              </button>
+            </div>
           </Form>
         )}
       </CreateRecordModal>
@@ -388,16 +400,35 @@ export default AdminDepartments;
 
 export const action: ActionFunction = async ({ request }) => {
   const formData = await request.formData()
-  const name = formData.get("name")  as string
-  const commandingOfficer = formData.get("commandingOfficer")  as string
-  const departmentSeargent = formData.get("departmentSeargent")  as string
-  const platoonCommander = formData.get("platoonCommander")  as string
-  const administrationWarranty = formData.get("administrationWarranty")  as string
-  const description = formData.get("description")  as string
-  const intent = formData.get("intent")  as string
+  const name = formData.get("name") as string
+  const commandingOfficer = formData.get("commandingOfficer") as string
+  const departmentSeargent = formData.get("departmentSeargent") as string
+  const platoonCommander = formData.get("platoonCommander") as string
+  const administrationWarranty = formData.get("administrationWarranty") as string
+  const description = formData.get("description") as string
+  const intent = formData.get("intent") as string
 
 
   const departmentController = new DepartmentController(request);
+  switch (intent) {
+    case "create":
+      const createDepartment = await departmentController.createDepartment({
+        intent,
+        name,
+        description,
+        commandingOfficer,
+        departmentSeargent,
+        platoonCommander,
+        administrationWarranty,
+      })
+
+      return createDepartment
+
+      break;
+
+    default:
+      break;
+  }
 
 
 
