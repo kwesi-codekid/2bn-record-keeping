@@ -274,17 +274,17 @@ const AdminDepartments = () => {
             <div className="flex gap-4">
               <Select
                 variant="bordered"
-                label="Department Seargent"
+                label="Company Seargent"
                 labelPlacement="outside"
                 placeholder=" "
                 isRequired
                 isInvalid={
-                  actionData?.errors?.find((error) => error.field === "departmentSeargent")
+                  actionData?.errors?.find((error) => error.field === "companySeargent")
                     ? true
                     : false
                 }
                 className="mt-4"
-                name="departmentSeargent"
+                name="companySeargent"
                 classNames={{
                   label: "text-sm md:text-base font-medium font-sen text-slate-800 dark:text-slate-100",
                   trigger: "!shadow-none dark:border-slate-700  ",
@@ -579,12 +579,14 @@ export const action: ActionFunction = async ({ request }) => {
   const formData = await request.formData()
   const name = formData.get("name") as string
   const commandingOfficer = formData.get("commandingOfficer") as string
-  const companySeargent = formData.get("departmentSeargent") as string
+  const companySeargent = formData.get("companySeargent") as string
   const platoonCommander = formData.get("platoonCommander") as string
   const administrationWarranty = formData.get("administrationWarranty") as string
   const description = formData.get("description") as string
   const intent = formData.get("intent") as string
   const _id = formData.get("id") as string
+  console.log(companySeargent);
+  
 
 
   const companyController = new CompanyController(request);
