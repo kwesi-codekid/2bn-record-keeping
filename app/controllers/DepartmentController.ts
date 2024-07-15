@@ -70,9 +70,6 @@ export default class DepartmentController {
       const departments = await Department.find(searchFilter)
         .skip(skipCount)
         .limit(limit)
-        .populate("parent")
-        .populate("manager")
-        .populate("supervisors")
         .sort({
           createdAt: "desc",
         })
@@ -135,7 +132,6 @@ export default class DepartmentController {
    * @returns DepartmentInterface
    */
   public createDepartment = async ({
-    intent,
     name,
     description,
     commandingOfficer,
@@ -143,7 +139,6 @@ export default class DepartmentController {
     platoonCommander,
     administrationWarranty,
   }: {
-    intent:string
     name: string;
     description: string;
     commandingOfficer: string;
@@ -269,7 +264,7 @@ export default class DepartmentController {
     name,
     description,
     commandingOfficer,
-    companySeargent,
+    departmentSeargent,
     platoonCommander,
     administrationWarranty,
   }: {
@@ -277,7 +272,7 @@ export default class DepartmentController {
     name: string;
     description: string;
     commandingOfficer: string;
-    companySeargent: string;
+    departmentSeargent: string;
     platoonCommander: string;
     administrationWarranty: string;
   }) => {
@@ -290,7 +285,7 @@ export default class DepartmentController {
           name,
           description,
           commandingOfficer,
-          companySeargent,
+          departmentSeargent,
           platoonCommander,
           administrationWarranty,
         },

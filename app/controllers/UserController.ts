@@ -25,8 +25,11 @@ export default class UserController {
    * @returns this
    */
   constructor(request: Request) {
-    this.request = request;
+    const url = new URL(request.url);
     const path = url.pathname + url.search;
+
+    this.request = request;
+    this.path = path;
 
     const secret = process.env.SESSION_SECRET;
     if (!secret) {
