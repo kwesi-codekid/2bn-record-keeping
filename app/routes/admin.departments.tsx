@@ -27,6 +27,7 @@ import { SearchIcon } from "~/components/icons/Search";
 import ConfirmModal from "~/components/modals/ConfirmModal";
 import CreateRecordModal from "~/components/modals/CreateRecord";
 import DeleteRecordModal from "~/components/modals/DeleteRecord";
+import EditModal from "~/components/modals/EditRecord";
 import EditRecordModal from "~/components/modals/EditRecord";
 import CustomInput from "~/components/ui/inputs/input";
 import CustomSelect from "~/components/ui/inputs/select";
@@ -42,6 +43,7 @@ import { DepartmentInterface, UserInterface } from "~/utils/types";
 const AdminDepartments = () => {
   const [isCreateModalOpened, setIsCreateModalOpened] = useState(false)
   const [isConfirmedModalOpened, setIsConfirmedModalOpened] = useState(false)
+  const [isEditModalOpened, setIsEditModalOpened] = useState(false)
   const submit = useSubmit()
   const navigation = useNavigation();
   const navigate = useNavigate();
@@ -50,6 +52,9 @@ const AdminDepartments = () => {
   }
   const handleConfirmModalClosed = () => {
     setIsConfirmedModalOpened(false)
+  }
+  const handleEditModalClosed = () => {
+    setIsEditModalOpened(false)
   }
 
   // loader data
@@ -183,9 +188,9 @@ const AdminDepartments = () => {
                 size="sm"
                 color="primary"
                 variant="light"
-                onPress={() => {
-                  setSelectedDepartment(department);
-                  editDisclosure.onOpen();
+                onClick={() => {
+                  setIsEditModalOpened(true)
+                  setSelectedDepartment(department)
                 }}
               >
                 edit
@@ -370,89 +375,162 @@ const AdminDepartments = () => {
         )}
       </CreateRecordModal>
 
-      {/* edit Department Modal */}
-      <EditRecordModal
-        title="edit Department"
-        isModalOpen={editDisclosure.isOpen}
-        onCloseModal={editDisclosure.onClose}
-        size="md"
-        intent="edit-department"
+      <EditModal
+        isOpen={isEditModalOpened}
+        onOpenChange={handleEditModalClosed}
+        modalTitle=" Edit Department"
+        className=""
       >
-        <div className="flex flex-col gap-5">
-          <CustomInput
-            name="_id"
-            label="Department ID"
-            value={selectedDepartment?._id}
-            hidden={true}
-          />
-          <CustomInput
-            isRequired={true}
-            label="Department Name"
-            name="name"
-            defaultValue={selectedDepartment?.name}
-            isInvalid={
-              actionData?.errors?.find((error) => error.field === "name")
-                ? true
-                : false
-            }
-          />
-          <CustomTextarea
-            isRequired={true}
-            label="Description"
-            name="description"
-            defaultValue={selectedDepartment?.description}
-          />
-          <CustomInput
-            name="manager"
-            label="Manager"
-            value={selectedManager}
-            hidden={true}
-          />
-          <Autocomplete
-            name="manager-combobox"
-            className="font-nunito"
-            inputProps={{
-              classNames: {
-                label:
-                  "text-sm md:text-base font-medium font-sen text-slate-800 dark:text-slate-100",
-              },
-            }}
-            variant="bordered"
-            isLoading={listIsLoading}
-            label="Assigned Manager"
-            placeholder=" "
-            labelPlacement="outside"
-            onValueChange={setUsersSearchText}
-            onSelectionChange={(value) => setSelectedManager(value)}
-            items={usersList}
-          >
-            {(item: UserInterface) => (
-              <AutocompleteItem
-                key={item._id as string}
-                textValue={`${item.firstName} ${item.lastName}`}
+        {(onClose) => (
+          <Form method="post" className="flex flex-col gap-4">
+            <CustomInput
+              isRequired={true}
+              label="Department Name"
+              name="name"
+              isInvalid={
+                actionData?.errors?.find((error) => error.field === "name")
+                  ? true
+                  : false
+              }
+              defaultValue={selectedDepartment.name}
+            />
+            <Select
+              label="Commanding Officer"
+              labelPlacement="outside"
+              placeholder=" "
+              isRequired
+              variant="bordered"
+              defaultSelectedKeys={[selectedDepartment?._id]}
+              isInvalid={
+                actionData?.errors?.find(
+                  (error) => error.field === "commandingOfficer"
+                )
+                  ? true
+                  : false
+              }
+              className="mt-4"
+              name="commandingOfficer"
+              classNames={{
+                label: "text-sm md:text-base font-medium font-sen text-slate-800 dark:text-slate-100",
+                trigger: " !shadow-none dark:border-slate-700  ",
+                popoverContent: "bg-white shadow-sm dark:bg-slate-900 border border-white/5  "
+              }}
+
+            >
+              {users.map((user: UserInterface) => (
+                <SelectItem textValue={user?.firstName + " " + user?.lastName} className="mt-4" key={user._id}>
+                  {user?.firstName + " " + user?.lastName}
+                </SelectItem>
+              ))}
+
+            </Select>
+            <div className="flex gap-4">
+              <Select
+                variant="bordered"
+                label="Department Seargent"
+                labelPlacement="outside"
+                placeholder=" "
+                isRequired
+                isInvalid={
+                  actionData?.errors?.find((error) => error.field === "departmentSeargent")
+                    ? true
+                    : false
+                }
+                className="mt-4"
+                name="departmentSeargent"
+                classNames={{
+                  label: "text-sm md:text-base font-medium font-sen text-slate-800 dark:text-slate-100",
+                  trigger: "!shadow-none dark:border-slate-700  ",
+                  popoverContent: "bg-white shadow-sm dark:bg-slate-900 border border-white/5 focus:bg-slate-900 "
+                }}
+
               >
-                <div className="flex gap-2 items-center">
-                  <Avatar
-                    alt={`${item.firstName} ${item.lastName}`}
-                    className="flex-shrink-0 font-nunito"
-                    size="sm"
-                    // src={`${item.photo}`}
-                    fallback={getInitials(`${item.firstName} ${item.lastName}`)}
-                  />
-                  <div className="flex flex-col">
-                    <span className="text-small font-nunito">
-                      {`${item.firstName} ${item.lastName}`}
-                    </span>
-                    <span className="text-tiny text-default-400 font-nunito">
-                      {`${item.email}`}
-                    </span>
-                  </div>
-                </div>
-              </AutocompleteItem>
-            )}
-          </Autocomplete>
-        </div>
-      </EditRecordModal>
+                {users.map((user: UserInterface) => (
+                  <SelectItem textValue={user?.firstName + " " + user?.lastName} className="mt-4" key={user._id}>
+                    {user?.firstName + " " + user?.lastName}
+                  </SelectItem>
+                ))}
+
+              </Select>
+              <Select
+                label="Platoon Commander"
+                labelPlacement="outside"
+                placeholder=" "
+                variant="bordered"
+                isRequired
+                isInvalid={
+                  actionData?.errors?.find((error) => error.field === "platoonCommander")
+                    ? true
+                    : false
+                }
+                className="mt-4"
+                name="platoonCommander"
+                classNames={{
+                  label: "text-sm md:text-base font-medium font-sen text-slate-800 dark:text-slate-100",
+                  trigger: " !shadow-none dark:border-slate-700  ",
+                  popoverContent: "bg-white shadow-sm dark:bg-slate-900 border border-white/5  "
+                }}
+
+              >
+                {users.map((user: UserInterface) => (
+                  <SelectItem textValue={user?.firstName + " " + user?.lastName} className="mt-4" key={user._id}>
+                    {user?.firstName + " " + user?.lastName}
+                  </SelectItem>
+                ))}
+
+              </Select>
+            </div>
+
+            <Select
+              label="Administration Warranty"
+              labelPlacement="outside"
+              placeholder=" "
+              isRequired
+              variant="bordered"
+              isInvalid={
+                actionData?.errors?.find(
+                  (error) => error.field === "administrationWarranty"
+                )
+                  ? true
+                  : false
+              }
+              className="mt-4"
+              name="administrationWarranty"
+              classNames={{
+                label: "text-sm md:text-base font-medium font-sen text-slate-800 dark:text-slate-100",
+                trigger: " !shadow-none dark:border-slate-700  ",
+                popoverContent: "bg-white shadow-sm dark:bg-slate-900 border border-white/5  "
+              }}
+
+            >
+              {users.map((user: UserInterface) => (
+                <SelectItem textValue={user?.firstName + " " + user?.lastName} className="mt-4" key={user._id}>
+                  {user?.firstName + " " + user?.lastName}
+                </SelectItem>
+              ))}
+
+            </Select>
+            <CustomTextarea
+              isRequired={true}
+              label="Description"
+              name="description"
+              defaultValue={selectedDepartment?.description}
+            />
+            <input name="intent" value="update" type="hidden" />
+            <input name="id" value={selectedDepartment?._id} type="hidden" />
+
+            <div className="flex justify-end gap-2 mt-10 font-nunito">
+              <Button color="danger" onPress={onClose}>
+                Close
+              </Button>
+              <button className="bg-primary-400 rounded-xl text-white font-nunito px-4">
+                Submit
+              </button>
+            </div>
+          </Form>
+        )}
+      </EditModal>
+   
       <ConfirmModal className="bg-gray-200 dark:bg-slate-950 border border-white/5" content="Are you sure to delete product" header="Comfirm Delete" isOpen={isConfirmedModalOpened} onOpenChange={handleConfirmModalClosed}>
         <div className="flex gap-4">
           <Button size="sm" color="danger" className="font-nunito " onPress={handleConfirmModalClosed}>
@@ -524,6 +602,18 @@ export const action: ActionFunction = async ({ request }) => {
       case "delete":
       const deleteDepartment = await departmentController.deleteDepartment({_id})
       return deleteDepartment
+
+      case "update":
+        const updateDepartment = await departmentController.updateDepartment({
+          _id,
+          name,
+          description,
+          commandingOfficer,
+          departmentSeargent,
+          platoonCommander,
+          administrationWarranty,
+        })
+        return updateDepartment
     default:
       break;
   }
