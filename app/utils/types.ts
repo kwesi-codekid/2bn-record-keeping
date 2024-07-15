@@ -41,8 +41,9 @@ export type UserRoleInterface = {
 export type DepartmentInterface = {
   _id?: string;
   name: string;
-  parent?: string;
   description: string;
-  manager?: UserInterface;
-  supervisors?: UserInterface[];
+  commandingOfficer: UserInterface;
+  companySeargent: UserInterface;
+  platoonCommander: UserInterface;
+  administrationWarranty: UserInterface;
 };
