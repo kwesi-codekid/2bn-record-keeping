@@ -1,37 +1,36 @@
 import { Schema } from "mongoose";
 import mongoose from "~/mongoose";
-import { DepartmentInterface } from "~/utils/types";
+import { CompanyInterface } from "~/utils/types";
 
-const schema = new Schema<DepartmentInterface>(
+const schema = new Schema<CompanyInterface>(
   {
     name: {
       type: String,
       required: true,
       unique: true,
     },
-    parent: {
-      type: Schema.Types.ObjectId,
-      ref: "departments",
-      required: false,
-    },
     description: {
       type: String,
     },
-    manager: {
+    commandingOfficer: {
       type: Schema.Types.ObjectId,
       ref: "users",
       required: false,
     },
-    supervisors: [
-      {
-        type: Schema.Types.ObjectId,
-        ref: "users",
-        required: false,
-      },
-    ],
-    isParent: {
-      type: Boolean,
-      default: false,
+    CompanySeargent: {
+      type: Schema.Types.ObjectId,
+      ref: "users",
+      required: false,
+    },
+    platoonCommander: {
+      type: Schema.Types.ObjectId,
+      ref: "users",
+      required: false,
+    },
+    administrationWarranty: {
+      type: Schema.Types.ObjectId,
+      ref: "users",
+      required: false,
     },
   },
   {
@@ -39,11 +38,11 @@ const schema = new Schema<DepartmentInterface>(
   }
 );
 
-let Department: mongoose.Model<DepartmentInterface>;
+let Company: mongoose.Model<CompanyInterface>;
 try {
-  Department = mongoose.model<DepartmentInterface>("departments");
+  Company = mongoose.model<CompanyInterface>("companys");
 } catch (error) {
-  Department = mongoose.model<DepartmentInterface>("departments", schema);
+  Company = mongoose.model<CompanyInterface>("companys", schema);
 }
 
-export default Department;
+export default Company;

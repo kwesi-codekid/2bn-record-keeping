@@ -28,17 +28,17 @@ import CustomInput from "~/components/ui/inputs/input";
 import CustomSelect from "~/components/ui/inputs/select";
 import CustomTextarea from "~/components/ui/inputs/textarea";
 import CustomTable from "~/components/ui/new-table";
-import DepartmentController from "~/controllers/DepartmentController";
+import DepartmentController from "~/controllers/CompanyController";
 import { deptTableCols } from "~/data/table-cols";
 import { getInitials } from "~/utils/string-manipulation";
 import { errorToast, successToast } from "~/utils/toasters";
 import { DepartmentInterface, UserInterface } from "~/utils/types";
 
 const AdminDepartments = () => {
-  const [isCreateModalOpened, setIsCreateModalOpened] = useState(false)
+  const [isCreateModalOpened, setIsCreateModalOpened] = useState(false);
   const handleCreateModalClosed = () => {
-    setIsCreateModalOpened(false)
-  }
+    setIsCreateModalOpened(false);
+  };
   const navigation = useNavigation();
   const navigate = useNavigate();
   // loader data
@@ -141,7 +141,7 @@ const AdminDepartments = () => {
             startContent={<PlusIcon className="size-5" />}
             className="font-montserrat font-semibold"
             onClick={() => {
-              setIsCreateModalOpened(true)
+              setIsCreateModalOpened(true);
             }}
           >
             Create Department
@@ -161,14 +161,20 @@ const AdminDepartments = () => {
         {departments?.map((department: DepartmentInterface) => (
           <TableRow key={department._id}>
             <TableCell className="text-sm">{department.name}</TableCell>
-            <TableCell className="text-sm">{department.commandingOfficer}</TableCell>
-            <TableCell className="text-sm">{department.commandingOfficer}</TableCell>
-            <TableCell className="text-sm">{department.commandingOfficer}</TableCell>
+            <TableCell className="text-sm">
+              {department.commandingOfficer}
+            </TableCell>
+            <TableCell className="text-sm">
+              {department.commandingOfficer}
+            </TableCell>
+            <TableCell className="text-sm">
+              {department.commandingOfficer}
+            </TableCell>
             <TableCell>
               {department.manager
                 ? department.manager?.firstName +
-                " " +
-                department?.manager?.lastName
+                  " " +
+                  department?.manager?.lastName
                 : "N/A"}
             </TableCell>
             <TableCell>{department.description}</TableCell>
@@ -207,10 +213,10 @@ const AdminDepartments = () => {
       {/* export interface CompanyInterface {
    name:string
    logo: string
-   commandingOfficer: UserInterface, 
-   companySeargent:UserInterface, 
+   commandingOfficer: UserInterface,
+   companySeargent:UserInterface,
    platoonCommander: UserInterface,
-   administrationWarranty: UserInterface, 
+   administrationWarranty: UserInterface,
    descriptio:string
   createdAt?: Date;
   updatedAt?: Date;
@@ -238,7 +244,9 @@ const AdminDepartments = () => {
               label="Commanding Officer"
               name="commandingOfficer"
               isInvalid={
-                actionData?.errors?.find((error) => error.field === "commandingOfficer")
+                actionData?.errors?.find(
+                  (error) => error.field === "commandingOfficer"
+                )
                   ? true
                   : false
               }
@@ -248,7 +256,9 @@ const AdminDepartments = () => {
               label="Company Seargent"
               name="departmentSeargent"
               isInvalid={
-                actionData?.errors?.find((error) => error.field === "departmentSeargent")
+                actionData?.errors?.find(
+                  (error) => error.field === "departmentSeargent"
+                )
                   ? true
                   : false
               }
@@ -258,7 +268,9 @@ const AdminDepartments = () => {
               label="Platoon Commander"
               name="platoonCommander"
               isInvalid={
-                actionData?.errors?.find((error) => error.field === "platoonCommander")
+                actionData?.errors?.find(
+                  (error) => error.field === "platoonCommander"
+                )
                   ? true
                   : false
               }
@@ -268,7 +280,9 @@ const AdminDepartments = () => {
               label="Administration Warranty"
               name="administrationWarranty"
               isInvalid={
-                actionData?.errors?.find((error) => error.field === "administrationWarranty")
+                actionData?.errors?.find(
+                  (error) => error.field === "administrationWarranty"
+                )
                   ? true
                   : false
               }
@@ -284,7 +298,7 @@ const AdminDepartments = () => {
               <Button color="danger" onPress={onClose}>
                 Close
               </Button>
-              <button className="bg-primary-400 rounded-xl text-white font-nunito px-4" >
+              <button className="bg-primary-400 rounded-xl text-white font-nunito px-4">
                 Submit
               </button>
             </div>
@@ -399,15 +413,16 @@ const AdminDepartments = () => {
 export default AdminDepartments;
 
 export const action: ActionFunction = async ({ request }) => {
-  const formData = await request.formData()
-  const name = formData.get("name") as string
-  const commandingOfficer = formData.get("commandingOfficer") as string
-  const departmentSeargent = formData.get("departmentSeargent") as string
-  const platoonCommander = formData.get("platoonCommander") as string
-  const administrationWarranty = formData.get("administrationWarranty") as string
-  const description = formData.get("description") as string
-  const intent = formData.get("intent") as string
-
+  const formData = await request.formData();
+  const name = formData.get("name") as string;
+  const commandingOfficer = formData.get("commandingOfficer") as string;
+  const departmentSeargent = formData.get("departmentSeargent") as string;
+  const platoonCommander = formData.get("platoonCommander") as string;
+  const administrationWarranty = formData.get(
+    "administrationWarranty"
+  ) as string;
+  const description = formData.get("description") as string;
+  const intent = formData.get("intent") as string;
 
   const departmentController = new DepartmentController(request);
   switch (intent) {
@@ -420,21 +435,15 @@ export const action: ActionFunction = async ({ request }) => {
         departmentSeargent,
         platoonCommander,
         administrationWarranty,
-      })
+      });
 
-      return createDepartment
+      return createDepartment;
 
       break;
 
     default:
       break;
   }
-
-
-
-
-
-
 
   return null;
 };
