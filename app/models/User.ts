@@ -40,12 +40,12 @@ const userSchema = new mongoose.Schema<UserInterface>(
     },
     staffId: {
       type: String,
-      required: true,
+      required: false,
       unique: false,
     },
     badgeNumber: {
       type: String,
-      required: true,
+      required: false,
       unique: true,
       trim: true,
     },

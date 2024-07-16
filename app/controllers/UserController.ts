@@ -350,6 +350,7 @@ export default class UserController {
     department,
     phone,
     staffId,
+    badgeNumber,
     password,
     company,
     dateOfBirth,
@@ -361,7 +362,8 @@ export default class UserController {
     role: string;
     department: string;
     phone: string;
-    staffId: string;
+    staffId?: string;
+    badgeNumber?: string;
     dateOfBirth: string;
     position: string;
     password: string;
@@ -430,6 +432,7 @@ export default class UserController {
         department,
         phone,
         staffId,
+        badgeNumber,
         dateOfBirth,
         password: encryptedPassword,
         company,
@@ -748,10 +751,11 @@ export default class UserController {
     department,
     phone,
     staffId,
+    badgeNumber,
     dateOfBirth,
     position,
     company,
-    password
+    password,
   }: {
     userId: string;
     firstName: string;
@@ -760,11 +764,12 @@ export default class UserController {
     role: string;
     department: string;
     phone: string;
-    staffId: string;
+    staffId?: string;
+    badgeNumber?: string;
     dateOfBirth: string;
     position: string;
-    company:string
-    password:string
+    company: string;
+    password: string;
   }) => {
     const session = await getFlashSession(this.request.headers.get("Cookie"));
 
@@ -847,10 +852,11 @@ export default class UserController {
           department,
           phone,
           staffId,
+          badgeNumber,
           dateOfBirth,
           position,
           password,
-          company
+          company,
         },
         {
           new: true, // Return the updated document
