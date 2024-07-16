@@ -38,7 +38,7 @@ import CustomTable from "~/components/ui/new-table";
 import CompanyController from "~/controllers/CompanyController";
 import DepartmentController from "~/controllers/DepartmentController";
 import UserController from "~/controllers/UserController";
-import { deptTableCols } from "~/data/table-cols";
+import { deptTableCols, userTableCols } from "~/data/table-cols";
 import { getInitials } from "~/utils/string-manipulation";
 import { errorToast, successToast } from "~/utils/toasters";
 import { CompanyInterface, UserInterface } from "~/utils/types";
@@ -175,7 +175,7 @@ const AdminDepartments = () => {
       </div>
 
       <CustomTable
-        columns={deptTableCols}
+        columns={userTableCols}
         loadingState={navigation.state === "loading" ? "loading" : "idle"}
         page={1}
         setPage={(page) => {
@@ -185,7 +185,7 @@ const AdminDepartments = () => {
       >
         {users?.map((user: UserInterface) => (
           <TableRow key={user._id}>
-            <TableCell className="text-sm">{user?.firstName + " " + user?.firstName}</TableCell>
+            <TableCell className="text-sm">{user?.firstName + " " + user?.lastName}</TableCell>
             <TableCell className="text-sm">{user?.staffId}</TableCell>
             <TableCell className="text-sm">{user?.email}</TableCell>
             <TableCell className="text-sm">{user?.phone}</TableCell>
@@ -201,7 +201,7 @@ const AdminDepartments = () => {
                 variant="light"
                 onClick={() => {
                   setIsEditModalOpened(true)
-                  setselectedUser(company)
+                  setselectedUser(user)
                 }}
               >
                 edit
@@ -212,7 +212,7 @@ const AdminDepartments = () => {
                 variant="light"
                 onClick={() => {
                   setIsConfirmedModalOpened(true)
-                  setselectedUser(company)
+                  setselectedUser(user)
                 }}
               >
                 Delete
@@ -246,7 +246,6 @@ const AdminDepartments = () => {
               isRequired={true}
               label="Staff Id"
               name="staffId"
-              defaultValue={selectedUser.staffId}
               isInvalid={
                 actionData?.errors?.find((error) => error.field === "satffId")
                   ? true
@@ -258,7 +257,6 @@ const AdminDepartments = () => {
                 isRequired={true}
                 label="First Name"
                 name="firstName"
-                defaultValue={selectedUser.firstName}
                 isInvalid={
                   actionData?.errors?.find((error) => error.field === "firstName")
                     ? true
@@ -454,7 +452,7 @@ const AdminDepartments = () => {
               </Select>
             </div>
 
-            <input name="intent" value="update" type="hidden" />
+            <input name="intent" value="create" type="hidden" />
             <div className="flex justify-end gap-2 mt-6 font-nunito">
               <Button color="danger" onPress={onClose}>
                 Close
@@ -479,6 +477,7 @@ const AdminDepartments = () => {
               isRequired={true}
               label="Staff Id"
               name="satffId"
+              defaultValue={selectedUser?.staffId}
               isInvalid={
                 actionData?.errors?.find((error) => error.field === "satffId")
                   ? true
@@ -490,6 +489,7 @@ const AdminDepartments = () => {
                 isRequired={true}
                 label="First Name"
                 name="firstName"
+                defaultValue={selectedUser?.firstName}
                 isInvalid={
                   actionData?.errors?.find((error) => error.field === "firstName")
                     ? true
@@ -500,6 +500,7 @@ const AdminDepartments = () => {
                 isRequired={true}
                 label="Last Name"
                 name="lastName"
+                defaultValue={selectedUser?.lastName}
                 isInvalid={
                   actionData?.errors?.find((error) => error.field === "lastName")
                     ? true
@@ -512,6 +513,7 @@ const AdminDepartments = () => {
               isRequired={true}
               label="Email"
               name="email"
+              defaultValue={selectedUser?.email}
               isInvalid={
                 actionData?.errors?.find((error) => error.field === "email")
                   ? true
@@ -535,6 +537,7 @@ const AdminDepartments = () => {
                 isRequired={true}
                 label="Date of Birth"
                 name="dateOfBirth"
+                defaultValue={selectedUser?.dateOfBirth}
                 isInvalid={
                   actionData?.errors?.find((error) => error.field === "dateOfBirth")
                     ? true
@@ -543,29 +546,7 @@ const AdminDepartments = () => {
               />
             </div>
 
-            <CustomInput
-              isRequired={true}
-              label="Password"
-              type={isVisible ? "text" : "password"}
-              name="password"
-              isInvalid={
-                actionData?.errors?.find((error) => error.field === "password")
-                  ? true
-                  : false
-              }
-              endContent={
-                <button
-                  className="focus:outline-none"
-                  onClick={handleVisibility}
-                >
-                  {isVisible ? (
-                    <EyeSlashFilledIcon className="text-2xl text-default-400 pointer-events-none" />
-                  ) : (
-                    <EyeFilledIcon className="text-2xl text-default-400 pointer-events-none" />
-                  )}
-                </button>
-              }
-            />
+           
 
             <div className="flex gap-4">
               <CustomInput
@@ -573,6 +554,7 @@ const AdminDepartments = () => {
                 isRequired={true}
                 label="Position"
                 name="position"
+                defaultValue={selectedUser?.position}
                 isInvalid={
                   actionData?.errors?.find((error) => error.field === "position")
                     ? true
@@ -686,7 +668,8 @@ const AdminDepartments = () => {
             </div>
 
 
-            <input name="intent" value="create" type="hidden" />
+            <input name="intent" value="update" type="hidden" />
+            <input name="intent" value={selectedUser._id} type="hidden" />
 
             <div className="flex justify-end gap-2 mt-6 font-nunito">
               <Button color="danger" onPress={onClose}>

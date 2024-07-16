@@ -18,6 +18,7 @@ export const userTableCols = [
   { title: "Role", allowSort: true },
   { title: "Position", allowSort: true },
   { title: "Company", allowSort: true },
+  { title: "Action", allowSort: true },
 
 ];
 
