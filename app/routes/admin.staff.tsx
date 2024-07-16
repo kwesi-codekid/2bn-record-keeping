@@ -449,9 +449,7 @@ const AdminDepartments = () => {
               </Select>
             </div>
 
-
             <input name="intent" value="create" type="hidden" />
-
             <div className="flex justify-end gap-2 mt-6 font-nunito">
               <Button color="danger" onPress={onClose}>
                 Close
@@ -471,229 +469,229 @@ const AdminDepartments = () => {
         className=""
       >
         {(onClose) => (
-           <Form method="post" className="flex flex-col gap-4">
-           <CustomInput
-             isRequired={true}
-             label="Staff Id"
-             name="satffId"
-             isInvalid={
-               actionData?.errors?.find((error) => error.field === "satffId")
-                 ? true
-                 : false
-             }
-           />
-           <div className="flex gap-4">
-             <CustomInput
-               isRequired={true}
-               label="First Name"
-               name="firstName"
-               isInvalid={
-                 actionData?.errors?.find((error) => error.field === "firstName")
-                   ? true
-                   : false
-               }
-             />
-             <CustomInput
-               isRequired={true}
-               label="Last Name"
-               name="lastName"
-               isInvalid={
-                 actionData?.errors?.find((error) => error.field === "lastName")
-                   ? true
-                   : false
-               }
-             />
-           </div>
+          <Form method="post" className="flex flex-col gap-4">
+            <CustomInput
+              isRequired={true}
+              label="Staff Id"
+              name="satffId"
+              isInvalid={
+                actionData?.errors?.find((error) => error.field === "satffId")
+                  ? true
+                  : false
+              }
+            />
+            <div className="flex gap-4">
+              <CustomInput
+                isRequired={true}
+                label="First Name"
+                name="firstName"
+                isInvalid={
+                  actionData?.errors?.find((error) => error.field === "firstName")
+                    ? true
+                    : false
+                }
+              />
+              <CustomInput
+                isRequired={true}
+                label="Last Name"
+                name="lastName"
+                isInvalid={
+                  actionData?.errors?.find((error) => error.field === "lastName")
+                    ? true
+                    : false
+                }
+              />
+            </div>
 
-           <CustomInput
-             isRequired={true}
-             label="Email"
-             name="email"
-             isInvalid={
-               actionData?.errors?.find((error) => error.field === "email")
-                 ? true
-                 : false
-             }
-           />
+            <CustomInput
+              isRequired={true}
+              label="Email"
+              name="email"
+              isInvalid={
+                actionData?.errors?.find((error) => error.field === "email")
+                  ? true
+                  : false
+              }
+            />
 
-           <div className="flex gap-4">
-             <CustomInput
-               isRequired={true}
-               label="Phone"
-               name="phone"
-               isInvalid={
-                 actionData?.errors?.find((error) => error.field === "phone")
-                   ? true
-                   : false
-               }
-             />
-             <CustomInput
-               type="date"
-               isRequired={true}
-               label="Date of Birth"
-               name="dateOfBirth"
-               isInvalid={
-                 actionData?.errors?.find((error) => error.field === "dateOfBirth")
-                   ? true
-                   : false
-               }
-             />
-           </div>
+            <div className="flex gap-4">
+              <CustomInput
+                isRequired={true}
+                label="Phone"
+                name="phone"
+                isInvalid={
+                  actionData?.errors?.find((error) => error.field === "phone")
+                    ? true
+                    : false
+                }
+              />
+              <CustomInput
+                type="date"
+                isRequired={true}
+                label="Date of Birth"
+                name="dateOfBirth"
+                isInvalid={
+                  actionData?.errors?.find((error) => error.field === "dateOfBirth")
+                    ? true
+                    : false
+                }
+              />
+            </div>
 
-           <CustomInput
-             isRequired={true}
-             label="Password"
-             type={isVisible ? "text" : "password"}
-             name="password"
-             isInvalid={
-               actionData?.errors?.find((error) => error.field === "password")
-                 ? true
-                 : false
-             }
-             endContent={
-               <button
-                 className="focus:outline-none"
-                 onClick={handleVisibility}
-               >
-                 {isVisible ? (
-                   <EyeSlashFilledIcon className="text-2xl text-default-400 pointer-events-none" />
-                 ) : (
-                   <EyeFilledIcon className="text-2xl text-default-400 pointer-events-none" />
-                 )}
-               </button>
-             }
-           />
+            <CustomInput
+              isRequired={true}
+              label="Password"
+              type={isVisible ? "text" : "password"}
+              name="password"
+              isInvalid={
+                actionData?.errors?.find((error) => error.field === "password")
+                  ? true
+                  : false
+              }
+              endContent={
+                <button
+                  className="focus:outline-none"
+                  onClick={handleVisibility}
+                >
+                  {isVisible ? (
+                    <EyeSlashFilledIcon className="text-2xl text-default-400 pointer-events-none" />
+                  ) : (
+                    <EyeFilledIcon className="text-2xl text-default-400 pointer-events-none" />
+                  )}
+                </button>
+              }
+            />
 
-           <div className="flex gap-4">
-             <CustomInput
-               type="text"
-               isRequired={true}
-               label="Position"
-               name="position"
-               isInvalid={
-                 actionData?.errors?.find((error) => error.field === "position")
-                   ? true
-                   : false
-               }
-             />
+            <div className="flex gap-4">
+              <CustomInput
+                type="text"
+                isRequired={true}
+                label="Position"
+                name="position"
+                isInvalid={
+                  actionData?.errors?.find((error) => error.field === "position")
+                    ? true
+                    : false
+                }
+              />
 
-             <Select
-               label="Role"
-               labelPlacement="outside"
-               placeholder=" "
-               isRequired
-               variant="bordered"
-               isInvalid={
-                 actionData?.errors?.find(
-                   (error) => error.field === "role"
-                 )
-                   ? true
-                   : false
-               }
-               className="mt-4"
-               name="role"
-               classNames={{
-                 label:
-                   "text-sm md:text-base font-medium font-sen text-slate-800 dark:text-slate-100",
-                 trigger: " !shadow-none dark:border-slate-700  ",
-                 popoverContent:
-                   "bg-white shadow-sm dark:bg-slate-900 border border-white/5  ",
-               }}
-             >
-               {[
-                 { key: "Admin", value: "Admin", display_name: "Admin" },
-                 { key: "Staff", value: "Staff", display_name: "Staff" },
-               ].map((role) => (
-                 <SelectItem
-                   key={role.key}
-                 >
-                   {role.display_name}
-                 </SelectItem>
-               ))}
-             </Select>
-           </div>
+              <Select
+                label="Role"
+                labelPlacement="outside"
+                placeholder=" "
+                isRequired
+                variant="bordered"
+                isInvalid={
+                  actionData?.errors?.find(
+                    (error) => error.field === "role"
+                  )
+                    ? true
+                    : false
+                }
+                className="mt-4"
+                name="role"
+                classNames={{
+                  label:
+                    "text-sm md:text-base font-medium font-sen text-slate-800 dark:text-slate-100",
+                  trigger: " !shadow-none dark:border-slate-700  ",
+                  popoverContent:
+                    "bg-white shadow-sm dark:bg-slate-900 border border-white/5  ",
+                }}
+              >
+                {[
+                  { key: "Admin", value: "Admin", display_name: "Admin" },
+                  { key: "Staff", value: "Staff", display_name: "Staff" },
+                ].map((role) => (
+                  <SelectItem
+                    key={role.key}
+                  >
+                    {role.display_name}
+                  </SelectItem>
+                ))}
+              </Select>
+            </div>
 
-           <div className="flex gap-4">
-             <Select
-               label="Department"
-               labelPlacement="outside"
-               placeholder=" "
-               variant="bordered"
-               isRequired
-               isInvalid={
-                 actionData?.errors?.find(
-                   (error) => error.field === "department"
-                 )
-                   ? true
-                   : false
-               }
-               className="mt-4"
-               name="department"
-               classNames={{
-                 label:
-                   "text-sm md:text-base font-medium font-sen text-slate-800 dark:text-slate-100",
-                 trigger: " !shadow-none dark:border-slate-700  ",
-                 popoverContent:
-                   "bg-white shadow-sm dark:bg-slate-900 border border-white/5  ",
-               }}
-             >
-               {companys.map((company: CompanyInterface) => (
-                 <SelectItem
-                   textValue={company?.name}
-                   className="mt-4"
-                   key={company?._id}
-                 >
-                   {company?.name}
-                 </SelectItem>
-               ))}
-             </Select>
-             <Select
-               label="Company"
-               labelPlacement="outside"
-               placeholder=" "
-               variant="bordered"
-               isRequired
-               isInvalid={
-                 actionData?.errors?.find(
-                   (error) => error.field === "company"
-                 )
-                   ? true
-                   : false
-               }
-               className="mt-4"
-               name="company"
-               classNames={{
-                 label:
-                   "text-sm md:text-base font-medium font-sen text-slate-800 dark:text-slate-100",
-                 trigger: " !shadow-none dark:border-slate-700  ",
-                 popoverContent:
-                   "bg-white shadow-sm dark:bg-slate-900 border border-white/5  ",
-               }}
-             >
-               {companys.map((company: CompanyInterface) => (
-                 <SelectItem
-                   textValue={company?.name}
-                   className="mt-4"
-                   key={company?._id}
-                 >
-                   {company?.name}
-                 </SelectItem>
-               ))}
-             </Select>
-           </div>
+            <div className="flex gap-4">
+              <Select
+                label="Department"
+                labelPlacement="outside"
+                placeholder=" "
+                variant="bordered"
+                isRequired
+                isInvalid={
+                  actionData?.errors?.find(
+                    (error) => error.field === "department"
+                  )
+                    ? true
+                    : false
+                }
+                className="mt-4"
+                name="department"
+                classNames={{
+                  label:
+                    "text-sm md:text-base font-medium font-sen text-slate-800 dark:text-slate-100",
+                  trigger: " !shadow-none dark:border-slate-700  ",
+                  popoverContent:
+                    "bg-white shadow-sm dark:bg-slate-900 border border-white/5  ",
+                }}
+              >
+                {companys.map((company: CompanyInterface) => (
+                  <SelectItem
+                    textValue={company?.name}
+                    className="mt-4"
+                    key={company?._id}
+                  >
+                    {company?.name}
+                  </SelectItem>
+                ))}
+              </Select>
+              <Select
+                label="Company"
+                labelPlacement="outside"
+                placeholder=" "
+                variant="bordered"
+                isRequired
+                isInvalid={
+                  actionData?.errors?.find(
+                    (error) => error.field === "company"
+                  )
+                    ? true
+                    : false
+                }
+                className="mt-4"
+                name="company"
+                classNames={{
+                  label:
+                    "text-sm md:text-base font-medium font-sen text-slate-800 dark:text-slate-100",
+                  trigger: " !shadow-none dark:border-slate-700  ",
+                  popoverContent:
+                    "bg-white shadow-sm dark:bg-slate-900 border border-white/5  ",
+                }}
+              >
+                {companys.map((company: CompanyInterface) => (
+                  <SelectItem
+                    textValue={company?.name}
+                    className="mt-4"
+                    key={company?._id}
+                  >
+                    {company?.name}
+                  </SelectItem>
+                ))}
+              </Select>
+            </div>
 
 
-           <input name="intent" value="create" type="hidden" />
+            <input name="intent" value="create" type="hidden" />
 
-           <div className="flex justify-end gap-2 mt-6 font-nunito">
-             <Button color="danger" onPress={onClose}>
-               Close
-             </Button>
-             <button className="bg-primary-400 rounded-xl text-white font-nunito px-4">
-               Submit
-             </button>
-           </div>
-         </Form>
+            <div className="flex justify-end gap-2 mt-6 font-nunito">
+              <Button color="danger" onPress={onClose}>
+                Close
+              </Button>
+              <button className="bg-primary-400 rounded-xl text-white font-nunito px-4">
+                Submit
+              </button>
+            </div>
+          </Form>
         )}
       </EditModal>
 
@@ -773,6 +771,20 @@ export const action: ActionFunction = async ({ request }) => {
   const company = formData.get("company") as string
   const intent = formData.get("intent") as string
   const _id = formData.get("id") as string
+
+  console.log(
+    firstName,
+    lastName,
+    email,
+    role,
+    department,
+    phone,
+    staffId,
+    dateOfBirth,
+    position,
+    company,
+    password);
+
 
 
 
