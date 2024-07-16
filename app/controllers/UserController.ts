@@ -14,6 +14,7 @@ import {
 import generateOTP from "~/utils/generateOTP";
 import sendSMS from "~/utils/sendSMS";
 import { UserInterface } from "~/utils/types";
+import bcrypt from "bcryptjs";
 
 export default class UserController {
   private request: Request;
@@ -350,8 +351,9 @@ export default class UserController {
     department,
     phone,
     staffId,
+    password,
+    company,
     dateOfBirth,
-    permissions,
     position,
   }: {
     firstName: string;
@@ -362,8 +364,9 @@ export default class UserController {
     phone: string;
     staffId: string;
     dateOfBirth: string;
-    permissions: string[];
     position: string;
+    password: string;
+    company: string;
   }) => {
     const session = await getFlashSession(this.request.headers.get("Cookie"));
 
@@ -418,6 +421,7 @@ export default class UserController {
         //   errors,
         // };
       }
+      const encryptedPassword = bcrypt.hash(password, 10);
 
       const user = await User.create({
         firstName,
@@ -428,7 +432,8 @@ export default class UserController {
         phone,
         staffId,
         dateOfBirth,
-        permissions,
+        password: encryptedPassword,
+        company,
         position,
       });
 

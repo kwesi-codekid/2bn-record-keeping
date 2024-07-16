@@ -22,6 +22,7 @@ export type UserInterface = {
   department?: DepartmentInterface;
   otp?: string;
   staffId?: string;
+  badgeNumber?: string;
   role?: string;
   position?: string;
   company?: string;
@@ -40,6 +41,16 @@ export type UserRoleInterface = {
 };
 
 export type DepartmentInterface = {
+  _id?: string;
+  name: string;
+  description: string;
+  commandingOfficer: UserInterface;
+  departmentSeargent: UserInterface;
+  platoonCommander: UserInterface;
+  administrationWarranty: UserInterface;
+};
+
+export type DutyInterface = {
   _id?: string;
   name: string;
   description: string;

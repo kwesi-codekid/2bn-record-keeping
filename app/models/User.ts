@@ -1,10 +1,9 @@
-import { Schema } from "mongoose";
 import mongoose from "~/mongoose";
 import { UserInterface } from "~/utils/types";
 const emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
 const phoneRegex = /^[0-9]{11}$/; // Example regex for phone numbers (adjust as needed)
 
-const userSchema = new Schema<UserInterface>(
+const userSchema = new mongoose.Schema<UserInterface>(
   {
     firstName: String,
     lastName: String,
@@ -44,13 +43,19 @@ const userSchema = new Schema<UserInterface>(
       required: true,
       unique: false,
     },
+    badgeNumber: {
+      type: String,
+      required: true,
+      unique: true,
+      trim: true,
+    },
     department: {
-      type: Schema.Types.ObjectId,
+      type: mongoose.Schema.Types.ObjectId,
       ref: "departments",
       required: false,
     },
     company: {
-      type: Schema.Types.ObjectId,
+      type: mongoose.Schema.Types.ObjectId,
       ref: "companys",
       required: false,
     },
