@@ -244,8 +244,8 @@ const AdminDepartments = () => {
           <Form method="post" className="flex flex-col gap-4">
             <CustomInput
               isRequired={true}
-              label="Staff Id"
-              name="staffId"
+              label="Badge Number"
+              name="badgeNumber"
               isInvalid={
                 actionData?.errors?.find((error) => error.field === "satffId")
                   ? true
@@ -748,7 +748,7 @@ export const action: ActionFunction = async ({ request }) => {
   const formData = await request.formData()
   const firstName = formData.get("firstName") as string
   const lastName = formData.get("lastName") as string
-  const staffId = formData.get("staffId") as string
+  const badgeNumber = formData.get("badgeNumber") as string
   const email = formData.get("email") as string
   const phone = formData.get("phone") as string
   const dateOfBirth = formData.get("dateOfBirth") as string
@@ -767,7 +767,7 @@ export const action: ActionFunction = async ({ request }) => {
     role,
     department,
     phone,
-    staffId,
+    badgeNumber,
     dateOfBirth,
     position,
     company,
@@ -786,7 +786,7 @@ export const action: ActionFunction = async ({ request }) => {
         role,
         department,
         phone,
-        staffId,
+        badgeNumber,
         dateOfBirth,
         position,
         company,
