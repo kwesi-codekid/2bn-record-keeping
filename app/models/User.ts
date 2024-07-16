@@ -42,11 +42,12 @@ const userSchema = new mongoose.Schema<UserInterface>(
       type: String,
       required: false,
       unique: false,
+      trim: true,
     },
     badgeNumber: {
       type: String,
       required: false,
-      unique: true,
+      // unique: true,
       trim: true,
     },
     department: {
