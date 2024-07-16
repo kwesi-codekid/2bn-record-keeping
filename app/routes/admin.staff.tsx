@@ -242,7 +242,7 @@ const AdminDepartments = () => {
             <CustomInput
               isRequired={true}
               label="Staff Id"
-              name="satffId"
+              name="staffId"
               isInvalid={
                 actionData?.errors?.find((error) => error.field === "satffId")
                   ? true
@@ -368,8 +368,8 @@ const AdminDepartments = () => {
                 }}
               >
                 {[
-                  { key: "Admin", value: "Admin", display_name: "Admin" },
-                  { key: "Staff", value: "Staff", display_name: "Staff" },
+                  { key: "admin", value: "admin", display_name: "admin" },
+                  { key: "staff", value: "staff", display_name: "staff" },
                 ].map((role) => (
                   <SelectItem
                     key={role.key}
