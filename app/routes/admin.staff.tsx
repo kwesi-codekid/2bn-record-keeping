@@ -781,7 +781,6 @@ export const action: ActionFunction = async ({ request }) => {
     case "create":
       const createUser = await userController.createUser({
         firstName,
-        
         lastName,
         email,
         role,
@@ -789,26 +788,27 @@ export const action: ActionFunction = async ({ request }) => {
         phone,
         staffId,
         dateOfBirth,
-        permissions,
         position,
+        company,
+        password
       })
       return createUser
 
-    case "delete":
-      const deleteDepartment = await companyController.deleteCompany({ _id })
-      return deleteDepartment
+    // case "delete":
+    //   const deleteDepartment = await companyController.deleteCompany({ _id })
+    //   return deleteDepartment
 
-    case "update":
-      const updateDepartment = await companyController.updateCompany({
-        _id,
-        name,
-        description,
-        commandingOfficer,
-        companySeargent,
-        platoonCommander,
-        administrationWarranty,
-      })
-      return updateDepartment
+    // case "update":
+    //   const updateDepartment = await companyController.updateCompany({
+    //     _id,
+    //     name,
+    //     description,
+    //     commandingOfficer,
+    //     companySeargent,
+    //     platoonCommander,
+    //     administrationWarranty,
+    //   })
+    //   return updateDepartment
     default:
       break;
   }
