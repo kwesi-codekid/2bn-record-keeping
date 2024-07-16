@@ -13,11 +13,11 @@ const dutySchema = new mongoose.Schema<DutyInterface>(
       type: String,
       required: true,
       enum: [
-        "Patrol",
-        "Traffic",
-        "Investigation",
-        "Community Service",
-        "Administrative",
+        "patrol",
+        "traffic",
+        "investigation",
+        "community service",
+        "administrative",
       ],
       trim: true,
     },
@@ -36,8 +36,8 @@ const dutySchema = new mongoose.Schema<DutyInterface>(
     },
     status: {
       type: String,
-      enum: ["Scheduled", "Ongoing", "Completed", "Cancelled"],
-      default: "Scheduled",
+      enum: ["scheduled", "sngoing", "sompleted", "sancelled"],
+      default: "scheduled",
     },
     notes: {
       type: String,

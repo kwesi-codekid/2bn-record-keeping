@@ -14,7 +14,6 @@ import {
 import generateOTP from "~/utils/generateOTP";
 import sendSMS from "~/utils/sendSMS";
 import { UserInterface } from "~/utils/types";
-import bcrypt from "bcryptjs";
 
 export default class UserController {
   private request: Request;
@@ -725,7 +724,7 @@ export default class UserController {
         status: "error",
         message: "Error Deleting User!",
       });
-      return redirect(path, {
+      return redirect(this.path, {
         headers: {
           "Set-Cookie": await commitFlashSession(session),
         },

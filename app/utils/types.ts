@@ -52,10 +52,16 @@ export type DepartmentInterface = {
 
 export type DutyInterface = {
   _id?: string;
-  name: string;
-  description: string;
-  commandingOfficer: UserInterface;
-  departmentSeargent: UserInterface;
-  platoonCommander: UserInterface;
-  administrationWarranty: UserInterface;
+  officer: UserInterface;
+  dutyType:
+    | "patrol"
+    | "traffic"
+    | "investigation"
+    | "community service"
+    | "administrative";
+  dutyLocation: string;
+  startTime: Date;
+  endTime: Date;
+  status: "scheduled" | "sngoing" | "sompleted" | "sancelled";
+  notes: string;
 };
