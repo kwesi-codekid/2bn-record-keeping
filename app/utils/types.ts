@@ -19,18 +19,12 @@ export type UserInterface = {
   password?: string;
   phone?: string;
   dateOfBirth?: string;
-  department?: DepartmentInterface;
-  otp?: string;
+  department?: string;
   staffId?: string;
   role?: string;
   position?: string;
-  company?: string;
-  permissions?: string[];
-  generalManager?: boolean;
-  employeeStatus?: "active" | "inactive";
+  company?: CompanyInterface;
   contractor?: string;
-
-  createdAt?: string;
 };
 
 export type UserRoleInterface = {
