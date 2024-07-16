@@ -1,6 +1,13 @@
+import { LoaderFunction } from "@remix-run/node";
+import { useLoaderData } from "@remix-run/react";
 import { Card, IconCard } from "~/components/sections/cards";
+import DepartmentController from "~/controllers/DepartmentController";
+import UserController from "~/controllers/UserController";
 
 export default function AdminDashboard() {
+  const {totalPages,totalDepartmentsCount} = useLoaderData<{totalPages:number,totalDepartmentsCount:number}>()
+  console.log(totalPages);
+  
   const data = [
     { title: "Total Members", value: 12 },
     { title: "Total Tickets", value: 12 },
@@ -13,13 +20,16 @@ export default function AdminDashboard() {
         <div className="flex flex-col gap-4">
           {/* stats card */}
           <div className="grid grid-cols-2 gap-4">
-            {[1, 2].map((idx, index) => (
-              <IconCard key={index} title={data[idx]?.title as string}>
+              <IconCard  title="Total Staff">
                 <p className="font-nunito text-2xl font-semibold">
-                  {data[idx]?.value}
+                  {totalPages}
                 </p>
               </IconCard>
-            ))}
+              <IconCard  title="Total Departments">
+                <p className="font-nunito text-2xl font-semibold">
+                  {totalDepartmentsCount}
+                </p>
+              </IconCard>
           </div>
           <div className="grid grid-cols-3 gap-4">
             {data.map((data, index) => (
@@ -43,4 +53,23 @@ export default function AdminDashboard() {
       </div>
     </div>
   );
+}
+
+export const loader: LoaderFunction = async ({ request }) => {
+  const url = new URL(request.url);
+  const page = parseInt(url.searchParams.get("page") as string) || 1;
+  const search_term = url.searchParams.get("search_term") as string;
+  const userController = new UserController(request)
+  const departmentController = new DepartmentController(request)
+
+  const {totalPages} = await userController.getUsers({
+    page,
+    search_term,
+  })
+  const {totalDepartmentsCount} = await departmentController.getDepartments({
+    page,
+    search_term,
+  })
+
+  return {totalPages, totalDepartmentsCount}
 }
