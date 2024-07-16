@@ -471,173 +471,229 @@ const AdminDepartments = () => {
         className=""
       >
         {(onClose) => (
-          <Form method="post" className="flex flex-col gap-4">
-            <CustomInput
-              isRequired={true}
-              label="Department Name"
-              name="name"
-              isInvalid={
-                actionData?.errors?.find((error) => error.field === "name")
-                  ? true
-                  : false
-              }
-              defaultValue={selectedDepartment.name}
-            />
-            <Select
-              label="Commanding Officer"
-              labelPlacement="outside"
-              placeholder=" "
-              isRequired
-              variant="bordered"
-              defaultSelectedKeys={[selectedDepartment?._id]}
-              // selectedKeys={[Array.from(set) || ""]}
-              isInvalid={
-                actionData?.errors?.find(
-                  (error) => error.field === "commandingOfficer"
-                )
-                  ? true
-                  : false
-              }
-              className="mt-4"
-              name="commandingOfficer"
-              classNames={{
-                label:
-                  "text-sm md:text-base font-medium font-sen text-slate-800 dark:text-slate-100",
-                trigger: " !shadow-none dark:border-slate-700  ",
-                popoverContent:
-                  "bg-white shadow-sm dark:bg-slate-900 border border-white/5  ",
-              }}
-            >
-              {users.map((user: UserInterface) => (
-                <SelectItem
-                  textValue={user?.firstName + " " + user?.lastName}
-                  className="mt-4"
-                  key={user._id}
-                >
-                  {user?.firstName + " " + user?.lastName}
-                </SelectItem>
-              ))}
-            </Select>
-            <div className="flex gap-4">
-              <Select
-                variant="bordered"
-                label="Department Seargent"
-                labelPlacement="outside"
-                placeholder=" "
-                isRequired
-                isInvalid={
-                  actionData?.errors?.find(
-                    (error) => error.field === "departmentSeargent"
-                  )
-                    ? true
-                    : false
-                }
-                className="mt-4"
-                name="departmentSeargent"
-                classNames={{
-                  label:
-                    "text-sm md:text-base font-medium font-sen text-slate-800 dark:text-slate-100",
-                  trigger: "!shadow-none dark:border-slate-700  ",
-                  popoverContent:
-                    "bg-white shadow-sm dark:bg-slate-900 border border-white/5 focus:bg-slate-900 ",
-                }}
-              >
-                {users.map((user: UserInterface) => (
-                  <SelectItem
-                    textValue={user?.firstName + " " + user?.lastName}
-                    className="mt-4"
-                    key={user._id}
-                  >
-                    {user?.firstName + " " + user?.lastName}
-                  </SelectItem>
-                ))}
-              </Select>
-              <Select
-                label="Platoon Commander"
-                labelPlacement="outside"
-                placeholder=" "
-                variant="bordered"
-                isRequired
-                isInvalid={
-                  actionData?.errors?.find(
-                    (error) => error.field === "platoonCommander"
-                  )
-                    ? true
-                    : false
-                }
-                className="mt-4"
-                name="platoonCommander"
-                classNames={{
-                  label:
-                    "text-sm md:text-base font-medium font-sen text-slate-800 dark:text-slate-100",
-                  trigger: " !shadow-none dark:border-slate-700  ",
-                  popoverContent:
-                    "bg-white shadow-sm dark:bg-slate-900 border border-white/5  ",
-                }}
-              >
-                {users.map((user: UserInterface) => (
-                  <SelectItem
-                    textValue={user?.firstName + " " + user?.lastName}
-                    className="mt-4"
-                    key={user._id}
-                  >
-                    {user?.firstName + " " + user?.lastName}
-                  </SelectItem>
-                ))}
-              </Select>
-            </div>
+           <Form method="post" className="flex flex-col gap-4">
+           <CustomInput
+             isRequired={true}
+             label="Staff Id"
+             name="satffId"
+             isInvalid={
+               actionData?.errors?.find((error) => error.field === "satffId")
+                 ? true
+                 : false
+             }
+           />
+           <div className="flex gap-4">
+             <CustomInput
+               isRequired={true}
+               label="First Name"
+               name="firstName"
+               isInvalid={
+                 actionData?.errors?.find((error) => error.field === "firstName")
+                   ? true
+                   : false
+               }
+             />
+             <CustomInput
+               isRequired={true}
+               label="Last Name"
+               name="lastName"
+               isInvalid={
+                 actionData?.errors?.find((error) => error.field === "lastName")
+                   ? true
+                   : false
+               }
+             />
+           </div>
 
-            <Select
-              label="Administration Warranty"
-              labelPlacement="outside"
-              placeholder=" "
-              isRequired
-              variant="bordered"
-              isInvalid={
-                actionData?.errors?.find(
-                  (error) => error.field === "administrationWarranty"
-                )
-                  ? true
-                  : false
-              }
-              className="mt-4"
-              name="administrationWarranty"
-              classNames={{
-                label:
-                  "text-sm md:text-base font-medium font-sen text-slate-800 dark:text-slate-100",
-                trigger: " !shadow-none dark:border-slate-700  ",
-                popoverContent:
-                  "bg-white shadow-sm dark:bg-slate-900 border border-white/5  ",
-              }}
-            >
-              {users.map((user: UserInterface) => (
-                <SelectItem
-                  textValue={user?.firstName + " " + user?.lastName}
-                  className="mt-4"
-                  key={user._id}
-                >
-                  {user?.firstName + " " + user?.lastName}
-                </SelectItem>
-              ))}
-            </Select>
-            <CustomTextarea
-              isRequired={true}
-              label="Description"
-              name="description"
-              defaultValue={selectedDepartment?.description}
-            />
-            <input name="intent" value="update" type="hidden" />
-            <input name="id" value={selectedDepartment?._id} type="hidden" />
+           <CustomInput
+             isRequired={true}
+             label="Email"
+             name="email"
+             isInvalid={
+               actionData?.errors?.find((error) => error.field === "email")
+                 ? true
+                 : false
+             }
+           />
 
-            <div className="flex justify-end gap-2 mt-10 font-nunito">
-              <Button color="danger" onPress={onClose}>
-                Close
-              </Button>
-              <button className="bg-primary-400 rounded-xl text-white font-nunito px-4">
-                Submit
-              </button>
-            </div>
-          </Form>
+           <div className="flex gap-4">
+             <CustomInput
+               isRequired={true}
+               label="Phone"
+               name="phone"
+               isInvalid={
+                 actionData?.errors?.find((error) => error.field === "phone")
+                   ? true
+                   : false
+               }
+             />
+             <CustomInput
+               type="date"
+               isRequired={true}
+               label="Date of Birth"
+               name="dateOfBirth"
+               isInvalid={
+                 actionData?.errors?.find((error) => error.field === "dateOfBirth")
+                   ? true
+                   : false
+               }
+             />
+           </div>
+
+           <CustomInput
+             isRequired={true}
+             label="Password"
+             type={isVisible ? "text" : "password"}
+             name="password"
+             isInvalid={
+               actionData?.errors?.find((error) => error.field === "password")
+                 ? true
+                 : false
+             }
+             endContent={
+               <button
+                 className="focus:outline-none"
+                 onClick={handleVisibility}
+               >
+                 {isVisible ? (
+                   <EyeSlashFilledIcon className="text-2xl text-default-400 pointer-events-none" />
+                 ) : (
+                   <EyeFilledIcon className="text-2xl text-default-400 pointer-events-none" />
+                 )}
+               </button>
+             }
+           />
+
+           <div className="flex gap-4">
+             <CustomInput
+               type="text"
+               isRequired={true}
+               label="Position"
+               name="position"
+               isInvalid={
+                 actionData?.errors?.find((error) => error.field === "position")
+                   ? true
+                   : false
+               }
+             />
+
+             <Select
+               label="Role"
+               labelPlacement="outside"
+               placeholder=" "
+               isRequired
+               variant="bordered"
+               isInvalid={
+                 actionData?.errors?.find(
+                   (error) => error.field === "role"
+                 )
+                   ? true
+                   : false
+               }
+               className="mt-4"
+               name="role"
+               classNames={{
+                 label:
+                   "text-sm md:text-base font-medium font-sen text-slate-800 dark:text-slate-100",
+                 trigger: " !shadow-none dark:border-slate-700  ",
+                 popoverContent:
+                   "bg-white shadow-sm dark:bg-slate-900 border border-white/5  ",
+               }}
+             >
+               {[
+                 { key: "Admin", value: "Admin", display_name: "Admin" },
+                 { key: "Staff", value: "Staff", display_name: "Staff" },
+               ].map((role) => (
+                 <SelectItem
+                   key={role.key}
+                 >
+                   {role.display_name}
+                 </SelectItem>
+               ))}
+             </Select>
+           </div>
+
+           <div className="flex gap-4">
+             <Select
+               label="Department"
+               labelPlacement="outside"
+               placeholder=" "
+               variant="bordered"
+               isRequired
+               isInvalid={
+                 actionData?.errors?.find(
+                   (error) => error.field === "department"
+                 )
+                   ? true
+                   : false
+               }
+               className="mt-4"
+               name="department"
+               classNames={{
+                 label:
+                   "text-sm md:text-base font-medium font-sen text-slate-800 dark:text-slate-100",
+                 trigger: " !shadow-none dark:border-slate-700  ",
+                 popoverContent:
+                   "bg-white shadow-sm dark:bg-slate-900 border border-white/5  ",
+               }}
+             >
+               {companys.map((company: CompanyInterface) => (
+                 <SelectItem
+                   textValue={company?.name}
+                   className="mt-4"
+                   key={company?._id}
+                 >
+                   {company?.name}
+                 </SelectItem>
+               ))}
+             </Select>
+             <Select
+               label="Company"
+               labelPlacement="outside"
+               placeholder=" "
+               variant="bordered"
+               isRequired
+               isInvalid={
+                 actionData?.errors?.find(
+                   (error) => error.field === "company"
+                 )
+                   ? true
+                   : false
+               }
+               className="mt-4"
+               name="company"
+               classNames={{
+                 label:
+                   "text-sm md:text-base font-medium font-sen text-slate-800 dark:text-slate-100",
+                 trigger: " !shadow-none dark:border-slate-700  ",
+                 popoverContent:
+                   "bg-white shadow-sm dark:bg-slate-900 border border-white/5  ",
+               }}
+             >
+               {companys.map((company: CompanyInterface) => (
+                 <SelectItem
+                   textValue={company?.name}
+                   className="mt-4"
+                   key={company?._id}
+                 >
+                   {company?.name}
+                 </SelectItem>
+               ))}
+             </Select>
+           </div>
+
+
+           <input name="intent" value="create" type="hidden" />
+
+           <div className="flex justify-end gap-2 mt-6 font-nunito">
+             <Button color="danger" onPress={onClose}>
+               Close
+             </Button>
+             <button className="bg-primary-400 rounded-xl text-white font-nunito px-4">
+               Submit
+             </button>
+           </div>
+         </Form>
         )}
       </EditModal>
 
@@ -710,7 +766,7 @@ export const action: ActionFunction = async ({ request }) => {
   const email = formData.get("email") as string
   const phone = formData.get("phone") as string
   const dateOfBirth = formData.get("dateOfBirth") as string
-  const Password = formData.get("Password") as string
+  const password = formData.get("password") as string
   const role = formData.get("role") as string
   const position = formData.get("position") as string
   const department = formData.get("department") as string
@@ -725,6 +781,7 @@ export const action: ActionFunction = async ({ request }) => {
     case "create":
       const createUser = await userController.createUser({
         firstName,
+        
         lastName,
         email,
         role,
