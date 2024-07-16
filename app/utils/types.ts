@@ -34,8 +34,8 @@ export type DepartmentInterface = {
   mission: string;
   vission: string;
   quote: string;
-  tacticOfficer: string;
-  trainingOfficer: string;
+  tacticOfficer: UserInterface;
+  trainingOfficer: UserInterface;
 };
 
 export type UserRoleInterface = {
