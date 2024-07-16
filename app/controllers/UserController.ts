@@ -749,8 +749,9 @@ export default class UserController {
     phone,
     staffId,
     dateOfBirth,
-    permissions,
     position,
+    company,
+    password
   }: {
     userId: string;
     firstName: string;
@@ -761,8 +762,9 @@ export default class UserController {
     phone: string;
     staffId: string;
     dateOfBirth: string;
-    permissions: string[];
     position: string;
+    company:string
+    password:string
   }) => {
     const session = await getFlashSession(this.request.headers.get("Cookie"));
 
@@ -846,8 +848,9 @@ export default class UserController {
           phone,
           staffId,
           dateOfBirth,
-          permissions,
           position,
+          password,
+          company
         },
         {
           new: true, // Return the updated document

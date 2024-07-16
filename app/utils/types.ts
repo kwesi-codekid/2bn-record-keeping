@@ -21,11 +21,9 @@ export type UserInterface = {
   dateOfBirth?: string;
   department?: string;
   staffId?: string;
-  badgeNumber?: string;
   role?: string;
   position?: string;
   company?: CompanyInterface;
-  contractor?: string;
 };
 
 export type UserRoleInterface = {

@@ -11,11 +11,14 @@ export const deptTableCols = [
 export const userTableCols = [
   { title: "Name", allowSort: true },
   { title: "Staff ID", allowSort: true },
-  { title: "Department", allowSort: true },
-  { title: "Phone", allowSort: true },
   { title: "Email", allowSort: true },
+  { title: "Phone", allowSort: true },
+  { title: "DOB", allowSort: true },
+  { title: "Department", allowSort: true },
   { title: "Role", allowSort: true },
-  { title: "Actions", allowSort: false },
+  { title: "Position", allowSort: true },
+  { title: "Company", allowSort: true },
+
 ];
 
 export const personalRequestTableCols = [

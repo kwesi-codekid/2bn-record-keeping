@@ -85,9 +85,9 @@ const AdminDepartments = () => {
 
   // edit department modal
   const editDisclosure = useDisclosure();
-  const [selectedDepartment, setSelectedDepartment] = useState<any>();
+  const [selectedUser, setselectedUser] = useState<any>();
   useEffect(() => {
-    if (!editDisclosure.isOpen) setSelectedDepartment(null);
+    if (!editDisclosure.isOpen) setselectedUser(null);
   }, [editDisclosure.onOpenChange]);
 
   // delete department modal
@@ -169,7 +169,7 @@ const AdminDepartments = () => {
               setIsCreateModalOpened(true);
             }}
           >
-            Create Department
+            Create User
           </Button>
         </div>
       </div>
@@ -183,14 +183,17 @@ const AdminDepartments = () => {
         }}
         totalPages={totalPages}
       >
-        {companys?.map((company: CompanyInterface) => (
-          <TableRow key={company._id}>
-            <TableCell className="text-sm">{company?.name}</TableCell>
-            <TableCell className="text-sm">{company?.commandingOfficer?.firstName + "" + company?.commandingOfficer?.lastName}</TableCell>
-            <TableCell className="text-sm">{company.companySeargent?.firstName + "" + company?.companySeargent?.lastName}</TableCell>
-            <TableCell className="text-sm">{company?.platoonCommander?.firstName + "" + company?.platoonCommander?.lastName}</TableCell>
-            <TableCell className="text-sm">{company?.administrationWarranty?.firstName + "" + company?.administrationWarranty?.lastName}</TableCell>
-            <TableCell>{company?.description}</TableCell>
+        {users?.map((user: UserInterface) => (
+          <TableRow key={user._id}>
+            <TableCell className="text-sm">{user?.firstName + " " + user?.firstName}</TableCell>
+            <TableCell className="text-sm">{user?.staffId}</TableCell>
+            <TableCell className="text-sm">{user?.email}</TableCell>
+            <TableCell className="text-sm">{user?.phone}</TableCell>
+            <TableCell className="text-sm">{user?.dateOfBirth}</TableCell>
+            <TableCell className="text-sm">{user?.company?.name}</TableCell>
+            <TableCell className="text-sm">{user?.role}</TableCell>
+            <TableCell className="text-sm">{user?.position}</TableCell>
+            <TableCell className="text-sm">{user?.company?.name}</TableCell>
             <TableCell className="flex items-center">
               <Button
                 size="sm"
@@ -198,7 +201,7 @@ const AdminDepartments = () => {
                 variant="light"
                 onClick={() => {
                   setIsEditModalOpened(true)
-                  setSelectedDepartment(company)
+                  setselectedUser(company)
                 }}
               >
                 edit
@@ -209,7 +212,7 @@ const AdminDepartments = () => {
                 variant="light"
                 onClick={() => {
                   setIsConfirmedModalOpened(true)
-                  setSelectedDepartment(company)
+                  setselectedUser(company)
                 }}
               >
                 Delete
@@ -243,6 +246,7 @@ const AdminDepartments = () => {
               isRequired={true}
               label="Staff Id"
               name="staffId"
+              defaultValue={selectedUser.staffId}
               isInvalid={
                 actionData?.errors?.find((error) => error.field === "satffId")
                   ? true
@@ -254,6 +258,7 @@ const AdminDepartments = () => {
                 isRequired={true}
                 label="First Name"
                 name="firstName"
+                defaultValue={selectedUser.firstName}
                 isInvalid={
                   actionData?.errors?.find((error) => error.field === "firstName")
                     ? true
@@ -449,7 +454,7 @@ const AdminDepartments = () => {
               </Select>
             </div>
 
-            <input name="intent" value="create" type="hidden" />
+            <input name="intent" value="update" type="hidden" />
             <div className="flex justify-end gap-2 mt-6 font-nunito">
               <Button color="danger" onPress={onClose}>
                 Close
@@ -716,11 +721,11 @@ const AdminDepartments = () => {
             color="primary"
             className="font-nunito"
             onClick={() => {
-              if (selectedDepartment) {
+              if (selectedUser) {
                 submit(
                   {
                     intent: "delete",
-                    id: selectedDepartment?._id,
+                    id: selectedUser?._id,
                   },
                   {
                     method: "post",
@@ -770,7 +775,7 @@ export const action: ActionFunction = async ({ request }) => {
   const department = formData.get("department") as string
   const company = formData.get("company") as string
   const intent = formData.get("intent") as string
-  const _id = formData.get("id") as string
+  const id = formData.get("id") as string
 
   console.log(
     firstName,
@@ -806,21 +811,26 @@ export const action: ActionFunction = async ({ request }) => {
       })
       return createUser
 
-    // case "delete":
-    //   const deleteDepartment = await companyController.deleteCompany({ _id })
-    //   return deleteDepartment
+    case "delete":
+      const deleteUser = await userController.deleteUser({ id })
+      return deleteUser
 
-    // case "update":
-    //   const updateDepartment = await companyController.updateCompany({
-    //     _id,
-    //     name,
-    //     description,
-    //     commandingOfficer,
-    //     companySeargent,
-    //     platoonCommander,
-    //     administrationWarranty,
-    //   })
-    //   return updateDepartment
+    case "update":
+      const updateUser = await userController.updateUserProfile({
+        userId,
+        firstName,
+        lastName,
+        email,
+        role,
+        department,
+        phone,
+        staffId,
+        dateOfBirth,
+        position,
+        company,
+        password
+      })
+      return updateUser
     default:
       break;
   }
