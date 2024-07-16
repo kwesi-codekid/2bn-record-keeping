@@ -50,7 +50,7 @@ const AdminDepartments = () => {
   const submit = useSubmit();
   const navigation = useNavigation();
   const navigate = useNavigate();
-  const [isVisible, setIsVisible] = useState(false)
+  const [isVisible, setIsVisible] = useState(false);
 
   const handleCreateModalClosed = () => {
     setIsCreateModalOpened(false);
@@ -62,9 +62,9 @@ const AdminDepartments = () => {
     setIsEditModalOpened(false);
   };
   const handleVisibility = (event: any) => {
-    event.preventDefault()
-    setIsVisible(!isVisible)
-  }
+    event.preventDefault();
+    setIsVisible(!isVisible);
+  };
 
   // loader data
   const { companys, totalPages, users } = useLoaderData<{
@@ -185,7 +185,9 @@ const AdminDepartments = () => {
       >
         {users?.map((user: UserInterface) => (
           <TableRow key={user._id}>
-            <TableCell className="text-sm">{user?.firstName + " " + user?.lastName}</TableCell>
+            <TableCell className="text-sm">
+              {user?.firstName + " " + user?.lastName}
+            </TableCell>
             <TableCell className="text-sm">{user?.staffId}</TableCell>
             <TableCell className="text-sm">{user?.email}</TableCell>
             <TableCell className="text-sm">{user?.phone}</TableCell>
@@ -200,8 +202,8 @@ const AdminDepartments = () => {
                 color="primary"
                 variant="light"
                 onClick={() => {
-                  setIsEditModalOpened(true)
-                  setselectedUser(user)
+                  setIsEditModalOpened(true);
+                  setselectedUser(user);
                 }}
               >
                 edit
@@ -211,8 +213,8 @@ const AdminDepartments = () => {
                 color="danger"
                 variant="light"
                 onClick={() => {
-                  setIsConfirmedModalOpened(true)
-                  setselectedUser(user)
+                  setIsConfirmedModalOpened(true);
+                  setselectedUser(user);
                 }}
               >
                 Delete
@@ -245,7 +247,7 @@ const AdminDepartments = () => {
             <CustomInput
               isRequired={true}
               label="Badge Number"
-              name="badgeNumber"
+              name="staffId"
               isInvalid={
                 actionData?.errors?.find((error) => error.field === "satffId")
                   ? true
@@ -258,7 +260,9 @@ const AdminDepartments = () => {
                 label="First Name"
                 name="firstName"
                 isInvalid={
-                  actionData?.errors?.find((error) => error.field === "firstName")
+                  actionData?.errors?.find(
+                    (error) => error.field === "firstName"
+                  )
                     ? true
                     : false
                 }
@@ -268,7 +272,9 @@ const AdminDepartments = () => {
                 label="Last Name"
                 name="lastName"
                 isInvalid={
-                  actionData?.errors?.find((error) => error.field === "lastName")
+                  actionData?.errors?.find(
+                    (error) => error.field === "lastName"
+                  )
                     ? true
                     : false
                 }
@@ -303,7 +309,9 @@ const AdminDepartments = () => {
                 label="Date of Birth"
                 name="dateOfBirth"
                 isInvalid={
-                  actionData?.errors?.find((error) => error.field === "dateOfBirth")
+                  actionData?.errors?.find(
+                    (error) => error.field === "dateOfBirth"
+                  )
                     ? true
                     : false
                 }
@@ -341,7 +349,9 @@ const AdminDepartments = () => {
                 label="Position"
                 name="position"
                 isInvalid={
-                  actionData?.errors?.find((error) => error.field === "position")
+                  actionData?.errors?.find(
+                    (error) => error.field === "position"
+                  )
                     ? true
                     : false
                 }
@@ -354,9 +364,7 @@ const AdminDepartments = () => {
                 isRequired
                 variant="bordered"
                 isInvalid={
-                  actionData?.errors?.find(
-                    (error) => error.field === "role"
-                  )
+                  actionData?.errors?.find((error) => error.field === "role")
                     ? true
                     : false
                 }
@@ -374,11 +382,7 @@ const AdminDepartments = () => {
                   { key: "admin", value: "admin", display_name: "admin" },
                   { key: "staff", value: "staff", display_name: "staff" },
                 ].map((role) => (
-                  <SelectItem
-                    key={role.key}
-                  >
-                    {role.display_name}
-                  </SelectItem>
+                  <SelectItem key={role.key}>{role.display_name}</SelectItem>
                 ))}
               </Select>
             </div>
@@ -424,9 +428,7 @@ const AdminDepartments = () => {
                 variant="bordered"
                 isRequired
                 isInvalid={
-                  actionData?.errors?.find(
-                    (error) => error.field === "company"
-                  )
+                  actionData?.errors?.find((error) => error.field === "company")
                     ? true
                     : false
                 }
@@ -491,7 +493,9 @@ const AdminDepartments = () => {
                 name="firstName"
                 defaultValue={selectedUser?.firstName}
                 isInvalid={
-                  actionData?.errors?.find((error) => error.field === "firstName")
+                  actionData?.errors?.find(
+                    (error) => error.field === "firstName"
+                  )
                     ? true
                     : false
                 }
@@ -502,7 +506,9 @@ const AdminDepartments = () => {
                 name="lastName"
                 defaultValue={selectedUser?.lastName}
                 isInvalid={
-                  actionData?.errors?.find((error) => error.field === "lastName")
+                  actionData?.errors?.find(
+                    (error) => error.field === "lastName"
+                  )
                     ? true
                     : false
                 }
@@ -539,14 +545,14 @@ const AdminDepartments = () => {
                 name="dateOfBirth"
                 defaultValue={selectedUser?.dateOfBirth}
                 isInvalid={
-                  actionData?.errors?.find((error) => error.field === "dateOfBirth")
+                  actionData?.errors?.find(
+                    (error) => error.field === "dateOfBirth"
+                  )
                     ? true
                     : false
                 }
               />
             </div>
-
-           
 
             <div className="flex gap-4">
               <CustomInput
@@ -556,7 +562,9 @@ const AdminDepartments = () => {
                 name="position"
                 defaultValue={selectedUser?.position}
                 isInvalid={
-                  actionData?.errors?.find((error) => error.field === "position")
+                  actionData?.errors?.find(
+                    (error) => error.field === "position"
+                  )
                     ? true
                     : false
                 }
@@ -569,9 +577,7 @@ const AdminDepartments = () => {
                 isRequired
                 variant="bordered"
                 isInvalid={
-                  actionData?.errors?.find(
-                    (error) => error.field === "role"
-                  )
+                  actionData?.errors?.find((error) => error.field === "role")
                     ? true
                     : false
                 }
@@ -589,11 +595,7 @@ const AdminDepartments = () => {
                   { key: "Admin", value: "Admin", display_name: "Admin" },
                   { key: "Staff", value: "Staff", display_name: "Staff" },
                 ].map((role) => (
-                  <SelectItem
-                    key={role.key}
-                  >
-                    {role.display_name}
-                  </SelectItem>
+                  <SelectItem key={role.key}>{role.display_name}</SelectItem>
                 ))}
               </Select>
             </div>
@@ -639,9 +641,7 @@ const AdminDepartments = () => {
                 variant="bordered"
                 isRequired
                 isInvalid={
-                  actionData?.errors?.find(
-                    (error) => error.field === "company"
-                  )
+                  actionData?.errors?.find((error) => error.field === "company")
                     ? true
                     : false
                 }
@@ -666,7 +666,6 @@ const AdminDepartments = () => {
                 ))}
               </Select>
             </div>
-
 
             <input name="intent" value="update" type="hidden" />
             <input name="intent" value={selectedUser._id} type="hidden" />
@@ -748,7 +747,7 @@ export const action: ActionFunction = async ({ request }) => {
   const formData = await request.formData()
   const firstName = formData.get("firstName") as string
   const lastName = formData.get("lastName") as string
-  const badgeNumber = formData.get("badgeNumber") as string
+  const staffId = formData.get("staffId") as string
   const email = formData.get("email") as string
   const phone = formData.get("phone") as string
   const dateOfBirth = formData.get("dateOfBirth") as string
@@ -767,14 +766,12 @@ export const action: ActionFunction = async ({ request }) => {
     role,
     department,
     phone,
-    badgeNumber,
+    staffId,
     dateOfBirth,
     position,
     company,
-    password);
-
-
-
+    password
+  );
 
   const userController = new UserController(request);
   switch (intent) {
@@ -786,17 +783,17 @@ export const action: ActionFunction = async ({ request }) => {
         role,
         department,
         phone,
-        badgeNumber,
+        staffId,
         dateOfBirth,
         position,
         company,
-        password
-      })
-      return createUser
+        password,
+      });
+      return createUser;
 
     case "delete":
-      const deleteUser = await userController.deleteUser({ id })
-      return deleteUser
+      const deleteUser = await userController.deleteUser({ userId: id });
+      return deleteUser;
 
     case "update":
       const updateUser = await userController.updateUserProfile({
@@ -811,9 +808,9 @@ export const action: ActionFunction = async ({ request }) => {
         dateOfBirth,
         position,
         company,
-        password
-      })
-      return updateUser
+        password,
+      });
+      return updateUser;
     default:
       break;
   }
@@ -825,20 +822,19 @@ export const loader: LoaderFunction = async ({ request }) => {
   const url = new URL(request.url);
   const page = parseInt(url.searchParams.get("page") as string) || 1;
   const search_term = url.searchParams.get("search_term") as string;
-  const usersController = new UserController(request)
+  const usersController = new UserController(request);
   const companyController = new CompanyController(request);
-
 
   const { users } = await usersController.getUsers({
     page,
-    search_term
-  })
+    search_term,
+  });
   const { companys } = await companyController.getCompanys({
     page,
     search_term,
-  })
+  });
 
-  return { users, companys }
+  return { users, companys };
 };
 
 export const meta: MetaFunction = () => {
