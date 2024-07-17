@@ -137,6 +137,7 @@ export default class MissionController {
     startDate,
     endDate,
     status,
+    group,
   }: {
     name: string;
     description: string;
@@ -145,6 +146,7 @@ export default class MissionController {
     startDate: string;
     endDate: string;
     status: string;
+    group: string;
   }) => {
     const session = await getFlashSession(this.request.headers.get("Cookie"));
 
@@ -185,6 +187,7 @@ export default class MissionController {
         startDate,
         endDate,
         status,
+        group,
       });
 
       if (!mission) {
@@ -269,6 +272,7 @@ export default class MissionController {
     startDate,
     endDate,
     status,
+    group,
   }: {
     _id: string;
     name: string;
@@ -278,6 +282,7 @@ export default class MissionController {
     startDate: string;
     endDate: string;
     status: string;
+    group: string;
   }) => {
     const session = await getFlashSession(this.request.headers.get("Cookie"));
 
@@ -292,6 +297,7 @@ export default class MissionController {
           startDate,
           endDate,
           status,
+          group,
         },
         { new: true }
       );
