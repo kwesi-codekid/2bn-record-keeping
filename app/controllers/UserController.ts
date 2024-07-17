@@ -966,10 +966,10 @@ export default class UserController {
 
       // Add next role to each eligible user
       const usersWithNextRole = eligibleUsers.map((user) => {
-        const nextRole = this.getNextRole(user.position);
+        const nextPosition = this.getNextRole(user.position);
         return {
           ...user.toObject(),
-          nextRole,
+          nextPosition,
         };
       });
 
