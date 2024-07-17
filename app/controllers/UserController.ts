@@ -14,6 +14,8 @@ import {
 import generateOTP from "~/utils/generateOTP";
 import sendSMS from "~/utils/sendSMS";
 import { UserInterface } from "~/utils/types";
+import Mission from "~/models/Mission";
+import Group from "~/models/Group";
 
 export default class UserController {
   private request: Request;
@@ -926,7 +928,31 @@ export default class UserController {
   };
 
   public getMembersNotOnMission = async () => {
-    console.log("more");
+    try {
+      // Fetch all missions that are ongoing
+      const ongoingMissions = await Mission.find({ status: "ongoing" }).exec();
+
+      // Collect all user IDs who are on ongoing missions
+      const usersOnMissions = new Set();
+      ongoingMissions.forEach(async (mission) => {
+        if (mission.group) {
+          const group = await Group.findById(mission.group).exec();
+          group.members.forEach((member) =>
+            usersOnMissions.add(member.toString())
+          );
+        }
+      });
+
+      // Fetch all users who are not on any ongoing mission
+      const usersNotOnMissions = await User.find({
+        _id: { $nin: Array.from(usersOnMissions) },
+      }).exec();
+
+      return usersNotOnMissions;
+    } catch (error) {
+      console.error("Error fetching members not on a mission:", error);
+      throw error;
+    }
   };
 
   public fetchEligibleUsers = async () => {
