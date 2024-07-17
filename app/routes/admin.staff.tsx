@@ -606,8 +606,8 @@ const AdminDepartments = () => {
                 }}
               >
                 {[
-                  { key: "Admin", value: "Admin", display_name: "Admin" },
-                  { key: "Staff", value: "Staff", display_name: "Staff" },
+                  { key: "admin", value: "admin", display_name: "admin" },
+                  { key: "staff", value: "staff", display_name: "staff" },
                 ].map((role) => (
                   <SelectItem key={role.key}>{role.display_name}</SelectItem>
                 ))}
@@ -682,7 +682,7 @@ const AdminDepartments = () => {
             </div>
 
             <input name="intent" value="update" type="hidden" />
-            <input name="intent" value={selectedUser._id} type="hidden" />
+            <input name="id" value={selectedUser._id} type="hidden" />
 
             <div className="flex justify-end gap-2 mt-6 font-nunito">
               <Button color="danger" onPress={onClose}>
@@ -772,20 +772,9 @@ export const action: ActionFunction = async ({ request }) => {
   const company = formData.get("company") as string
   const intent = formData.get("intent") as string
   const id = formData.get("id") as string
+  console.log(id);
+  
 
-  console.log(
-    firstName,
-    lastName,
-    email,
-    role,
-    department,
-    phone,
-    badgeNumber,
-    dateOfBirth,
-    position,
-    company,
-    password
-  );
 
   const userController = new UserController(request);
   switch (intent) {
