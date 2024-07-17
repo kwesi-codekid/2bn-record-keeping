@@ -246,7 +246,7 @@ const AdminDepartments = () => {
           <Form method="post" className="flex flex-col gap-4">
             <CustomInput
               isRequired={true}
-              label="Staff Id"
+              label="Badge Number"
               name="staffId"
               isInvalid={
                 actionData?.errors?.find((error) => error.field === "satffId")
@@ -744,20 +744,20 @@ const AdminDepartments = () => {
 export default AdminDepartments;
 
 export const action: ActionFunction = async ({ request }) => {
-  const formData = await request.formData();
-  const firstName = formData.get("firstName") as string;
-  const lastName = formData.get("lastName") as string;
-  const staffId = formData.get("staffId") as string;
-  const email = formData.get("email") as string;
-  const phone = formData.get("phone") as string;
-  const dateOfBirth = formData.get("dateOfBirth") as string;
-  const password = formData.get("password") as string;
-  const role = formData.get("role") as string;
-  const position = formData.get("position") as string;
-  const department = formData.get("department") as string;
-  const company = formData.get("company") as string;
-  const intent = formData.get("intent") as string;
-  const id = formData.get("id") as string;
+  const formData = await request.formData()
+  const firstName = formData.get("firstName") as string
+  const lastName = formData.get("lastName") as string
+  const staffId = formData.get("staffId") as string
+  const email = formData.get("email") as string
+  const phone = formData.get("phone") as string
+  const dateOfBirth = formData.get("dateOfBirth") as string
+  const password = formData.get("password") as string
+  const role = formData.get("role") as string
+  const position = formData.get("position") as string
+  const department = formData.get("department") as string
+  const company = formData.get("company") as string
+  const intent = formData.get("intent") as string
+  const id = formData.get("id") as string
 
   console.log(
     firstName,
@@ -797,7 +797,7 @@ export const action: ActionFunction = async ({ request }) => {
 
     case "update":
       const updateUser = await userController.updateUserProfile({
-        userId,
+        userId:id,
         firstName,
         lastName,
         email,
@@ -811,11 +811,11 @@ export const action: ActionFunction = async ({ request }) => {
         password,
       });
       return updateUser;
+      
     default:
       break;
   }
 
-  return null;
 };
 
 export const loader: LoaderFunction = async ({ request }) => {
