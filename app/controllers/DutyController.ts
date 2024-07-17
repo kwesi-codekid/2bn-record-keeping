@@ -149,7 +149,7 @@ export default class DutyController {
     const session = await getFlashSession(this.request.headers.get("Cookie"));
 
     try {
-      const existingDuty = await Duty.findOne({ name });
+      const existingDuty = await Duty.findOne({ officer, startTime });
 
       if (existingDuty) {
         session.flash("alert", {
