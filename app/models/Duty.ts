@@ -32,11 +32,11 @@ const dutySchema = new mongoose.Schema<DutyInterface>(
       trim: true,
     },
     startTime: {
-      type: Date,
+      type: String,
       required: true,
     },
     endTime: {
-      type: Date,
+      type: String,
       required: true,
     },
     status: {
