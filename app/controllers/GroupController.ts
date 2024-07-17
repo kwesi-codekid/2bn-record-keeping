@@ -20,7 +20,7 @@ export default class GroupController {
    * @param param0 page
    * @param param1 search_term
    * @param param2 limit
-   * @returns {companys: GroupInterface, totalPages: number}
+   * @returns {groups: GroupInterface, totalPages: number}
    */
   public async getGroups({
     page,
@@ -30,7 +30,7 @@ export default class GroupController {
     page: number;
     search_term?: string;
     limit?: number;
-  }): Promise<{ companys: GroupInterface[]; totalPages: number } | any> {
+  }): Promise<{ groups: GroupInterface[]; totalPages: number } | any> {
     const session = await getFlashSession(this.request.headers.get("Cookie"));
 
     const skipCount = (page - 1) * limit;
@@ -65,7 +65,7 @@ export default class GroupController {
       : {};
 
     try {
-      const companys = await Group.find(searchFilter)
+      const groups = await Group.find(searchFilter)
         .skip(skipCount)
         .populate("inCharge")
         .limit(limit)
@@ -77,13 +77,13 @@ export default class GroupController {
       const totalGroupsCount = await Group.countDocuments(searchFilter).exec();
       const totalPages = Math.ceil(totalGroupsCount / limit);
 
-      return { companys, totalPages };
+      return { groups, totalPages };
     } catch (error) {
       console.log(error);
       session.flash("alert", {
         title: "Error!",
         status: "error",
-        message: "Error retrieving companys",
+        message: "Error retrieving groups",
       });
 
       return redirect(this.path, {
@@ -101,21 +101,21 @@ export default class GroupController {
    */
   public async getGroup({ id }: { id: string }) {
     try {
-      const company = await Group.findById(id)
+      const group = await Group.findById(id)
         .populate("inCharge")
         .populate("memebrs");
-      return company;
+      return group;
     } catch (error) {
-      console.error("Error retrieving company:", error);
+      console.error("Error retrieving group:", error);
       return {
         status: "error",
         code: 400,
-        message: "Error getting company details",
+        message: "Error getting group details",
         errors: [
           {
             field: "name",
             message:
-              "A company with this name already exists. Please choose a different name.",
+              "A group with this name already exists. Please choose a different name.",
           },
         ],
       };
@@ -123,7 +123,7 @@ export default class GroupController {
   }
 
   /**
-   * Create a new company
+   * Create a new group
    * @param path string
    * @param name string
    * @param parent string
@@ -166,35 +166,35 @@ export default class GroupController {
         //     {
         //       field: "name",
         //       message:
-        //         "A company with this name already exists. Please choose a different name.",
+        //         "A group with this name already exists. Please choose a different name.",
         //     },
         //   ],
         // };
       }
 
-      const company = await Group.create({
+      const group = await Group.create({
         name,
         description,
         inCharge: inCharge || null,
         members: members || [],
       });
 
-      if (!company) {
+      if (!group) {
         // return {
         //   status: "error",
         //   code: 400,
-        //   message: "Error adding company",
+        //   message: "Error adding group",
         //   errors: [
         //     {
         //       field: "name",
-        //       message: "Error adding company",
+        //       message: "Error adding group",
         //     },
         //   ],
         // };
         session.flash("alert", {
           title: "Error",
           status: "error",
-          message: "Error adding company",
+          message: "Error adding group",
         });
 
         return redirect(this.path, {
@@ -208,7 +208,7 @@ export default class GroupController {
       //   status: "success",
       //   code: 200,
       //   message: "Group added successfully",
-      //   data: company,
+      //   data: group,
       // };
 
       session.flash("alert", {
@@ -228,13 +228,13 @@ export default class GroupController {
       // return {
       //   status: "error",
       //   code: 400,
-      //   message: "Error adding company",
+      //   message: "Error adding group",
       // };
 
       session.flash("alert", {
         title: "Error",
         status: "error",
-        message: "Error craeting company",
+        message: "Error craeting group",
       });
       return redirect(this.path, {
         headers: {
@@ -245,7 +245,7 @@ export default class GroupController {
   };
 
   /**
-   * Update company
+   * Update group
    * @param param0 _id
    * @param param1 name
    * @param param2 parent
@@ -299,7 +299,7 @@ export default class GroupController {
       session.flash("alert", {
         title: "Error",
         status: "error",
-        message: "Error updating company",
+        message: "Error updating group",
       });
       return redirect(this.path, {
         headers: {
@@ -309,7 +309,7 @@ export default class GroupController {
       // return {
       //   status: "error",
       //   code: 400,
-      //   message: "Error updating company",
+      //   message: "Error updating group",
       // };
     }
   };
@@ -346,7 +346,7 @@ export default class GroupController {
       session.flash("alert", {
         title: "Error",
         status: "error",
-        message: "Error deleting company",
+        message: "Error deleting group",
       });
       return redirect(this.path, {
         headers: {
@@ -356,7 +356,7 @@ export default class GroupController {
       // return {
       //   status: "error",
       //   code: 400,
-      //   message: "Error deleting company",
+      //   message: "Error deleting group",
       // };
     }
   };
