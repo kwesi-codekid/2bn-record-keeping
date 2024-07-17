@@ -29,11 +29,11 @@ const missionSchema = new mongoose.Schema<MissionInterface>(
       required: true,
       trim: true,
     },
-    startTime: {
+    startDate: {
       type: String,
       required: true,
     },
-    endTime: {
+    endDate: {
       type: String,
       required: true,
     },
@@ -41,10 +41,6 @@ const missionSchema = new mongoose.Schema<MissionInterface>(
       type: String,
       enum: ["scheduled", "ongoing", "completed", "cancelled"],
       default: "scheduled",
-    },
-    notes: {
-      type: String,
-      trim: true,
     },
     group: {
       type: Schema.Types.ObjectId,

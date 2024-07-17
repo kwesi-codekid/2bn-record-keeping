@@ -134,24 +134,22 @@ export default class MissionController {
     description,
     missionType,
     missionLocation,
-    startTime,
-    endTime,
+    startDate,
+    endDate,
     status,
-    notes,
   }: {
     name: string;
     description: string;
     missionType: string;
     missionLocation: string;
-    startTime: string;
-    endTime: string;
+    startDate: string;
+    endDate: string;
     status: string;
-    notes: string;
   }) => {
     const session = await getFlashSession(this.request.headers.get("Cookie"));
 
     try {
-      const existingMission = await Mission.findOne({ startTime });
+      const existingMission = await Mission.findOne({ startDate });
 
       if (existingMission) {
         session.flash("alert", {
@@ -184,10 +182,9 @@ export default class MissionController {
         description,
         missionType,
         missionLocation,
-        startTime,
-        endTime,
+        startDate,
+        endDate,
         status,
-        notes,
       });
 
       if (!mission) {
@@ -269,20 +266,18 @@ export default class MissionController {
     description,
     missionType,
     missionLocation,
-    startTime,
-    endTime,
+    startDate,
+    endDate,
     status,
-    notes,
   }: {
     _id: string;
     name: string;
     description: string;
     missionType: string;
     missionLocation: string;
-    startTime: string;
-    endTime: string;
+    startDate: string;
+    endDate: string;
     status: string;
-    notes: string;
   }) => {
     const session = await getFlashSession(this.request.headers.get("Cookie"));
 
@@ -294,10 +289,9 @@ export default class MissionController {
           description,
           missionType,
           missionLocation,
-          startTime,
-          endTime,
+          startDate,
+          endDate,
           status,
-          notes,
         },
         { new: true }
       );

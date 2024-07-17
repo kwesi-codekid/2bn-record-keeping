@@ -36,6 +36,8 @@ import CustomTable from "~/components/ui/new-table";
 import CompanyController from "~/controllers/CompanyController";
 import DepartmentController from "~/controllers/DepartmentController";
 import DutyController from "~/controllers/DutyController";
+import GroupController from "~/controllers/GroupController";
+import MissionController from "~/controllers/MissionController";
 import UserController from "~/controllers/UserController";
 import { deptTableCols, dutyTableCols } from "~/data/table-cols";
 import { getInitials } from "~/utils/string-manipulation";
@@ -719,21 +721,26 @@ export const loader: LoaderFunction = async ({ request }) => {
   const url = new URL(request.url);
   const page = parseInt(url.searchParams.get("page") as string) || 1;
   const search_term = url.searchParams.get("search_term") as string;
-  const dutyController = new DutyController(request);
+  const missionController = new MissionController(request);
+  const groupController = new GroupController(request)
   const usersController = new UserController(request)
 
   const { users } = await usersController.getUsers({
     page,
     search_term
   })
-  const { duties } = await dutyController.getDuties({
+  const { mission } = await missionController.getMission({
+    page,
+    search_term,
+  })
+  const { usersNotOnMissions } = await usersController.getMembersNotOnMission({
     page,
     search_term,
   })
 
 
 
-  return { users, duties }
+  return { users, mission }
 };
 
 export const meta: MetaFunction = () => {
