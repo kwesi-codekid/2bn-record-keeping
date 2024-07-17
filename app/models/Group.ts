@@ -17,6 +17,11 @@ const schema = new Schema<GroupInterface>(
       ref: "users",
       required: false,
     },
+    mission: {
+      type: Schema.Types.ObjectId,
+      ref: "missions",
+      required: false,
+    },
     members: [
       {
         type: Schema.Types.ObjectId,

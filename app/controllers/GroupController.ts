@@ -104,7 +104,7 @@ export default class GroupController {
       const group = await Group.findById(id)
         .populate("inCharge")
         .populate("memebrs");
-      return group;
+      return { group };
     } catch (error) {
       console.error("Error retrieving group:", error);
       return {

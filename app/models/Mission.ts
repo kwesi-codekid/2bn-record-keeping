@@ -56,9 +56,9 @@ const missionSchema = new mongoose.Schema<MissionInterface>(
 
 let Mission: mongoose.Model<MissionInterface>;
 try {
-  Mission = mongoose.model<MissionInterface>("duties");
+  Mission = mongoose.model<MissionInterface>("missions");
 } catch (error) {
-  Mission = mongoose.model<MissionInterface>("duties", missionSchema);
+  Mission = mongoose.model<MissionInterface>("missions", missionSchema);
 }
 
 export default Mission;
