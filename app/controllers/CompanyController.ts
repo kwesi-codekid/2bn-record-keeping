@@ -136,17 +136,15 @@ export default class CompanyController {
   public createCompany = async ({
     name,
     description,
-    commandingOfficer,
-    companySeargent,
-    platoonCommander,
-    administrationWarranty,
+    strength,
+    mission,
+    vission,
+    quote,
+    tacticOfficer,
+    trainingOfficer,
   }: {
     name: string;
     description: string;
-    commandingOfficer: string;
-    companySeargent: string;
-    platoonCommander: string;
-    administrationWarranty: string;
   }) => {
     const session = await getFlashSession(this.request.headers.get("Cookie"));
 
@@ -182,10 +180,12 @@ export default class CompanyController {
       const company = await Company.create({
         name,
         description,
-        commandingOfficer: commandingOfficer || null,
-        companySeargent: companySeargent || null,
-        platoonCommander: platoonCommander || null,
-        administrationWarranty: administrationWarranty || null,
+        strength,
+        mission,
+        vission,
+        quote,
+        tacticOfficer: tacticOfficer || null,
+        trainingOfficer: trainingOfficer || null,
       });
 
       if (!company) {

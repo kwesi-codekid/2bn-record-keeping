@@ -368,7 +368,7 @@ export default class UserController {
     company: string;
   }) => {
     const session = await getFlashSession(this.request.headers.get("Cookie"));
-console.log({password});
+    console.log({ password });
 
     try {
       const phoneExist = await User.findOne({ phone });
@@ -746,6 +746,7 @@ console.log({password});
     password: string;
   }) => {
     const session = await getFlashSession(this.request.headers.get("Cookie"));
+    console.log({ userId });
 
     try {
       // Initialize an array to collect validation errors
@@ -757,6 +758,8 @@ console.log({password});
           phone: phone,
           _id: { $ne: userId },
         });
+        console.log("phone");
+
         if (phoneExist) {
           errors.push({
             field: "phone",
@@ -771,6 +774,8 @@ console.log({password});
           badgeNumber: badgeNumber,
           _id: { $ne: userId },
         });
+        console.log("badge");
+
         if (badgeNumberExist) {
           errors.push({
             field: "badgeNumber",
@@ -785,6 +790,8 @@ console.log({password});
           email: email,
           _id: { $ne: userId },
         });
+        console.log("email error");
+
         if (emailExist) {
           errors.push({
             field: "email",
