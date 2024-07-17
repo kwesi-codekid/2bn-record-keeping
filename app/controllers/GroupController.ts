@@ -68,6 +68,7 @@ export default class GroupController {
       const groups = await Group.find(searchFilter)
         .skip(skipCount)
         .populate("inCharge")
+        .populate("members")
         .limit(limit)
         .sort({
           createdAt: "desc",
