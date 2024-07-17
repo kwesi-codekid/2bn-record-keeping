@@ -229,7 +229,7 @@ const AdminDepartments = () => {
         isOpen={isCreateModalOpened}
         onOpenChange={handleCreateModalClosed}
         modalTitle=" Create User"
-        className="dar"
+        className="dark:bg-slate-900"
       >
         {(onClose) => (
           <Form method="post" className="flex flex-col gap-4">
