@@ -36,6 +36,11 @@ export const adminNavLinks: AdminNavLinkInterface[] = [
     label: "Peace-Keeping Missions",
   },
   {
+    path: "/admin/mission-groups",
+    icon: <MicroscopeIcon className="size-4" />,
+    label: "Mission-Groups",
+  },
+  {
     path: "/admin/promotions",
     icon: <UserBadgeIcon className="size-4" />,
     label: "Promotions",
@@ -55,4 +60,5 @@ export const adminNavLinks: AdminNavLinkInterface[] = [
     icon: <MicroscopeIcon className="size-4" />,
     label: "Reports",
   },
+ 
 ];
