@@ -1,9 +1,9 @@
 import { redirect } from "@remix-run/node";
-import type { DutyInterface } from "../utils/types";
+import type { MissionInterface } from "../utils/types";
 import { commitFlashSession, getFlashSession } from "~/flash-session";
-import Duty from "~/models/Duty";
+import Mission from "~/models/Mission";
 
-export default class DutyController {
+export default class MissionController {
   private request: Request;
   private path: string;
 
@@ -16,11 +16,11 @@ export default class DutyController {
   }
 
   /**
-   * Retrieve all Duty
+   * Retrieve all Mission
    * @param param0 page
    * @param param1 search_term
    * @param param2 limit
-   * @returns {duties: DutyInterface, totalPages: number}
+   * @returns {missions: MissionInterface, totalPages: number}
    */
   public async getDuties({
     page,
@@ -30,7 +30,7 @@ export default class DutyController {
     page: number;
     search_term?: string;
     limit?: number;
-  }): Promise<{ duties: DutyInterface[]; totalPages: number } | any> {
+  }): Promise<{ missions: MissionInterface[]; totalPages: number } | any> {
     const session = await getFlashSession(this.request.headers.get("Cookie"));
 
     const skipCount = (page - 1) * limit;
@@ -65,9 +65,7 @@ export default class DutyController {
       : {};
 
     try {
-      const duties = await Duty.find(searchFilter)
-        .populate("inCharge")
-        .populate("officer")
+      const missions = await Mission.find(searchFilter)
         .skip(skipCount)
         .limit(limit)
         .sort({
@@ -75,16 +73,18 @@ export default class DutyController {
         })
         .exec();
 
-      const totalDutiesCount = await Duty.countDocuments(searchFilter).exec();
+      const totalDutiesCount = await Mission.countDocuments(
+        searchFilter
+      ).exec();
       const totalPages = Math.ceil(totalDutiesCount / limit);
 
-      return { duties, totalPages };
+      return { missions, totalPages };
     } catch (error) {
       console.log(error);
       session.flash("alert", {
         title: "Error!",
         status: "error",
-        message: "Error retrieving duties",
+        message: "Error retrieving missions",
       });
 
       return redirect(this.path, {
@@ -96,25 +96,25 @@ export default class DutyController {
   }
 
   /**
-   * Retrieve a single Duty
+   * Retrieve a single Mission
    * @param id string
-   * @returns DutyInterface
+   * @returns MissionInterface
    */
-  public async getDuty({ id }: { id: string }) {
+  public async getMission({ id }: { id: string }) {
     try {
-      const duty = await Duty.findById(id);
-      return duty;
+      const mission = await Mission.findById(id);
+      return mission;
     } catch (error) {
-      console.error("Error retrieving duty:", error);
+      console.error("Error retrieving mission:", error);
       return {
         status: "error",
         code: 400,
-        message: "Error getting duty details",
+        message: "Error getting mission details",
         errors: [
           {
             field: "name",
             message:
-              "A duty with this name already exists. Please choose a different name.",
+              "A mission with this name already exists. Please choose a different name.",
           },
         ],
       };
@@ -122,27 +122,27 @@ export default class DutyController {
   }
 
   /**
-   * Create a new duty
+   * Create a new mission
    * @param path string
    * @param name string
    * @param parent string
    * @param description string
-   * @returns DutyInterface
+   * @returns MissionInterface
    */
-  public createDuty = async ({
-    inCharge,
-    officer,
-    dutyType,
-    dutyLocation,
+  public createMission = async ({
+    name,
+    description,
+    missionType,
+    missionLocation,
     startTime,
     endTime,
     status,
     notes,
   }: {
-    inCharge: string;
-    officer: string;
-    dutyType: string;
-    dutyLocation: string;
+    name: string;
+    description: string;
+    missionType: string;
+    missionLocation: string;
     startTime: string;
     endTime: string;
     status: string;
@@ -151,13 +151,13 @@ export default class DutyController {
     const session = await getFlashSession(this.request.headers.get("Cookie"));
 
     try {
-      const existingDuty = await Duty.findOne({ officer, startTime });
+      const existingMission = await Mission.findOne({ startTime });
 
-      if (existingDuty) {
+      if (existingMission) {
         session.flash("alert", {
           title: "Error",
           status: "error",
-          message: "Duty already exist",
+          message: "Mission already exist",
         });
 
         return redirect(this.path, {
@@ -168,44 +168,44 @@ export default class DutyController {
         // return {
         //   status: "error",
         //   code: 400,
-        //   message: "Duty already exists",
+        //   message: "Mission already exists",
         //   errors: [
         //     {
         //       field: "name",
         //       message:
-        //         "A duty with this name already exists. Please choose a different name.",
+        //         "A mission with this name already exists. Please choose a different name.",
         //     },
         //   ],
         // };
       }
 
-      const duty = await Duty.create({
-        inCharge,
-        officer,
-        dutyType,
-        dutyLocation,
+      const mission = await Mission.create({
+        name,
+        description,
+        missionType,
+        missionLocation,
         startTime,
         endTime,
         status,
         notes,
       });
 
-      if (!duty) {
+      if (!mission) {
         // return {
         //   status: "error",
         //   code: 400,
-        //   message: "Error adding duty",
+        //   message: "Error adding mission",
         //   errors: [
         //     {
         //       field: "name",
-        //       message: "Error adding duty",
+        //       message: "Error adding mission",
         //     },
         //   ],
         // };
         session.flash("alert", {
           title: "Error",
           status: "error",
-          message: "Error adding duty",
+          message: "Error adding mission",
         });
 
         return redirect(this.path, {
@@ -218,14 +218,14 @@ export default class DutyController {
       // return {
       //   status: "success",
       //   code: 200,
-      //   message: "Duty added successfully",
-      //   data: duty,
+      //   message: "Mission added successfully",
+      //   data: mission,
       // };
 
       session.flash("alert", {
         title: "Success",
         status: "success",
-        message: "Duty craeted successfully",
+        message: "Mission craeted successfully",
       });
 
       return redirect(this.path, {
@@ -239,13 +239,13 @@ export default class DutyController {
       // return {
       //   status: "error",
       //   code: 400,
-      //   message: "Error adding duty",
+      //   message: "Error adding mission",
       // };
 
       session.flash("alert", {
         title: "Error",
         status: "error",
-        message: "Error craeting duty",
+        message: "Error craeting mission",
       });
       return redirect(this.path, {
         headers: {
@@ -256,29 +256,29 @@ export default class DutyController {
   };
 
   /**
-   * Update duty
+   * Update mission
    * @param param0 _id
    * @param param1 name
    * @param param2 parent
    * @param param3 description
    * @returns null
    */
-  public updateDuty = async ({
+  public updateMission = async ({
     _id,
-    inCharge,
-    officer,
-    dutyType,
-    dutyLocation,
+    name,
+    description,
+    missionType,
+    missionLocation,
     startTime,
     endTime,
     status,
     notes,
   }: {
     _id: string;
-    inCharge: string;
-    officer: string;
-    dutyType: string;
-    dutyLocation: string;
+    name: string;
+    description: string;
+    missionType: string;
+    missionLocation: string;
     startTime: string;
     endTime: string;
     status: string;
@@ -287,13 +287,13 @@ export default class DutyController {
     const session = await getFlashSession(this.request.headers.get("Cookie"));
 
     try {
-      const updated = await Duty.findByIdAndUpdate(
+      const updated = await Mission.findByIdAndUpdate(
         _id,
         {
-          inCharge,
-          officer,
-          dutyType,
-          dutyLocation,
+          name,
+          description,
+          missionType,
+          missionLocation,
           startTime,
           endTime,
           status,
@@ -305,13 +305,13 @@ export default class DutyController {
       // return {
       //   status: "success",
       //   code: 200,
-      //   message: "Duty updated successfully",
+      //   message: "Mission updated successfully",
       //   data: updated,
       // };
       session.flash("alert", {
         title: "Success",
         status: "success",
-        message: "Duty updated successfully",
+        message: "Mission updated successfully",
       });
       return redirect(this.path, {
         headers: {
@@ -322,7 +322,7 @@ export default class DutyController {
       session.flash("alert", {
         title: "Error",
         status: "error",
-        message: "Error updating duty",
+        message: "Error updating mission",
       });
       return redirect(this.path, {
         headers: {
@@ -332,26 +332,26 @@ export default class DutyController {
       // return {
       //   status: "error",
       //   code: 400,
-      //   message: "Error updating duty",
+      //   message: "Error updating mission",
       // };
     }
   };
 
   /**
-   * Delete Duty
+   * Delete Mission
    * @param param0 _id
    * @returns null
    */
-  public deleteDuty = async ({ _id }: { _id: string }) => {
+  public deleteMission = async ({ _id }: { _id: string }) => {
     const session = await getFlashSession(this.request.headers.get("Cookie"));
 
     try {
-      await Duty.findByIdAndDelete(_id);
+      await Mission.findByIdAndDelete(_id);
 
       session.flash("alert", {
         title: "Success",
         status: "success",
-        message: "Duty Deleted Successfully",
+        message: "Mission Deleted Successfully",
       });
       return redirect(this.path, {
         headers: {
@@ -362,14 +362,14 @@ export default class DutyController {
       // return {
       //   status: "success",
       //   code: 200,
-      //   message: "Duty deleted successfully",
+      //   message: "Mission deleted successfully",
       // };
     } catch (error) {
       console.log(error);
       session.flash("alert", {
         title: "Error",
         status: "error",
-        message: "Error deleting duty",
+        message: "Error deleting mission",
       });
       return redirect(this.path, {
         headers: {
@@ -379,7 +379,7 @@ export default class DutyController {
       // return {
       //   status: "error",
       //   code: 400,
-      //   message: "Error deleting duty",
+      //   message: "Error deleting mission",
       // };
     }
   };
