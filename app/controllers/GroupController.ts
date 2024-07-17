@@ -264,7 +264,7 @@ export default class GroupController {
     name: string;
     description: string;
     inCharge: string;
-    members: string;
+    members: string[];
   }) => {
     const session = await getFlashSession(this.request.headers.get("Cookie"));
 
