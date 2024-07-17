@@ -65,10 +65,10 @@ const AdminDepartments = () => {
     };
 
     // loader data
-    const { groups, totalPages, users, group } = useLoaderData<{
+    const { groups, totalPages, usersNotOnMissions, group } = useLoaderData<{
         groups: GroupInterface[];
         totalPages: number;
-        users: UserInterface[];
+        usersNotOnMissions: UserInterface[];
         group: UserInterface[]
     }>();
 
@@ -246,7 +246,7 @@ const AdminDepartments = () => {
                             }
                         />
                         <Select
-                            label="Training Officer"
+                            label="InCharge"
                             labelPlacement="outside"
                             placeholder=" "
                             variant="bordered"
@@ -268,7 +268,7 @@ const AdminDepartments = () => {
                                     "bg-white shadow-sm dark:bg-slate-900 border border-white/5  ",
                             }}
                         >
-                            {users.map((user: UserInterface) => (
+                            {usersNotOnMissions.map((user: UserInterface) => (
                                 <SelectItem
                                     textValue={user?.firstName + " " + user?.lastName}
                                     className="mt-4"
@@ -279,7 +279,7 @@ const AdminDepartments = () => {
                             ))}
                         </Select>
                         <Select
-                            label="Training Officer"
+                            label="Member"
                             labelPlacement="outside"
                             placeholder=" "
                             variant="bordered"
@@ -302,7 +302,7 @@ const AdminDepartments = () => {
                                     "bg-white shadow-sm dark:bg-slate-900 border border-white/5  ",
                             }}
                         >
-                            {users.map((user: UserInterface) => (
+                            {usersNotOnMissions.map((user: UserInterface) => (
                                 <SelectItem
                                     textValue={user?.firstName + " " + user?.lastName}
                                     className="mt-4"
@@ -535,10 +535,7 @@ export const loader: LoaderFunction = async ({ request }) => {
     const groupController = new GroupController(request);
     const usersController = new UserController(request);
 
-    const { users } = await usersController.getUsers({
-        page,
-        search_term
-    })
+    const { usersNotOnMissions } = await usersController.getMembersNotOnMission()
     const { groups } = await groupController.getGroups({
         page,
         search_term,
@@ -549,7 +546,7 @@ export const loader: LoaderFunction = async ({ request }) => {
     })
 
 
-    return { users, groups, group }
+    return { usersNotOnMissions, groups, group }
 };
 
 export const meta: MetaFunction = () => {

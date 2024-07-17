@@ -42,7 +42,7 @@ import UserController from "~/controllers/UserController";
 import { deptTableCols, dutyTableCols } from "~/data/table-cols";
 import { getInitials } from "~/utils/string-manipulation";
 import { errorToast, successToast } from "~/utils/toasters";
-import { CompanyInterface, DepartmentInterface, DutyInterface, UserInterface } from "~/utils/types";
+import { CompanyInterface, DepartmentInterface, DutyInterface, MissionInterface, UserInterface } from "~/utils/types";
 
 const AdminDepartments = () => {
   const [isCreateModalOpened, setIsCreateModalOpened] = useState(false);
@@ -62,10 +62,11 @@ const AdminDepartments = () => {
   };
 
   // loader data
-  const { duties, totalPages, users } = useLoaderData<{
+  const { duties, totalPages, users,usersNotOnMissions } = useLoaderData<{
     duties: DutyInterface[];
     totalPages: number;
     users: UserInterface[];
+    usersNotOnMissions:MissionInterface
   }>();
 
   // action data
@@ -367,13 +368,7 @@ const AdminDepartments = () => {
                     "bg-white shadow-sm dark:bg-slate-900 border border-white/5  ",
                 }}
               >
-                {[
-                  { key: "patrol", value: "patrol", display_name: "patrol" },
-                  { key: "traffic", value: "traffic", display_name: "traffic" },
-                  { key: "investigation", value: "investigation", display_name: "investigation" },
-                  { key: "community service", value: "community service", display_name: "community service" },
-                  { key: "administrative", value: "administrative", display_name: "administrative" },
-                ].map((role) => (
+                {usersNotOnMissions.map((usersNotOnMission) => (
                   <SelectItem key={role.key}>{role.display_name}</SelectItem>
                 ))}
               </Select>
@@ -733,14 +728,11 @@ export const loader: LoaderFunction = async ({ request }) => {
     page,
     search_term,
   })
-  const { usersNotOnMissions } = await usersController.getMembersNotOnMission({
-    page,
-    search_term,
-  })
+  const { usersNotOnMissions } = await usersController.getMembersNotOnMission()
 
 
 
-  return { users, mission }
+  return { users, mission,usersNotOnMissions }
 };
 
 export const meta: MetaFunction = () => {
