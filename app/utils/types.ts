@@ -56,7 +56,6 @@ export type CompanyInterface = {
 
 export type DutyInterface = {
   _id?: string;
-  inCharge: UserInterface;
   officer: UserInterface;
   dutyType:
     | "patrol"

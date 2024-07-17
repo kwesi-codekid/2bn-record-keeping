@@ -18,6 +18,17 @@ export const deptTableCols = [
   { title: "description", allowSort: true },
   { title: "Actions", allowSort: false },
 ];
+export const dutyTableCols = [
+  { title: "Incharge", allowSort: true },
+  { title: " Officer", allowSort: true },
+  { title: "Duty Type", allowSort: true },   
+  { title: "Duty Location", allowSort: true },   
+  { title: "start Time", allowSort: true },   
+  { title: "End Time", allowSort: true },
+  { title: "Status", allowSort: true },
+  { title: "Note", allowSort: true },
+  { title: "Actions", allowSort: false },
+];
 
 export const userTableCols = [
   { title: "Name", allowSort: true },

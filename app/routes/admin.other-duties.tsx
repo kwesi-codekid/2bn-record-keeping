@@ -37,10 +37,10 @@ import CompanyController from "~/controllers/CompanyController";
 import DepartmentController from "~/controllers/DepartmentController";
 import DutyController from "~/controllers/DutyController";
 import UserController from "~/controllers/UserController";
-import { deptTableCols } from "~/data/table-cols";
+import { deptTableCols, dutyTableCols } from "~/data/table-cols";
 import { getInitials } from "~/utils/string-manipulation";
 import { errorToast, successToast } from "~/utils/toasters";
-import { CompanyInterface, DepartmentInterface, UserInterface } from "~/utils/types";
+import { CompanyInterface, DepartmentInterface, DutyInterface, UserInterface } from "~/utils/types";
 
 const AdminDepartments = () => {
   const [isCreateModalOpened, setIsCreateModalOpened] = useState(false);
@@ -61,7 +61,7 @@ const AdminDepartments = () => {
 
   // loader data
   const { duties, totalPages, users } = useLoaderData<{
-    duties: DepartmentInterface[];
+    duties: DutyInterface[];
     totalPages: number;
     users: UserInterface[];
   }>();
@@ -93,7 +93,7 @@ const AdminDepartments = () => {
   // select department data
   let selectOptions: { key: string; value: string; display_name: string }[] =
     [];
-  duties?.map((department: DepartmentInterface) => {
+    duties?.map((department: DutyController) => {
     selectOptions.push({
       key: department._id as string,
       value: department._id as string,
@@ -168,7 +168,7 @@ const AdminDepartments = () => {
       </div>
 
       <CustomTable
-        columns={deptTableCols}
+        columns={dutyTableCols}
         loadingState={navigation.state === "loading" ? "loading" : "idle"}
         page={1}
         setPage={(page) => {
@@ -176,16 +176,16 @@ const AdminDepartments = () => {
         }}
         totalPages={totalPages}
       >
-        {departments?.map((department: DepartmentInterface) => (
-          <TableRow key={department._id}>
-            <TableCell className="text-sm">{department?.name}</TableCell>
-            <TableCell className="text-sm">{department?.tacticOfficer?.firstName + "" + department?.tacticOfficer?.lastName}</TableCell>
-            <TableCell className="text-sm">{department.trainingOfficer?.firstName + "" + department?.trainingOfficer?.lastName}</TableCell>
-            <TableCell className="text-sm">{department?.strength}</TableCell>
-            <TableCell className="text-sm">{department?.mission}</TableCell>
-            <TableCell className="text-sm">{department?.vission}</TableCell>
-            <TableCell className="text-sm">{department?.quote}</TableCell>
-            <TableCell>{department?.description}</TableCell>
+        {duties?.map((duty: DutyInterface) => (
+          <TableRow key={duty?._id}>
+            <TableCell className="text-sm">{duty?.inCharge?.firstName + "" + duty?.inCharge?.lastName}</TableCell>
+            <TableCell className="text-sm">{duty?.officer?.firstName + "" + duty?.officer?.lastName}</TableCell>
+            <TableCell className="text-sm">{duty?.dutyType}</TableCell>
+            <TableCell className="text-sm">{duty?.dutyLocation}</TableCell>
+            <TableCell className="text-sm">{duty?.startTime}</TableCell>
+            <TableCell className="text-sm">{duty?.endTime}</TableCell>
+            <TableCell className="text-sm">{duty?.status}</TableCell>
+            <TableCell>{duty?.notes}</TableCell>
             <TableCell className="flex items-center">
               <Button
                 size="sm"
@@ -193,7 +193,7 @@ const AdminDepartments = () => {
                 variant="light"
                 onClick={() => {
                   setIsEditModalOpened(true)
-                  setSelectedDepartment(department)
+                  setSelectedDepartment(duty)
                 }}
               >
                 edit
@@ -204,7 +204,7 @@ const AdminDepartments = () => {
                 variant="light"
                 onClick={() => {
                   setIsConfirmedModalOpened(true)
-                  setSelectedDepartment(department)
+                  setSelectedDepartment(duty)
                 }}
               >
                 Delete
@@ -698,14 +698,7 @@ export const action: ActionFunction = async ({ request }) => {
   const notes = formData.get("notes") as string
   const intent = formData.get("intent") as string
   const _id = formData.get("id") as string
-  console.log(inCharge,
-    officer,
-    dutyType,
-    dutyLocation,
-    startTime,
-    endTime,
-    status,
-    notes,);
+ 
 
 
   const dutyController = new DutyController(request);
