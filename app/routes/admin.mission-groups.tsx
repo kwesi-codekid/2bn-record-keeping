@@ -35,6 +35,7 @@ import CustomTextarea from "~/components/ui/inputs/textarea";
 import CustomTable from "~/components/ui/new-table";
 import CompanyController from "~/controllers/CompanyController";
 import DepartmentController from "~/controllers/DepartmentController";
+import GroupController from "~/controllers/GroupController";
 import UserController from "~/controllers/UserController";
 import { deptTableCols } from "~/data/table-cols";
 import { getInitials } from "~/utils/string-manipulation";
@@ -243,7 +244,39 @@ const AdminDepartments = () => {
                                     : false
                             }
                         />
-
+                        <Select
+                            label="Training Officer"
+                            labelPlacement="outside"
+                            placeholder=" "
+                            variant="bordered"
+                            isRequired
+                            isInvalid={
+                                actionData?.errors?.find(
+                                    (error) => error.field === "inCharge"
+                                )
+                                    ? true
+                                    : false
+                            }
+                            className="mt-4"
+                            name="inCharge"
+                            classNames={{
+                                label:
+                                    "text-sm md:text-base font-medium font-sen text-slate-800 dark:text-slate-100",
+                                trigger: " !shadow-none dark:border-slate-700  ",
+                                popoverContent:
+                                    "bg-white shadow-sm dark:bg-slate-900 border border-white/5  ",
+                            }}
+                        >
+                            {users.map((user: UserInterface) => (
+                                <SelectItem
+                                    textValue={user?.firstName + " " + user?.lastName}
+                                    className="mt-4"
+                                    key={user._id}
+                                >
+                                    {user?.firstName + " " + user?.lastName}
+                                </SelectItem>
+                            ))}
+                        </Select>
                         <Select
                             label="Training Officer"
                             labelPlacement="outside"
@@ -253,13 +286,13 @@ const AdminDepartments = () => {
                             isRequired
                             isInvalid={
                                 actionData?.errors?.find(
-                                    (error) => error.field === "trainingOfficer"
+                                    (error) => error.field === "members"
                                 )
                                     ? true
                                     : false
                             }
                             className="mt-4"
-                            name="trainingOfficer"
+                            name="members"
                             classNames={{
                                 label:
                                     "text-sm md:text-base font-medium font-sen text-slate-800 dark:text-slate-100",
@@ -511,30 +544,22 @@ export default AdminDepartments;
 export const action: ActionFunction = async ({ request }) => {
     const formData = await request.formData()
     const name = formData.get("name") as string
-    const strength = formData.get("strength") as string
-    const mission = formData.get("mission") as string
-    const vission = formData.get("vission") as string
-    const quote = formData.get("quote") as string
-    const tacticOfficer = formData.get("tacticOfficer") as string
-    const trainingOfficer = formData.get("trainingOfficer") as string
     const description = formData.get("description") as string
+    const inCharge = formData.get("inCharge") as string
+    const members = formData.get("members") as string
     const intent = formData.get("intent") as string
     const _id = formData.get("id") as string
 
 
 
-    const departmentController = new DepartmentController(request);
+    const groupController = new GroupController(request);
     switch (intent) {
         case "create":
-            const createDepartment = await departmentController.createDepartment({
+            const createDepartment = await groupController.createGroup({
                 name,
                 description,
-                strength,
-                mission,
-                vission,
-                quote,
-                tacticOfficer,
-                trainingOfficer,
+                inCharge,
+                members,
             })
             return createDepartment
 
