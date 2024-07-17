@@ -349,7 +349,6 @@ export default class UserController {
     role,
     department,
     phone,
-    staffId,
     badgeNumber,
     password,
     company,
@@ -362,7 +361,6 @@ export default class UserController {
     role: string;
     department: string;
     phone: string;
-    staffId?: string;
     badgeNumber?: string;
     dateOfBirth: string;
     position: string;
@@ -373,7 +371,7 @@ export default class UserController {
 
     try {
       const phoneExist = await User.findOne({ phone });
-      const staffIdExist = await User.findOne({ staffId });
+      const badgeNumberExist = await User.findOne({ badgeNumber });
       const emailExist = await User.findOne({ email });
 
       const errors = [];
@@ -385,9 +383,9 @@ export default class UserController {
         });
       }
 
-      if (staffIdExist) {
+      if (badgeNumberExist) {
         errors.push({
-          field: "staffId",
+          field: "badgeNumber",
           message: "Staff ID already in use",
         });
       }
@@ -431,7 +429,6 @@ export default class UserController {
         role,
         department,
         phone,
-        staffId,
         badgeNumber,
         dateOfBirth,
         password: encryptedPassword,
@@ -534,17 +531,6 @@ export default class UserController {
             },
             {
               phone: {
-                $regex: new RegExp(
-                  search_term
-                    .split(" ")
-                    .map((term) => `(?=.*${term})`)
-                    .join(""),
-                  "i"
-                ),
-              },
-            },
-            {
-              staffId: {
                 $regex: new RegExp(
                   search_term
                     .split(" ")
@@ -664,17 +650,6 @@ export default class UserController {
                     ),
                   },
                 },
-                {
-                  staffId: {
-                    $regex: new RegExp(
-                      search_term
-                        .split(" ")
-                        .map((term) => `(?=.*${term})`)
-                        .join(""),
-                      "i"
-                    ),
-                  },
-                },
               ],
             },
           ],
@@ -750,7 +725,6 @@ export default class UserController {
     role,
     department,
     phone,
-    staffId,
     badgeNumber,
     dateOfBirth,
     position,
@@ -764,7 +738,6 @@ export default class UserController {
     role: string;
     department: string;
     phone: string;
-    staffId?: string;
     badgeNumber?: string;
     dateOfBirth: string;
     position: string;
@@ -792,14 +765,14 @@ export default class UserController {
       }
 
       // Check for unique staff ID
-      if (staffId) {
-        const staffIdExist = await User.findOne({
-          staffId: staffId,
+      if (badgeNumber) {
+        const badgeNumberExist = await User.findOne({
+          badgeNumber: badgeNumber,
           _id: { $ne: userId },
         });
-        if (staffIdExist) {
+        if (badgeNumberExist) {
           errors.push({
-            field: "staffId",
+            field: "badgeNumber",
             message: "Staff ID already in use",
           });
         }
@@ -851,7 +824,6 @@ export default class UserController {
           role,
           department,
           phone,
-          staffId,
           badgeNumber,
           dateOfBirth,
           position,
