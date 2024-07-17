@@ -929,7 +929,7 @@ export default class UserController {
     try {
       const eligibleUsers = await User.findEligibleForPromotion();
       console.log("Eligible users for promotion:", eligibleUsers);
-      return eligibleUsers;
+      return { eligibleUsers };
     } catch (error) {
       console.error("Error fetching eligible users:", error);
     }
