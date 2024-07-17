@@ -345,75 +345,19 @@ const AdminDepartments = () => {
                                : false
                        }
                    />
-                   <Select
-                       label="Training Officer"
-                       labelPlacement="outside"
-                       placeholder=" "
-                       variant="bordered"
-                       defaultValue={selectedDepartment.inCharge}
-                       isRequired
-                       isInvalid={
-                           actionData?.errors?.find(
-                               (error) => error.field === "inCharge"
-                           )
-                               ? true
-                               : false
-                       }
-                       className="mt-4"
+                   <CustomInput
+                       isRequired={true}
+                       label="Group Name"
                        name="inCharge"
-                       classNames={{
-                           label:
-                               "text-sm md:text-base font-medium font-sen text-slate-800 dark:text-slate-100",
-                           trigger: " !shadow-none dark:border-slate-700  ",
-                           popoverContent:
-                               "bg-white shadow-sm dark:bg-slate-900 border border-white/5  ",
-                       }}
-                   >
-                       {group.map((user: UserInterface) => (
-                           <SelectItem
-                               textValue={user?.firstName + " " + user?.lastName}
-                               className="mt-4"
-                               key={user._id}
-                           >
-                               {user?.firstName + " " + user?.lastName}
-                           </SelectItem>
-                       ))}
-                   </Select>
-                   <Select
-                       label="Training Officer"
-                       labelPlacement="outside"
-                       placeholder=" "
-                       variant="bordered"
-                       defaultValue={selectedDepartment.members}
-                       selectionMode="multiple"
-                       isRequired
+                       defaultValue={selectedDepartment.inCharge.firstName}
                        isInvalid={
-                           actionData?.errors?.find(
-                               (error) => error.field === "members"
-                           )
+                           actionData?.errors?.find((error) => error.field === "inCharge")
                                ? true
                                : false
                        }
-                       className="mt-4"
-                       name="members"
-                       classNames={{
-                           label:
-                               "text-sm md:text-base font-medium font-sen text-slate-800 dark:text-slate-100",
-                           trigger: " !shadow-none dark:border-slate-700  ",
-                           popoverContent:
-                               "bg-white shadow-sm dark:bg-slate-900 border border-white/5  ",
-                       }}
-                   >
-                       {group.map((user: UserInterface) => (
-                           <SelectItem
-                               textValue={user?.firstName + " " + user?.lastName}
-                               className="mt-4"
-                               key={user._id}
-                           >
-                               {user?.firstName + " " + user?.lastName}
-                           </SelectItem>
-                       ))}
-                   </Select>
+                   />
+                  
+                
                    <CustomTextarea
                        isRequired={true}
                        label="Description"
