@@ -154,7 +154,10 @@ export default class UserController {
 
   public async getUserById(id: string) {
     try {
-      const user = await User.findById(id).select("-password");
+      const user = await User.findById(id)
+        .populate("department")
+        .populate("company")
+        .select("-password");
 
       if (!user) {
         return {
@@ -553,6 +556,7 @@ export default class UserController {
     try {
       const users = await User.find(searchFilter)
         .populate("department")
+        .populate("company")
         .skip(skipCount)
         .limit(limit)
         .sort({
