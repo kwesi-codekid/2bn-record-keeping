@@ -14,7 +14,7 @@ const missionSchema = new mongoose.Schema<MissionInterface>(
       ref: "users",
       required: true,
     },
-    dutyType: {
+    missionType: {
       type: String,
       required: true,
       enum: [
@@ -26,7 +26,7 @@ const missionSchema = new mongoose.Schema<MissionInterface>(
       ],
       trim: true,
     },
-    dutyLocation: {
+    missionLocation: {
       type: String,
       required: true,
       trim: true,
