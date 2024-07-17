@@ -66,6 +66,8 @@ export default class DutyController {
 
     try {
       const duties = await Duty.find(searchFilter)
+        .populate("inCharge")
+        .populate("officer")
         .skip(skipCount)
         .limit(limit)
         .sort({

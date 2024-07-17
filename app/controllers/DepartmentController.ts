@@ -68,6 +68,8 @@ export default class DepartmentController {
 
     try {
       const departments = await Department.find(searchFilter)
+        .populate("tacticOfficer")
+        .populate("trainingOfficer")
         .skip(skipCount)
         .limit(limit)
         .sort({
