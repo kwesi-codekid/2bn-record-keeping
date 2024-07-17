@@ -957,7 +957,6 @@ export default class UserController {
 
   public fetchEligibleUsers = async () => {
     try {
-      // const nextPosition = await this.getNextRole()
       const fourYearsAgo = new Date();
       fourYearsAgo.setFullYear(fourYearsAgo.getFullYear() - 4);
 
@@ -965,13 +964,24 @@ export default class UserController {
         lastPromotionDate: { $lte: fourYearsAgo },
       }).select(["-password"]);
 
-      return { eligibleUsers };
+      // Add next role to each eligible user
+      const usersWithNextRole = eligibleUsers.map((user) => {
+        const nextRole = this.getNextRole(user.position);
+        return {
+          ...user.toObject(),
+          nextRole,
+        };
+      });
+
+      return { eligibleUsers: usersWithNextRole };
     } catch (error) {
       console.error("Error fetching eligible users:", error);
+      throw error;
     }
   };
 
-  private getNextRole = async (position: string) => {
+  // Helper function to get next role
+  private getNextRole = async (currentRole) => {
     const promotionRoles = [
       "staff",
       "supervisor",
@@ -980,7 +990,7 @@ export default class UserController {
       "admin",
     ];
 
-    let currentRoleIndex = promotionRoles.indexOf(position);
+    let currentRoleIndex = promotionRoles.indexOf(currentRole);
     if (currentRoleIndex < promotionRoles.length - 1) {
       return promotionRoles[currentRoleIndex + 1];
     } else {

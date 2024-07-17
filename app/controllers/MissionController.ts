@@ -22,7 +22,7 @@ export default class MissionController {
    * @param param2 limit
    * @returns {missions: MissionInterface, totalPages: number}
    */
-  public async getDuties({
+  public async getMissions({
     page,
     search_term,
     limit = 10,
@@ -73,10 +73,10 @@ export default class MissionController {
         })
         .exec();
 
-      const totalDutiesCount = await Mission.countDocuments(
+      const totalMissionsCount = await Mission.countDocuments(
         searchFilter
       ).exec();
-      const totalPages = Math.ceil(totalDutiesCount / limit);
+      const totalPages = Math.ceil(totalMissionsCount / limit);
 
       return { missions, totalPages };
     } catch (error) {
@@ -103,7 +103,7 @@ export default class MissionController {
   public async getMission({ id }: { id: string }) {
     try {
       const mission = await Mission.findById(id);
-      return mission;
+      return { mission };
     } catch (error) {
       console.error("Error retrieving mission:", error);
       return {
