@@ -1,10 +1,21 @@
-export const deptTableCols = [
+export const compTableCols = [
   { title: "Name", allowSort: true },
   { title: "Commanding Officer", allowSort: true },
   { title: "Department Seargent", allowSort: true },   
   { title: "Platton Commander", allowSort: true },   
   { title: "Administration Warranty", allowSort: true },   
   { title: "Description", allowSort: true },
+  { title: "Actions", allowSort: false },
+];
+export const deptTableCols = [
+  { title: "Name", allowSort: true },
+  { title: "Tactic Officer", allowSort: true },
+  { title: "Training Officer", allowSort: true },   
+  { title: "Strength", allowSort: true },   
+  { title: "Mission", allowSort: true },   
+  { title: "vission", allowSort: true },
+  { title: "quote", allowSort: true },
+  { title: "description", allowSort: true },
   { title: "Actions", allowSort: false },
 ];
 

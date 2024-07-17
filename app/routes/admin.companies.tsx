@@ -36,7 +36,7 @@ import CustomTable from "~/components/ui/new-table";
 import CompanyController from "~/controllers/CompanyController";
 import DepartmentController from "~/controllers/DepartmentController";
 import UserController from "~/controllers/UserController";
-import { deptTableCols } from "~/data/table-cols";
+import { compTableCols, deptTableCols } from "~/data/table-cols";
 import { getInitials } from "~/utils/string-manipulation";
 import { errorToast, successToast } from "~/utils/toasters";
 import { CompanyInterface,  UserInterface } from "~/utils/types";
@@ -167,7 +167,7 @@ const AdminDepartments = () => {
       </div>
 
       <CustomTable
-        columns={deptTableCols}
+        columns={compTableCols}
         loadingState={navigation.state === "loading" ? "loading" : "idle"}
         page={1}
         setPage={(page) => {
