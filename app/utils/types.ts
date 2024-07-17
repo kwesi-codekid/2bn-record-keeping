@@ -51,7 +51,6 @@ export type GroupInterface = {
   description: string;
   inCharge: UserInterface;
   members: UserInterface;
-  
 };
 export type CompanyInterface = {
   _id?: string;
@@ -81,17 +80,16 @@ export type DutyInterface = {
 };
 
 export type MissionInterface = {
-  officer: UserInterface;
-  dutyType:
+  name: string;
+  description: string;
+  missionType:
     | "patrol"
     | "traffic"
     | "investigation"
     | "community service"
     | "administrative";
-  dutyLocation: string;
-  startTime: string;
-  endTime: string;
+  missionLocation: string;
+  startDate: string;
+  endDate: string;
   status: "scheduled" | "sngoing" | "sompleted" | "sancelled";
-  notes: string;
-  inCharge: string;
 };
