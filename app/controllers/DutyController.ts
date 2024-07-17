@@ -128,24 +128,28 @@ export default class DutyController {
    * @returns DutyInterface
    */
   public createDuty = async ({
-    name,
-    description,
-    commandingOfficer,
-    dutySeargent,
-    platoonCommander,
-    administrationWarranty,
+    inCharge,
+    officer,
+    dutyType,
+    dutyLocation,
+    startTime,
+    endTime,
+    status,
+    notes,
   }: {
-    name: string;
-    description: string;
-    commandingOfficer: string;
-    dutySeargent: string;
-    platoonCommander: string;
-    administrationWarranty: string;
+    inCharge: string;
+    officer: string;
+    dutyType: string;
+    dutyLocation: string;
+    startTime: string;
+    endTime: string;
+    status: string;
+    notes: string;
   }) => {
     const session = await getFlashSession(this.request.headers.get("Cookie"));
 
     try {
-      const existingDuty = await Duty.findOne({ name });
+      const existingDuty = await Duty.findOne({ officer, startTime });
 
       if (existingDuty) {
         session.flash("alert", {
@@ -174,12 +178,14 @@ export default class DutyController {
       }
 
       const duty = await Duty.create({
-        name,
-        description,
-        commandingOfficer,
-        dutySeargent,
-        platoonCommander,
-        administrationWarranty,
+        inCharge,
+        officer,
+        dutyType,
+        dutyLocation,
+        startTime,
+        endTime,
+        status,
+        notes,
       });
 
       if (!duty) {
@@ -257,20 +263,24 @@ export default class DutyController {
    */
   public updateDuty = async ({
     _id,
-    name,
-    description,
-    commandingOfficer,
-    dutySeargent,
-    platoonCommander,
-    administrationWarranty,
+    inCharge,
+    officer,
+    dutyType,
+    dutyLocation,
+    startTime,
+    endTime,
+    status,
+    notes,
   }: {
     _id: string;
-    name: string;
-    description: string;
-    commandingOfficer: string;
-    dutySeargent: string;
-    platoonCommander: string;
-    administrationWarranty: string;
+    inCharge: string;
+    officer: string;
+    dutyType: string;
+    dutyLocation: string;
+    startTime: string;
+    endTime: string;
+    status: string;
+    notes: string;
   }) => {
     const session = await getFlashSession(this.request.headers.get("Cookie"));
 
@@ -278,12 +288,14 @@ export default class DutyController {
       const updated = await Duty.findByIdAndUpdate(
         _id,
         {
-          name,
-          description,
-          commandingOfficer,
-          dutySeargent,
-          platoonCommander,
-          administrationWarranty,
+          inCharge,
+          officer,
+          dutyType,
+          dutyLocation,
+          startTime,
+          endTime,
+          status,
+          notes,
         },
         { new: true }
       );
