@@ -188,7 +188,7 @@ const AdminDepartments = () => {
             <TableCell className="text-sm">
               {user?.firstName + " " + user?.lastName}
             </TableCell>
-            <TableCell className="text-sm">{user?.staffId}</TableCell>
+            <TableCell className="text-sm">{user?.badgeNumber}</TableCell>
             <TableCell className="text-sm">{user?.email}</TableCell>
             <TableCell className="text-sm">{user?.phone}</TableCell>
             <TableCell className="text-sm">{user?.dateOfBirth}</TableCell>
@@ -247,9 +247,9 @@ const AdminDepartments = () => {
             <CustomInput
               isRequired={true}
               label="Badge Number"
-              name="staffId"
+              name="badgeNumber"
               isInvalid={
-                actionData?.errors?.find((error) => error.field === "satffId")
+                actionData?.errors?.find((error) => error.field === "badgeNumber")
                   ? true
                   : false
               }
@@ -478,10 +478,10 @@ const AdminDepartments = () => {
             <CustomInput
               isRequired={true}
               label="Staff Id"
-              name="satffId"
-              defaultValue={selectedUser?.staffId}
+              name="badgeNumber"
+              defaultValue={selectedUser?.badgeNumber}
               isInvalid={
-                actionData?.errors?.find((error) => error.field === "satffId")
+                actionData?.errors?.find((error) => error.field === "badgeNumber")
                   ? true
                   : false
               }
@@ -532,6 +532,7 @@ const AdminDepartments = () => {
                 isRequired={true}
                 label="Phone"
                 name="phone"
+                defaultValue={selectedUser?.phone}
                 isInvalid={
                   actionData?.errors?.find((error) => error.field === "phone")
                     ? true
@@ -553,7 +554,20 @@ const AdminDepartments = () => {
                 }
               />
             </div>
-
+                 <CustomInput
+                type="password"
+                isRequired={true}
+                label="Password"
+                name="password"
+                defaultValue={selectedUser?.password}
+                isInvalid={
+                  actionData?.errors?.find(
+                    (error) => error.field === "dateOfBirth"
+                  )
+                    ? true
+                    : false
+                }
+              />
             <div className="flex gap-4">
               <CustomInput
                 type="text"
@@ -747,7 +761,7 @@ export const action: ActionFunction = async ({ request }) => {
   const formData = await request.formData()
   const firstName = formData.get("firstName") as string
   const lastName = formData.get("lastName") as string
-  const staffId = formData.get("staffId") as string
+  const badgeNumber = formData.get("badgeNumber") as string
   const email = formData.get("email") as string
   const phone = formData.get("phone") as string
   const dateOfBirth = formData.get("dateOfBirth") as string
@@ -766,7 +780,7 @@ export const action: ActionFunction = async ({ request }) => {
     role,
     department,
     phone,
-    staffId,
+    badgeNumber,
     dateOfBirth,
     position,
     company,
@@ -783,7 +797,7 @@ export const action: ActionFunction = async ({ request }) => {
         role,
         department,
         phone,
-        staffId,
+        badgeNumber,
         dateOfBirth,
         position,
         company,
@@ -804,14 +818,14 @@ export const action: ActionFunction = async ({ request }) => {
         role,
         department,
         phone,
-        staffId,
+        badgeNumber,
         dateOfBirth,
         position,
         company,
         password,
       });
       return updateUser;
-      
+
     default:
       break;
   }
