@@ -211,18 +211,6 @@ const AdminDepartments = () => {
         ))}
       </CustomTable>
 
-      {/* Create Department Modal */}
-      {/* export interface CompanyInterface {
-   name:string
-   logo: string
-   commandingOfficer: UserInterface,
-   companySeargent:UserInterface,
-   platoonCommander: UserInterface,
-   administrationWarranty: UserInterface,
-   descriptio:string
-  createdAt?: Date;
-  updatedAt?: Date;
-} */}
       <CreateRecordModal
         isOpen={isCreateModalOpened}
         onOpenChange={handleCreateModalClosed}

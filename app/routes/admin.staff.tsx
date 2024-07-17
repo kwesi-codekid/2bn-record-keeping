@@ -245,7 +245,7 @@ const AdminDepartments = () => {
             />
             <div className="flex gap-4">
               <CustomInput
-                isRequired={true}
+                isRequired={true}sdfsd
                 label="First Name"
                 name="firstName"
                 isInvalid={
