@@ -948,7 +948,7 @@ export default class UserController {
         _id: { $nin: Array.from(usersOnMissions) },
       }).exec();
 
-      return usersNotOnMissions;
+      return { usersNotOnMissions };
     } catch (error) {
       console.error("Error fetching members not on a mission:", error);
       throw error;
