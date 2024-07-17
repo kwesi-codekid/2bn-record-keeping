@@ -68,4 +68,5 @@ export type DutyInterface = {
   endTime: Date;
   status: "scheduled" | "sngoing" | "sompleted" | "sancelled";
   notes: string;
+  inCharge:string
 };
