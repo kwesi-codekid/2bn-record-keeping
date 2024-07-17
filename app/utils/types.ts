@@ -20,7 +20,7 @@ export type UserInterface = {
   phone?: string;
   dateOfBirth?: string;
   department?: string;
-  staffId?: string;
+  badgeNumber?: string;
   role?: string;
   position?: string;
   company?: CompanyInterface;
