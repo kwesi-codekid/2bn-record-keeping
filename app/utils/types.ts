@@ -26,6 +26,18 @@ export type UserInterface = {
   company?: CompanyInterface;
 };
 
+export type DepartmentInterface = {
+  _id?: string;
+  name: string;
+  description: string;
+  strength: string;
+  mission: string;
+  vission: string;
+  quote: string;
+  tacticOfficer: UserInterface;
+  trainingOfficer: UserInterface;
+};
+
 export type UserRoleInterface = {
   id: string;
   name: string;

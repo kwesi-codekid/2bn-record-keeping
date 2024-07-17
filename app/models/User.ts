@@ -38,15 +38,10 @@ const userSchema = new mongoose.Schema<UserInterface>(
     position: {
       type: String,
     },
-    staffId: {
-      type: String,
-      required: false,
-      unique: false,
-    },
     badgeNumber: {
       type: String,
       required: false,
-      unique: true,
+      // unique: true,
       trim: true,
     },
     department: {

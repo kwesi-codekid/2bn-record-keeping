@@ -12,22 +12,24 @@ const schema = new Schema<DepartmentInterface>(
     description: {
       type: String,
     },
-    commandingOfficer: {
+    strength: {
+      type: String,
+    },
+    mission: {
+      type: String,
+    },
+    vission: {
+      type: String,
+    },
+    quote: {
+      type: String,
+    },
+    tacticOfficer: {
       type: Schema.Types.ObjectId,
       ref: "users",
       required: false,
     },
-    departmentSeargent: {
-      type: Schema.Types.ObjectId,
-      ref: "users",
-      required: false,
-    },
-    platoonCommander: {
-      type: Schema.Types.ObjectId,
-      ref: "users",
-      required: false,
-    },
-    administrationWarranty: {
+    trainingOfficer: {
       type: Schema.Types.ObjectId,
       ref: "users",
       required: false,
