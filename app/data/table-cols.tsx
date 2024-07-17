@@ -21,7 +21,6 @@ export const deptTableCols = [
 export const groupTableCols = [
   { title: "Name", allowSort: true },
   { title: "Incharge", allowSort: true },
-  { title: "Members", allowSort: true },
   { title: "Description", allowSort: true },
   { title: "Action", allowSort: true },
   

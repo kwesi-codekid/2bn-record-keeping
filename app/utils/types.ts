@@ -45,6 +45,14 @@ export type UserRoleInterface = {
   display_name: string;
 };
 
+export type GroupInterface = {
+  _id?: string;
+  name: string;
+  description: string;
+  inCharge: UserInterface;
+  members: UserInterface;
+  
+};
 export type CompanyInterface = {
   _id?: string;
   name: string;
