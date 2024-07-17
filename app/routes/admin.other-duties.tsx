@@ -233,39 +233,73 @@ import {
         >
           {(onClose) => (
             <Form method="post" className="flex flex-col gap-4">
-              <CustomInput
-                isRequired={true}
-                label="Name"
-                name="name"
+              <Select
+                  label="Officer"
+                  labelPlacement="outside"
+                  placeholder=" "
+                  variant="bordered"
+                  isRequired
+                  isInvalid={
+                    actionData?.errors?.find(
+                      (error) => error.field === "officer"
+                    )
+                      ? true
+                      : false
+                  }
+                  className="mt-4"
+                  name="officer"
+                  classNames={{
+                    label:
+                      "text-sm md:text-base font-medium font-sen text-slate-800 dark:text-slate-100",
+                    trigger: " !shadow-none dark:border-slate-700  ",
+                    popoverContent:
+                      "bg-white shadow-sm dark:bg-slate-900 border border-white/5  ",
+                  }}
+                >
+                  {users.map((user: UserInterface) => (
+                    <SelectItem
+                      textValue={user?.firstName + " " + user?.lastName}
+                      className="mt-4"
+                      key={user._id}
+                    >
+                      {user?.firstName + " " + user?.lastName}
+                    </SelectItem>
+                  ))}
+                </Select>
+
+                <Select
+                label="Role"
+                labelPlacement="outside"
+                placeholder=" "
+                isRequired
+                variant="bordered"
                 isInvalid={
-                  actionData?.errors?.find((error) => error.field === "name")
+                  actionData?.errors?.find((error) => error.field === "role")
                     ? true
                     : false
                 }
-              />
-              <CustomInput
-                isRequired={true}
-                label="Strength"
-                name="strength"
-                isInvalid={
-                  actionData?.errors?.find((error) => error.field === "strength")
-                    ? true
-                    : false
-                }
-              />
+                className="mt-4"
+                name="role"
+                classNames={{
+                  label:
+                    "text-sm md:text-base font-medium font-sen text-slate-800 dark:text-slate-100",
+                  trigger: " !shadow-none dark:border-slate-700  ",
+                  popoverContent:
+                    "bg-white shadow-sm dark:bg-slate-900 border border-white/5  ",
+                }}
+              >
+                {[
+                  { key: "patrol", value: "patrol", display_name: "patrol" },
+                  { key: "traffic", value: "traffic", display_name: "traffic" },
+                  { key: "investigation", value: "investigation", display_name: "investigation" },
+                  { key: "community service", value: "community service", display_name: "community service" },
+                ].map((role) => (
+                  <SelectItem key={role.key}>{role.display_name}</SelectItem>
+                ))}
+              </Select>
   
-              <div className="flex gap-4">
-                <CustomTextarea
-                  isRequired={true}
-                  label="Mission"
-                  name="mission"
-                />
-                <CustomTextarea
-                  isRequired={true}
-                  label="Vission"
-                  name="vission"
-                />
-              </div>
+                
+             
               <CustomInput
                 isRequired={true}
                 label="Quote"
@@ -276,80 +310,9 @@ import {
                     : false
                 }
               />
-              <div className="flex gap-4">
-                <Select
-                  label="Tacttic Officer"
-                  labelPlacement="outside"
-                  placeholder=" "
-                  variant="bordered"
-                  isRequired
-                  isInvalid={
-                    actionData?.errors?.find(
-                      (error) => error.field === "tacticOfficer"
-                    )
-                      ? true
-                      : false
-                  }
-                  className="mt-4"
-                  name="tacticOfficer"
-                  classNames={{
-                    label:
-                      "text-sm md:text-base font-medium font-sen text-slate-800 dark:text-slate-100",
-                    trigger: " !shadow-none dark:border-slate-700  ",
-                    popoverContent:
-                      "bg-white shadow-sm dark:bg-slate-900 border border-white/5  ",
-                  }}
-                >
-                  {users.map((user: UserInterface) => (
-                    <SelectItem
-                      textValue={user?.firstName + " " + user?.lastName}
-                      className="mt-4"
-                      key={user._id}
-                    >
-                      {user?.firstName + " " + user?.lastName}
-                    </SelectItem>
-                  ))}
-                </Select>
-  
-                <Select
-                  label="Training Officer"
-                  labelPlacement="outside"
-                  placeholder=" "
-                  variant="bordered"
-                  isRequired
-                  isInvalid={
-                    actionData?.errors?.find(
-                      (error) => error.field === "trainingOfficer"
-                    )
-                      ? true
-                      : false
-                  }
-                  className="mt-4"
-                  name="trainingOfficer"
-                  classNames={{
-                    label:
-                      "text-sm md:text-base font-medium font-sen text-slate-800 dark:text-slate-100",
-                    trigger: " !shadow-none dark:border-slate-700  ",
-                    popoverContent:
-                      "bg-white shadow-sm dark:bg-slate-900 border border-white/5  ",
-                  }}
-                >
-                  {users.map((user: UserInterface) => (
-                    <SelectItem
-                      textValue={user?.firstName + " " + user?.lastName}
-                      className="mt-4"
-                      key={user._id}
-                    >
-                      {user?.firstName + " " + user?.lastName}
-                    </SelectItem>
-                  ))}
-                </Select>
-              </div>
-              <CustomTextarea
-                isRequired={true}
-                label="Description"
-                name="description"
-              />
+                
+
+              
               <input name="intent" value="create" type="hidden" />
   
               <div className="flex justify-end gap-2 mt-10 font-nunito">
