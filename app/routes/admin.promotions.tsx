@@ -67,10 +67,10 @@ import {
     };
   
     // loader data
-    const { companys, totalPages, users } = useLoaderData<{
+    const { companys, totalPages, eligibleUsers } = useLoaderData<{
       companys: CompanyInterface[];
       totalPages: number;
-      users: UserInterface[];
+      eligibleUsers: UserInterface[];
     }>();
   
     // action data
@@ -183,7 +183,7 @@ import {
           }}
           totalPages={totalPages}
         >
-          {users?.map((user: UserInterface) => (
+          {eligibleUsers?.map((user: UserInterface) => (
             <TableRow key={user._id}>
               <TableCell className="text-sm">
                 {user?.firstName + " " + user?.lastName}
@@ -828,16 +828,15 @@ import {
     const usersController = new UserController(request);
     const companyController = new CompanyController(request);
   
-    const { users } = await usersController.getUsers({
-      page,
-      search_term,
-    });
+    const { eligibleUsers } = await usersController.fetchEligibleUsers();
+    console.log(eligibleUsers);
+    
     const { companys } = await companyController.getCompanys({
       page,
       search_term,
     });
   
-    return { users, companys };
+    return { eligibleUsers, companys };
   };
   
   export const meta: MetaFunction = () => {
