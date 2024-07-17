@@ -277,7 +277,7 @@ const AdminDepartments = () => {
               }
             />
             <div className="flex gap-4">
-            <Select
+              <Select
                 label="Tacttic Officer"
                 labelPlacement="outside"
                 placeholder=" "
@@ -345,11 +345,11 @@ const AdminDepartments = () => {
                 ))}
               </Select>
             </div>
-              <CustomTextarea
-                isRequired={true}
-                label="Description"
-                name="description"
-              />
+            <CustomTextarea
+              isRequired={true}
+              label="Description"
+              name="description"
+            />
             <input name="intent" value="create" type="hidden" />
 
             <div className="flex justify-end gap-2 mt-10 font-nunito">
@@ -372,145 +372,145 @@ const AdminDepartments = () => {
       >
         {(onClose) => (
           <Form method="post" className="flex flex-col gap-4">
-          <CustomInput
-            isRequired={true}
-            label="Name"
-            name="name"
-            defaultValue={selectedDepartment.name}
-            isInvalid={
-              actionData?.errors?.find((error) => error.field === "name")
-                ? true
-                : false
-            }
-          />
-          <CustomInput
-            isRequired={true}
-            label="Strength"
-            name="strength"
-            defaultValue={selectedDepartment.strength}
-            isInvalid={
-              actionData?.errors?.find((error) => error.field === "strength")
-                ? true
-                : false
-            }
-          />
-
-          <div className="flex gap-4">
-            <CustomTextarea
+            <CustomInput
               isRequired={true}
-              label="Mission"
-              name="mission"
-              defaultValue={selectedDepartment.mission}
-
-            />
-            <CustomTextarea
-              isRequired={true}
-              label="Vission"
-              name="vission"
-              defaultValue={selectedDepartment.vission}
-
-            />
-          </div>
-          <CustomInput
-            isRequired={true}
-            label="Quote"
-            name="quote"
-            defaultValue={selectedDepartment.qoute}
-            isInvalid={
-              actionData?.errors?.find((error) => error.field === "quote")
-                ? true
-                : false
-            }
-          />
-          <div className="flex gap-4">
-          <Select
-              label="Tacttic Officer"
-              labelPlacement="outside"
-              placeholder=" "
-              variant="bordered"
-              defaultValue={selectedDepartment.tacticOfficer}
-              isRequired
+              label="Name"
+              name="name"
+              defaultValue={selectedDepartment.name}
               isInvalid={
-                actionData?.errors?.find(
-                  (error) => error.field === "tacticOfficer"
-                )
+                actionData?.errors?.find((error) => error.field === "name")
                   ? true
                   : false
               }
-              className="mt-4"
-              name="tacticOfficer"
-              classNames={{
-                label:
-                  "text-sm md:text-base font-medium font-sen text-slate-800 dark:text-slate-100",
-                trigger: " !shadow-none dark:border-slate-700  ",
-                popoverContent:
-                  "bg-white shadow-sm dark:bg-slate-900 border border-white/5  ",
-              }}
-            >
-              {users.map((user: UserInterface) => (
-                <SelectItem
-                  textValue={user?.firstName + " " + user?.lastName}
-                  className="mt-4"
-                  key={user._id}
-                >
-                  {user?.firstName + " " + user?.lastName}
-                </SelectItem>
-              ))}
-            </Select>
-
-            <Select
-              label="Training Officer"
-              labelPlacement="outside"
-              placeholder=" "
-              variant="bordered"
-              isRequired
-              defaultValue={selectedDepartment.trainingOfficer}
+            />
+            <CustomInput
+              isRequired={true}
+              label="Strength"
+              name="strength"
+              defaultValue={selectedDepartment.strength}
               isInvalid={
-                actionData?.errors?.find(
-                  (error) => error.field === "trainingOfficer"
-                )
+                actionData?.errors?.find((error) => error.field === "strength")
                   ? true
                   : false
               }
-              className="mt-4"
-              name="trainingOfficer"
-              classNames={{
-                label:
-                  "text-sm md:text-base font-medium font-sen text-slate-800 dark:text-slate-100",
-                trigger: " !shadow-none dark:border-slate-700  ",
-                popoverContent:
-                  "bg-white shadow-sm dark:bg-slate-900 border border-white/5  ",
-              }}
-            >
-              {users.map((user: UserInterface) => (
-                <SelectItem
-                  textValue={user?.firstName + " " + user?.lastName}
-                  className="mt-4"
-                  key={user._id}
-                >
-                  {user?.firstName + " " + user?.lastName}
-                </SelectItem>
-              ))}
-            </Select>
-          </div>
+            />
+
+            <div className="flex gap-4">
+              <CustomTextarea
+                isRequired={true}
+                label="Mission"
+                name="mission"
+                defaultValue={selectedDepartment.mission}
+
+              />
+              <CustomTextarea
+                isRequired={true}
+                label="Vission"
+                name="vission"
+                defaultValue={selectedDepartment.vission}
+
+              />
+            </div>
+            <CustomInput
+              isRequired={true}
+              label="Quote"
+              name="quote"
+              defaultValue={selectedDepartment.qoute}
+              isInvalid={
+                actionData?.errors?.find((error) => error.field === "quote")
+                  ? true
+                  : false
+              }
+            />
+            <div className="flex gap-4">
+              <Select
+                label="Tacttic Officer"
+                labelPlacement="outside"
+                placeholder=" "
+                variant="bordered"
+                defaultValue={selectedDepartment.tacticOfficer}
+                isRequired
+                isInvalid={
+                  actionData?.errors?.find(
+                    (error) => error.field === "tacticOfficer"
+                  )
+                    ? true
+                    : false
+                }
+                className="mt-4"
+                name="tacticOfficer"
+                classNames={{
+                  label:
+                    "text-sm md:text-base font-medium font-sen text-slate-800 dark:text-slate-100",
+                  trigger: " !shadow-none dark:border-slate-700  ",
+                  popoverContent:
+                    "bg-white shadow-sm dark:bg-slate-900 border border-white/5  ",
+                }}
+              >
+                {users.map((user: UserInterface) => (
+                  <SelectItem
+                    textValue={user?.firstName + " " + user?.lastName}
+                    className="mt-4"
+                    key={user._id}
+                  >
+                    {user?.firstName + " " + user?.lastName}
+                  </SelectItem>
+                ))}
+              </Select>
+
+              <Select
+                label="Training Officer"
+                labelPlacement="outside"
+                placeholder=" "
+                variant="bordered"
+                isRequired
+                defaultValue={selectedDepartment.trainingOfficer}
+                isInvalid={
+                  actionData?.errors?.find(
+                    (error) => error.field === "trainingOfficer"
+                  )
+                    ? true
+                    : false
+                }
+                className="mt-4"
+                name="trainingOfficer"
+                classNames={{
+                  label:
+                    "text-sm md:text-base font-medium font-sen text-slate-800 dark:text-slate-100",
+                  trigger: " !shadow-none dark:border-slate-700  ",
+                  popoverContent:
+                    "bg-white shadow-sm dark:bg-slate-900 border border-white/5  ",
+                }}
+              >
+                {users.map((user: UserInterface) => (
+                  <SelectItem
+                    textValue={user?.firstName + " " + user?.lastName}
+                    className="mt-4"
+                    key={user._id}
+                  >
+                    {user?.firstName + " " + user?.lastName}
+                  </SelectItem>
+                ))}
+              </Select>
+            </div>
             <CustomTextarea
               isRequired={true}
               label="Description"
               name="description"
               defaultValue={selectedDepartment.description}
             />
-          <input name="intent" value="update" type="hidden" />
-          <input name="id" value={selectedDepartment._id} type="hidden" />
+            <input name="intent" value="update" type="hidden" />
+            <input name="id" value={selectedDepartment._id} type="hidden" />
 
-          <div className="flex justify-end gap-2 mt-10 font-nunito">
-            <Button color="danger" onPress={onClose}>
-              Close
-            </Button>
-            <button className="bg-primary-400 rounded-xl text-white font-nunito px-4">
-              Submit
-            </button>
-          </div>
-        </Form>
+            <div className="flex justify-end gap-2 mt-10 font-nunito">
+              <Button color="danger" onPress={onClose}>
+                Close
+              </Button>
+              <button className="bg-primary-400 rounded-xl text-white font-nunito px-4">
+                Submit
+              </button>
+            </div>
+          </Form>
         )}
       </EditModal>
 
@@ -586,7 +586,7 @@ export const action: ActionFunction = async ({ request }) => {
   const trainingOfficer = formData.get("trainingOfficer") as string
   const description = formData.get("description") as string
   const intent = formData.get("intent") as string
-  const id =  formData.get("id") as string
+  const _id = formData.get("id") as string
 
 
 
@@ -594,7 +594,14 @@ export const action: ActionFunction = async ({ request }) => {
   switch (intent) {
     case "create":
       const createDepartment = await departmentController.createDepartment({
-       
+        name,
+        description,
+        strength,
+        mission,
+        vission,
+        quote,
+        tacticOfficer,
+        trainingOfficer,
       })
       return createDepartment
 
@@ -604,7 +611,15 @@ export const action: ActionFunction = async ({ request }) => {
 
     case "update":
       const updateDepartment = await departmentController.updateDepartment({
-       
+        _id,
+        name,
+        description,
+        strength,
+        mission,
+        vission,
+        quote,
+        tacticOfficer,
+        trainingOfficer,
       })
       return updateDepartment
     default:
