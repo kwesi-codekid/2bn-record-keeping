@@ -345,9 +345,9 @@ const AdminDepartments = () => {
                                : false
                        }
                    />
-                   <CustomInput
+                    <CustomInput
                        isRequired={true}
-                       label="Group Name"
+                       label="InCharge"
                        name="inCharge"
                        defaultValue={selectedDepartment.inCharge.firstName}
                        isInvalid={
@@ -357,7 +357,41 @@ const AdminDepartments = () => {
                        }
                    />
                   
-                
+                   <Select
+                       label="Members"
+                       labelPlacement="outside"
+                       placeholder=" "
+                       variant="bordered"
+                       defaultValue={selectedDepartment.members}
+                       selectionMode="multiple"
+                       isRequired
+                       isInvalid={
+                           actionData?.errors?.find(
+                               (error) => error.field === "members"
+                           )
+                               ? true
+                               : false
+                       }
+                       className="mt-4"
+                       name="members"
+                       classNames={{
+                           label:
+                               "text-sm md:text-base font-medium font-sen text-slate-800 dark:text-slate-100",
+                           trigger: " !shadow-none dark:border-slate-700  ",
+                           popoverContent:
+                               "bg-white shadow-sm dark:bg-slate-900 border border-white/5  ",
+                       }}
+                   >
+                       {group?.map((user: UserInterface) => (
+                           <SelectItem
+                               textValue={user?.firstName + " " + user?.lastName}
+                               className="mt-4"
+                               key={user._id}
+                           >
+                               {user?.firstName + " " + user?.lastName}
+                           </SelectItem>
+                       ))}
+                   </Select>
                    <CustomTextarea
                        isRequired={true}
                        label="Description"
@@ -463,7 +497,7 @@ export const action: ActionFunction = async ({ request }) => {
             return createDepartment
 
         case "delete":
-            const deleteDepartment = await departmentController.deleteDepartment({ _id })
+            const deleteDepartment = await groupController.deleteGroup({ _id })
             return deleteDepartment
 
         case "update":
@@ -505,6 +539,8 @@ export const loader: LoaderFunction = async ({ request }) => {
         page,
         search_term,
     })
+    console.log(group);
+    
 
 
 
