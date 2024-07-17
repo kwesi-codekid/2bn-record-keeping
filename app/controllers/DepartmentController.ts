@@ -134,17 +134,21 @@ export default class DepartmentController {
   public createDepartment = async ({
     name,
     description,
-    commandingOfficer,
-    departmentSeargent,
-    platoonCommander,
-    administrationWarranty,
+    strength,
+    mission,
+    vission,
+    quote,
+    tacticOfficer,
+    trainingOfficer,
   }: {
     name: string;
     description: string;
-    commandingOfficer: string;
-    departmentSeargent: string;
-    platoonCommander: string;
-    administrationWarranty: string;
+    strength: string;
+    mission: string;
+    vission: string;
+    quote: string;
+    tacticOfficer: string;
+    trainingOfficer: string;
   }) => {
     const session = await getFlashSession(this.request.headers.get("Cookie"));
 
@@ -180,10 +184,12 @@ export default class DepartmentController {
       const department = await Department.create({
         name,
         description,
-        commandingOfficer,
-        departmentSeargent,
-        platoonCommander,
-        administrationWarranty,
+        strength,
+        mission,
+        vission,
+        quote,
+        tacticOfficer: tacticOfficer || null,
+        trainingOfficer: trainingOfficer || null,
       });
 
       if (!department) {
@@ -263,18 +269,22 @@ export default class DepartmentController {
     _id,
     name,
     description,
-    commandingOfficer,
-    departmentSeargent,
-    platoonCommander,
-    administrationWarranty,
+    strength,
+    mission,
+    vission,
+    quote,
+    tacticOfficer,
+    trainingOfficer,
   }: {
     _id: string;
     name: string;
     description: string;
-    commandingOfficer: string;
-    departmentSeargent: string;
-    platoonCommander: string;
-    administrationWarranty: string;
+    strength: string;
+    mission: string;
+    vission: string;
+    quote: string;
+    tacticOfficer: string;
+    trainingOfficer: string;
   }) => {
     const session = await getFlashSession(this.request.headers.get("Cookie"));
 
@@ -284,10 +294,12 @@ export default class DepartmentController {
         {
           name,
           description,
-          commandingOfficer,
-          departmentSeargent,
-          platoonCommander,
-          administrationWarranty,
+          strength,
+          mission,
+          vission,
+          quote,
+          tacticOfficer: tacticOfficer || null,
+          trainingOfficer: trainingOfficer || null,
         },
         { new: true }
       );
