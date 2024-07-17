@@ -370,6 +370,7 @@ export default class UserController {
     company: string;
   }) => {
     const session = await getFlashSession(this.request.headers.get("Cookie"));
+console.log({password});
 
     try {
       const phoneExist = await User.findOne({ phone });
@@ -422,7 +423,7 @@ export default class UserController {
         //   errors,
         // };
       }
-      const encryptedPassword = bcrypt.hash(password, 10);
+      const encryptedPassword = await bcrypt.hash(password, 10);
 
       const user = await User.create({
         firstName,

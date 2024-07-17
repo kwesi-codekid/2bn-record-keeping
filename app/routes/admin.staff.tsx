@@ -797,7 +797,7 @@ export const action: ActionFunction = async ({ request }) => {
 
     case "update":
       const updateUser = await userController.updateUserProfile({
-        userId,
+        userId:id,
         firstName,
         lastName,
         email,
@@ -811,11 +811,11 @@ export const action: ActionFunction = async ({ request }) => {
         password,
       });
       return updateUser;
+      
     default:
       break;
   }
 
-  return null;
 };
 
 export const loader: LoaderFunction = async ({ request }) => {
