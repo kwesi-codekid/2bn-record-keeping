@@ -927,11 +927,34 @@ export default class UserController {
 
   public fetchEligibleUsers = async () => {
     try {
-      const eligibleUsers = await User.findEligibleForPromotion();
-      console.log("Eligible users for promotion:", eligibleUsers);
+      // const nextPosition = await this.getNextRole()
+      const fourYearsAgo = new Date();
+      fourYearsAgo.setFullYear(fourYearsAgo.getFullYear() - 4);
+
+      const eligibleUsers = await User.find({
+        lastPromotionDate: { $lte: fourYearsAgo },
+      }).select(["-password"]);
+
       return { eligibleUsers };
     } catch (error) {
       console.error("Error fetching eligible users:", error);
+    }
+  };
+
+  private getNextRole = async (position: string) => {
+    const promotionRoles = [
+      "staff",
+      "supervisor",
+      "manager",
+      "general-manager",
+      "admin",
+    ];
+
+    let currentRoleIndex = promotionRoles.indexOf(position);
+    if (currentRoleIndex < promotionRoles.length - 1) {
+      return promotionRoles[currentRoleIndex + 1];
+    } else {
+      return null; // No further promotion available
     }
   };
 }
