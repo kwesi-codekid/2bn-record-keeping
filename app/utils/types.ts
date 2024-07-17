@@ -56,6 +56,7 @@ export type CompanyInterface = {
 
 export type DutyInterface = {
   _id?: string;
+  inCharge: UserInterface;
   officer: UserInterface;
   dutyType:
     | "patrol"
@@ -64,8 +65,8 @@ export type DutyInterface = {
     | "community service"
     | "administrative";
   dutyLocation: string;
-  startTime: Date;
-  endTime: Date;
+  startTime: string;
+  endTime: string;
   status: "scheduled" | "sngoing" | "sompleted" | "sancelled";
   notes: string;
 };
