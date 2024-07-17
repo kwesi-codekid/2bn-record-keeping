@@ -924,4 +924,14 @@ export default class UserController {
       });
     }
   };
+
+  public fetchEligibleUsers = async () => {
+    try {
+      const eligibleUsers = await User.findEligibleForPromotion();
+      console.log("Eligible users for promotion:", eligibleUsers);
+      return eligibleUsers;
+    } catch (error) {
+      console.error("Error fetching eligible users:", error);
+    }
+  };
 }

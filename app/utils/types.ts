@@ -24,6 +24,7 @@ export type UserInterface = {
   role?: string;
   position?: string;
   company?: CompanyInterface;
+  lastPromotionDate?: Date;
 };
 
 export type DepartmentInterface = {
@@ -68,5 +69,21 @@ export type DutyInterface = {
   endTime: string;
   status: "scheduled" | "sngoing" | "sompleted" | "sancelled";
   notes: string;
-  inCharge:string
+  inCharge: string;
+};
+
+export type MissionInterface = {
+  officer: UserInterface;
+  dutyType:
+    | "patrol"
+    | "traffic"
+    | "investigation"
+    | "community service"
+    | "administrative";
+  dutyLocation: string;
+  startTime: string;
+  endTime: string;
+  status: "scheduled" | "sngoing" | "sompleted" | "sancelled";
+  notes: string;
+  inCharge: string;
 };

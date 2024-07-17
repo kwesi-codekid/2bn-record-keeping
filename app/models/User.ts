@@ -58,11 +58,23 @@ const userSchema = new mongoose.Schema<UserInterface>(
       type: String,
       required: true,
     },
+    lastPromotionDate: {
+      type: Date,
+      default: Date.now,
+    },
   },
   {
     timestamps: true,
   }
 );
+
+// Static method to fetch eligible users for promotion
+userSchema.statics.findEligibleForPromotion = async function () {
+  const fourYearsAgo = new Date();
+  fourYearsAgo.setFullYear(fourYearsAgo.getFullYear() - 4);
+
+  return this.find({ lastPromotionDate: { $lte: fourYearsAgo } });
+};
 
 // // Custom validation function to check uniqueness excluding the current user
 // async function isUnique(value, field, userId) {
