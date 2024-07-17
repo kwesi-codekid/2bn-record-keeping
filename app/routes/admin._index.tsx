@@ -1,13 +1,31 @@
+import { Calendar } from "@nextui-org/react";
 import { LoaderFunction } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
+import { useEffect, useState } from "react";
+import { getGreeting } from "~/components/cards/greeting";
 import { Card, IconCard } from "~/components/sections/cards";
-import CompanyController from "~/controllers/CompanyController";
-import DepartmentController from "~/controllers/DepartmentController";
+import DashboardController from "~/controllers/DashboardController";
 import UserController from "~/controllers/UserController";
+import { UserInterface } from "~/utils/types";
+import { today, getLocalTimeZone } from "@internationalized/date";
+
 
 export default function AdminDashboard() {
-  const { totalUsers, totalDepartmentsCount, totalCompanies } = useLoaderData<{ totalUsers: number; totalDepartmentsCount: number; totalCompanies: number }>();
-  console.log(totalUsers, totalDepartmentsCount, totalCompanies);
+  const [greeting, setGreeting] = useState<any>()
+  useEffect(() => {
+    setGreeting(getGreeting())
+  }, [])
+  const { total, users } = useLoaderData<{
+    total: {
+      userTotal: number,
+      departmentTotal: number,
+      companyTotal: number,
+      groupTotal: number,
+      missionTotal:number
+    },
+    users: UserInterface
+  }>();
+
 
   const data = [
     { title: "Total Members", value: 12 },
@@ -23,22 +41,22 @@ export default function AdminDashboard() {
           {/* stats card */}
           <div className="grid grid-cols-2 gap-4">
             <IconCard title="Total Staff">
-              <p className="font-nunito text-2xl font-semibold">{totalUsers}</p>
+              <p className="font-nunito text-2xl font-semibold">{total.userTotal}</p>
             </IconCard>
-            <IconCard title="Total Departments">
-              <p className="font-nunito text-2xl font-semibold">{totalDepartmentsCount}</p>
+            <IconCard title="Total Mission">
+              <p className="font-nunito text-2xl font-semibold">{total.missionTotal}</p>
             </IconCard>
           </div>
 
           <div className="grid grid-cols-3 gap-4">
-             <IconCard title="Total Companies">
-              <p className="font-nunito text-2xl font-semibold">{totalCompanies}</p>
+            <IconCard title="Total Companies">
+              <p className="font-nunito text-2xl font-semibold">{total.companyTotal}</p>
             </IconCard>
-             <IconCard title="Total Companies">
-              <p className="font-nunito text-2xl font-semibold">{totalCompanies}</p>
+            <IconCard title="Total Department">
+              <p className="font-nunito text-2xl font-semibold">{total.departmentTotal}</p>
             </IconCard>
-             <IconCard title="Total Companies">
-              <p className="font-nunito text-2xl font-semibold">{totalCompanies}</p>
+            <IconCard title="Total Companies">
+              <p className="font-nunito text-2xl font-semibold">{total.groupTotal}</p>
             </IconCard>
           </div>
         </div>
@@ -49,8 +67,21 @@ export default function AdminDashboard() {
 
       {/* right-sided cards */}
       <div className="flex flex-col gap-6 h-full">
-        <Card title="Recents" />
-        <Card title="Recents" />
+        <Card title="" >
+          <p className='font-montserrat font-semibold text-4xl'>{greeting}</p>
+        </Card>
+        <Card  title="" >
+          <Calendar
+            aria-label="Date (Read Only)"
+            value={today(getLocalTimeZone())}
+            isReadOnly
+            classNames={{
+              headerWrapper: "dark:bg-slate-950",
+              header: "dark:bg-slate-950",
+              content: "dark:bg-slate-950 w-[23vw] overflow-x-hidden border border-white/5 shadow-md"
+            }}
+          />
+        </Card>
       </div>
     </div>
   );
@@ -60,17 +91,11 @@ export const loader: LoaderFunction = async ({ request }) => {
   const url = new URL(request.url);
   const page = parseInt(url.searchParams.get("page") as string) || 1;
   const search_term = url.searchParams.get("search_term") as string;
-  const userController = new UserController(request);
-  const departmentController = new DepartmentController(request);
-  const companyController = new CompanyController(request);
+  const dashboardController = new DashboardController(request);
+  const usersController = new UserController(request);
 
-  const userResult = await userController.getUsers({ page, search_term });
-  const departmentResult = await departmentController.getDepartments({ page, search_term });
-  const companyResult = await companyController.getCompanys({ page, search_term });
+  const users = await usersController.getUsers({ page, search_term, })
 
-  return {
-    totalUsers: userResult.totalPages,         // Adjusted property names
-    totalDepartmentsCount: departmentResult.totalPages, // Adjusted property names
-    totalCompanies: companyResult.totalPages   // Adjusted property names
-  };
+  const total = await dashboardController.totals()
+  return { total, users }
 };

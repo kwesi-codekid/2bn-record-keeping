@@ -1,7 +1,8 @@
 import React from "react";
-import MoonIcon from "../icons/MoonIcon"; // Adjust the import path as necessary
 import MorningIcon from "../icons/MorningIcon";
-import SunIcon from "../icons/SunIcon";
+import { SunIcon } from "../icons/Sun";
+import { MoonIcon } from "../icons/Moon";
+
 
 export function getGreeting() {
     const now = new Date();
@@ -22,7 +23,7 @@ export function getGreeting() {
                 </div>
             </div>
         );
-    } else if (hour < 18) {
+    } else if (hour < 16) {
         return (
             <div className="lg:grid lg:grid-cols-2 flex items-center justify-center">
                 <div>

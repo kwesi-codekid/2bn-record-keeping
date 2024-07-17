@@ -161,7 +161,7 @@ const AdminDepartments = () => {
               setIsCreateModalOpened(true);
             }}
           >
-            Create Department
+            Create Company
           </Button>
         </div>
       </div>
@@ -226,8 +226,8 @@ const AdminDepartments = () => {
       <CreateRecordModal
         isOpen={isCreateModalOpened}
         onOpenChange={handleCreateModalClosed}
-        modalTitle=" Create Department"
-        className=""
+        modalTitle=" Create Company"
+        className="dark:bg-slate-900"
       >
         {(onClose) => (
           <Form method="post" className="flex flex-col gap-4">
@@ -396,8 +396,8 @@ const AdminDepartments = () => {
       <EditModal
         isOpen={isEditModalOpened}
         onOpenChange={handleEditModalClosed}
-        modalTitle=" Edit Department"
-        className=""
+        modalTitle=" Edit Company"
+        className="dark:bg-slate-900"
       >
         {(onClose) => (
           <Form method="post" className="flex flex-col gap-4">
@@ -571,7 +571,7 @@ const AdminDepartments = () => {
       </EditModal>
 
       <ConfirmModal
-        className="bg-gray-200 dark:bg-slate-950 border border-white/5"
+        className="bg-gray-200 dark:bg-slate-900 border border-white/5"
         content="Are you sure to delete product"
         header="Comfirm Delete"
         isOpen={isConfirmedModalOpened}
@@ -608,23 +608,6 @@ const AdminDepartments = () => {
           </Button>
         </div>
       </ConfirmModal>
-
-      {/* Delete department */}
-      <DeleteRecordModal
-        title="Delete Department"
-        isModalOpen={deleteDisclosure.isOpen}
-        onCloseModal={deleteDisclosure.onClose}
-      >
-        <CustomInput
-          name="_id"
-          label="Delete ID"
-          value={deleteId}
-          hidden={true}
-        />
-        <p className="font-nunito text-slate-800 dark:text-white">
-          Are you sure to delete this department?
-        </p>
-      </DeleteRecordModal>
     </div>
   );
 };

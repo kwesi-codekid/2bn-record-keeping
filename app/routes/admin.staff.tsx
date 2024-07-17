@@ -192,7 +192,7 @@ const AdminDepartments = () => {
             <TableCell className="text-sm">{user?.email}</TableCell>
             <TableCell className="text-sm">{user?.phone}</TableCell>
             <TableCell className="text-sm">{user?.dateOfBirth}</TableCell>
-            <TableCell className="text-sm">{user?.company?.name}</TableCell>
+            <TableCell className="text-sm">{user?.department?.name}</TableCell>
             <TableCell className="text-sm">{user?.role}</TableCell>
             <TableCell className="text-sm">{user?.position}</TableCell>
             <TableCell className="text-sm">{user?.company?.name}</TableCell>
@@ -224,23 +224,12 @@ const AdminDepartments = () => {
         ))}
       </CustomTable>
 
-      {/* Create Department Modal */}
-      {/* export interface CompanyInterface {
-     name:string
-     logo: string
-     commandingOfficer: UserInterface,
-     companySeargent:UserInterface,
-     platoonCommander: UserInterface,
-     administrationWarranty: UserInterface,
-     descriptio:string
-    createdAt?: Date;
-    updatedAt?: Date;
-  } */}
+     
       <CreateRecordModal
         isOpen={isCreateModalOpened}
         onOpenChange={handleCreateModalClosed}
-        modalTitle=" Create Department"
-        className=""
+        modalTitle=" Create User"
+        className="dar"
       >
         {(onClose) => (
           <Form method="post" className="flex flex-col gap-4">
