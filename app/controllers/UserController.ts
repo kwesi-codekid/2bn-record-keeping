@@ -965,13 +965,15 @@ export default class UserController {
       }).select(["-password"]);
 
       // Add next role to each eligible user
-      const usersWithNextRole = eligibleUsers.map(async (user) => {
-        const nextPosition = await this.getNextRole(user.position);
-        return {
-          ...user.toObject(),
-          nextPosition,
-        };
-      });
+      const usersWithNextRole = await Promise.all(
+        eligibleUsers.map(async (user) => {
+          const nextPosition = await this.getNextRole(user.position);
+          return {
+            ...user.toObject(),
+            nextPosition,
+          };
+        })
+      );
 
       return { eligibleUsers: usersWithNextRole };
     } catch (error) {
