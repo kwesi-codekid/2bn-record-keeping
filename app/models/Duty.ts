@@ -4,6 +4,11 @@ import { DutyInterface } from "~/utils/types";
 
 const dutySchema = new mongoose.Schema<DutyInterface>(
   {
+    inCharge: {
+      type: Schema.Types.ObjectId,
+      ref: "users",
+      required: true,
+    },
     officer: {
       type: Schema.Types.ObjectId,
       ref: "users",
@@ -36,7 +41,7 @@ const dutySchema = new mongoose.Schema<DutyInterface>(
     },
     status: {
       type: String,
-      enum: ["scheduled", "sngoing", "sompleted", "sancelled"],
+      enum: ["scheduled", "ongoing", "completed", "cancelled"],
       default: "scheduled",
     },
     notes: {
