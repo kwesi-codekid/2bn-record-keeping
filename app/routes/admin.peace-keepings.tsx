@@ -39,10 +39,10 @@ import DutyController from "~/controllers/DutyController";
 import GroupController from "~/controllers/GroupController";
 import MissionController from "~/controllers/MissionController";
 import UserController from "~/controllers/UserController";
-import { deptTableCols, dutyTableCols } from "~/data/table-cols";
+import { deptTableCols, dutyTableCols, missionTableCols } from "~/data/table-cols";
 import { getInitials } from "~/utils/string-manipulation";
 import { errorToast, successToast } from "~/utils/toasters";
-import { CompanyInterface, DepartmentInterface, DutyInterface, GroupInterface, UserInterface } from "~/utils/types";
+import { CompanyInterface, DepartmentInterface, DutyInterface, GroupInterface, MissionInterface, UserInterface } from "~/utils/types";
 
 const AdminDepartments = () => {
   const [isCreateModalOpened, setIsCreateModalOpened] = useState(false);
@@ -62,11 +62,11 @@ const AdminDepartments = () => {
   };
 
   // loader data
-  const { duties, totalPages, users,groups } = useLoaderData<{
-    duties: DutyInterface[];
+  const { missions, totalPages, users, groups } = useLoaderData<{
+    missions: MissionInterface[];
     totalPages: number;
     users: UserInterface[];
-    groups:GroupInterface[]
+    groups: GroupInterface[]
   }>();
 
   // action data
@@ -96,7 +96,7 @@ const AdminDepartments = () => {
   // select department data
   let selectOptions: { key: string; value: string; display_name: string }[] =
     [];
-  duties?.map((department: DutyController) => {
+    missions?.map((department: MissionInterface) => {
     selectOptions.push({
       key: department._id as string,
       value: department._id as string,
@@ -171,7 +171,7 @@ const AdminDepartments = () => {
       </div>
 
       <CustomTable
-        columns={dutyTableCols}
+        columns={missionTableCols}
         loadingState={navigation.state === "loading" ? "loading" : "idle"}
         page={1}
         setPage={(page) => {
@@ -179,16 +179,15 @@ const AdminDepartments = () => {
         }}
         totalPages={totalPages}
       >
-        {duties?.map((duty: DutyInterface) => (
-          <TableRow key={duty?._id}>
-            <TableCell className="text-sm">{duty?.inCharge?.firstName + "" + duty?.inCharge?.lastName}</TableCell>
-            <TableCell className="text-sm">{duty?.officer?.firstName + "" + duty?.officer?.lastName}</TableCell>
-            <TableCell className="text-sm">{duty?.dutyType}</TableCell>
-            <TableCell className="text-sm">{duty?.dutyLocation}</TableCell>
-            <TableCell className="text-sm">{duty?.startTime}</TableCell>
-            <TableCell className="text-sm">{duty?.endTime}</TableCell>
-            <TableCell className="text-sm">{duty?.status}</TableCell>
-            <TableCell>{duty?.notes}</TableCell>
+        {missions?.map((mission: MissionInterface) => (
+          <TableRow key={mission?._id}>
+            <TableCell className="text-sm">{mission?.name}</TableCell>
+            <TableCell className="text-sm">{mission?.missionType}</TableCell>
+            <TableCell className="text-sm">{mission?.missionLocation}</TableCell>
+            <TableCell>{mission?.startDate}</TableCell>
+            <TableCell>{mission?.endDate}</TableCell>
+            <TableCell>{mission?.status}</TableCell>
+            <TableCell>{mission?.description}</TableCell>
             <TableCell className="flex items-center">
               <Button
                 size="sm"
@@ -196,7 +195,7 @@ const AdminDepartments = () => {
                 variant="light"
                 onClick={() => {
                   setIsEditModalOpened(true)
-                  setSelectedDepartment(duty)
+                  setSelectedDepartment(mission)
                 }}
               >
                 edit
@@ -207,7 +206,7 @@ const AdminDepartments = () => {
                 variant="light"
                 onClick={() => {
                   setIsConfirmedModalOpened(true)
-                  setSelectedDepartment(duty)
+                  setSelectedDepartment(mission)
                 }}
               >
                 Delete
@@ -325,53 +324,55 @@ const AdminDepartments = () => {
             </Select>
 
             <div className="flex gap-4">
-            <CustomInput
-              isRequired={true}
-              label="Start Date"
-              name="startDate"
-              isInvalid={
-                actionData?.errors?.find((error) => error.field === "startDate")
-                  ? true
-                  : false
-              }
-            />
-            <CustomInput
-              isRequired={true}
-              label="End Date"
-              name="endDate"
-              isInvalid={
-                actionData?.errors?.find((error) => error.field === "endDate")
-                  ? true
-                  : false
-              }
-            />
-            </div>
-
-            <Select
-                label="Group"
-                labelPlacement="outside"
-                placeholder=" "
-                isRequired
-                variant="bordered"
+              <CustomInput
+                isRequired={true}
+                label="Start Date"
+                name="startDate"
+                type="date"
                 isInvalid={
-                  actionData?.errors?.find((error) => error.field === "group")
+                  actionData?.errors?.find((error) => error.field === "startDate")
                     ? true
                     : false
                 }
-                className="mt-4"
-                name="missionType"
-                classNames={{
-                  label:
-                    "text-sm md:text-base font-medium font-sen text-slate-800 dark:text-slate-100",
-                  trigger: " !shadow-none dark:border-slate-700  ",
-                  popoverContent:
-                    "bg-white shadow-sm dark:bg-slate-900 border border-white/5  ",
-                }}
-              >
-                {groups.map((group:GroupInterface) => (
-                  <SelectItem key={group._id}>{group.name}</SelectItem>
-                ))}
-              </Select>
+              />
+              <CustomInput
+                isRequired={true}
+                label="End Date"
+                name="endDate"
+                type="date"
+                isInvalid={
+                  actionData?.errors?.find((error) => error.field === "endDate")
+                    ? true
+                    : false
+                }
+              />
+            </div>
+
+            <Select
+              label="Group"
+              labelPlacement="outside"
+              placeholder=" "
+              isRequired
+              variant="bordered"
+              isInvalid={
+                actionData?.errors?.find((error) => error.field === "group")
+                  ? true
+                  : false
+              }
+              className="mt-4"
+              name="missionType"
+              classNames={{
+                label:
+                  "text-sm md:text-base font-medium font-sen text-slate-800 dark:text-slate-100",
+                trigger: " !shadow-none dark:border-slate-700  ",
+                popoverContent:
+                  "bg-white shadow-sm dark:bg-slate-900 border border-white/5  ",
+              }}
+            >
+              {groups.map((group: GroupInterface) => (
+                <SelectItem key={group._id}>{group.name}</SelectItem>
+              ))}
+            </Select>
 
             <CustomTextarea
               isRequired={true}
@@ -400,169 +401,169 @@ const AdminDepartments = () => {
         className=""
       >
         {(onClose) => (
-           <Form method="post" className="flex flex-col gap-4">
-           <CustomInput
-             isRequired={true}
-             label="Name"
-             name="name"
-             defaultValue={selectedDepartment.name}
-             isInvalid={
-               actionData?.errors?.find((error) => error.field === "name")
-                 ? true
-                 : false
-             }
-           />
-           <div className="flex gap-4">
-             <Select
-               label="Mission Type"
-               labelPlacement="outside"
-               placeholder=" "
-               isRequired
-               defaultValue={selectedDepartment.missionType}
-               variant="bordered"
-               isInvalid={
-                 actionData?.errors?.find((error) => error.field === "missionType")
-                   ? true
-                   : false
-               }
-               className="mt-4"
-               name="missionType"
-               classNames={{
-                 label:
-                   "text-sm md:text-base font-medium font-sen text-slate-800 dark:text-slate-100",
-                 trigger: " !shadow-none dark:border-slate-700  ",
-                 popoverContent:
-                   "bg-white shadow-sm dark:bg-slate-900 border border-white/5  ",
-               }}
-             >
-               {[
-                 { key: "patrol", value: "patrol", display_name: "patrol" },
-                 { key: "traffic", value: "traffic", display_name: "traffic" },
-                 { key: "investigation", value: "investigation", display_name: "investigation" },
-                 { key: "community service", value: "community service", display_name: "community service" },
-                 { key: "administrative", value: "administrative", display_name: "administrative" },
-               ].map((role) => (
-                 <SelectItem key={role.key}>{role.display_name}</SelectItem>
-               ))}
-             </Select>
-             <CustomInput
-               isRequired={true}
-               label="Location"
-               name="missionLocation"
-               defaultValue={selectedDepartment.missionLocation}
-               type="text"
-               isInvalid={
-                 actionData?.errors?.find((error) => error.field === "missionLocation")
-                   ? true
-                   : false
-               }
-             />
+          <Form method="post" className="flex flex-col gap-4">
+            <CustomInput
+              isRequired={true}
+              label="Name"
+              name="name"
+              defaultValue={selectedDepartment.name}
+              isInvalid={
+                actionData?.errors?.find((error) => error.field === "name")
+                  ? true
+                  : false
+              }
+            />
+            <div className="flex gap-4">
+              <Select
+                label="Mission Type"
+                labelPlacement="outside"
+                placeholder=" "
+                isRequired
+                defaultValue={selectedDepartment.missionType}
+                variant="bordered"
+                isInvalid={
+                  actionData?.errors?.find((error) => error.field === "missionType")
+                    ? true
+                    : false
+                }
+                className="mt-4"
+                name="missionType"
+                classNames={{
+                  label:
+                    "text-sm md:text-base font-medium font-sen text-slate-800 dark:text-slate-100",
+                  trigger: " !shadow-none dark:border-slate-700  ",
+                  popoverContent:
+                    "bg-white shadow-sm dark:bg-slate-900 border border-white/5  ",
+                }}
+              >
+                {[
+                  { key: "patrol", value: "patrol", display_name: "patrol" },
+                  { key: "traffic", value: "traffic", display_name: "traffic" },
+                  { key: "investigation", value: "investigation", display_name: "investigation" },
+                  { key: "community service", value: "community service", display_name: "community service" },
+                  { key: "administrative", value: "administrative", display_name: "administrative" },
+                ].map((role) => (
+                  <SelectItem key={role.key}>{role.display_name}</SelectItem>
+                ))}
+              </Select>
+              <CustomInput
+                isRequired={true}
+                label="Location"
+                name="missionLocation"
+                defaultValue={selectedDepartment.missionLocation}
+                type="text"
+                isInvalid={
+                  actionData?.errors?.find((error) => error.field === "missionLocation")
+                    ? true
+                    : false
+                }
+              />
 
-           </div>
+            </div>
 
-           <Select
-             label="Status"
-             labelPlacement="outside"
-             placeholder=" "
-             isRequired
-             defaultValue={selectedDepartment.status}
-             variant="bordered"
-             isInvalid={
-               actionData?.errors?.find((error) => error.field === "status")
-                 ? true
-                 : false
-             }
-             className="mt-4"
-             name="status"
-             classNames={{
-               label:
-                 "text-sm md:text-base font-medium font-sen text-slate-800 dark:text-slate-100",
-               trigger: " !shadow-none dark:border-slate-700  ",
-               popoverContent:
-                 "bg-white shadow-sm dark:bg-slate-900 border border-white/5  ",
-             }}
-           >
-             {[
-               { key: "scheduled", value: "scheduled", display_name: "scheduled" },
-               { key: "sngoing", value: "sngoing", display_name: "sngoing" },
-               { key: "sompleted", value: "sompleted", display_name: "sompleted" },
-               { key: "sancelled", value: "sancelled", display_name: "sancelled" },
-             ].map((role) => (
-               <SelectItem key={role.key}>{role.display_name}</SelectItem>
-             ))}
-           </Select>
+            <Select
+              label="Status"
+              labelPlacement="outside"
+              placeholder=" "
+              isRequired
+              defaultValue={selectedDepartment.status}
+              variant="bordered"
+              isInvalid={
+                actionData?.errors?.find((error) => error.field === "status")
+                  ? true
+                  : false
+              }
+              className="mt-4"
+              name="status"
+              classNames={{
+                label:
+                  "text-sm md:text-base font-medium font-sen text-slate-800 dark:text-slate-100",
+                trigger: " !shadow-none dark:border-slate-700  ",
+                popoverContent:
+                  "bg-white shadow-sm dark:bg-slate-900 border border-white/5  ",
+              }}
+            >
+              {[
+                { key: "scheduled", value: "scheduled", display_name: "scheduled" },
+                { key: "sngoing", value: "sngoing", display_name: "sngoing" },
+                { key: "sompleted", value: "sompleted", display_name: "sompleted" },
+                { key: "sancelled", value: "sancelled", display_name: "sancelled" },
+              ].map((role) => (
+                <SelectItem key={role.key}>{role.display_name}</SelectItem>
+              ))}
+            </Select>
 
-           <div className="flex gap-4">
-           <CustomInput
-             isRequired={true}
-             label="Start Date"
-             name="startDate"
-             defaultValue={selectedDepartment.startDate}
-             isInvalid={
-               actionData?.errors?.find((error) => error.field === "startDate")
-                 ? true
-                 : false
-             }
-           />
-           <CustomInput
-             isRequired={true}
-             label="End Date"
-             name="endDate"
-             defaultValue={selectedDepartment.endDate}
-             isInvalid={
-               actionData?.errors?.find((error) => error.field === "endDate")
-                 ? true
-                 : false
-             }
-           />
-           </div>
+            <div className="flex gap-4">
+              <CustomInput
+                isRequired={true}
+                label="Start Date"
+                name="startDate"
+                defaultValue={selectedDepartment.startDate}
+                isInvalid={
+                  actionData?.errors?.find((error) => error.field === "startDate")
+                    ? true
+                    : false
+                }
+              />
+              <CustomInput
+                isRequired={true}
+                label="End Date"
+                name="endDate"
+                defaultValue={selectedDepartment.endDate}
+                isInvalid={
+                  actionData?.errors?.find((error) => error.field === "endDate")
+                    ? true
+                    : false
+                }
+              />
+            </div>
 
-           <Select
-               label="Group"
-               labelPlacement="outside"
-               placeholder=" "
-               isRequired
-               variant="bordered"
-               defaultValue={selectedDepartment.group}
-               isInvalid={
-                 actionData?.errors?.find((error) => error.field === "group")
-                   ? true
-                   : false
-               }
-               className="mt-4"
-               name="missionType"
-               classNames={{
-                 label:
-                   "text-sm md:text-base font-medium font-sen text-slate-800 dark:text-slate-100",
-                 trigger: " !shadow-none dark:border-slate-700  ",
-                 popoverContent:
-                   "bg-white shadow-sm dark:bg-slate-900 border border-white/5  ",
-               }}
-             >
-               {groups.map((group:GroupInterface) => (
-                 <SelectItem key={group._id}>{group.name}</SelectItem>
-               ))}
-             </Select>
+            <Select
+              label="Group"
+              labelPlacement="outside"
+              placeholder=" "
+              isRequired
+              variant="bordered"
+              defaultValue={selectedDepartment.group}
+              isInvalid={
+                actionData?.errors?.find((error) => error.field === "group")
+                  ? true
+                  : false
+              }
+              className="mt-4"
+              name="missionType"
+              classNames={{
+                label:
+                  "text-sm md:text-base font-medium font-sen text-slate-800 dark:text-slate-100",
+                trigger: " !shadow-none dark:border-slate-700  ",
+                popoverContent:
+                  "bg-white shadow-sm dark:bg-slate-900 border border-white/5  ",
+              }}
+            >
+              {groups.map((group: GroupInterface) => (
+                <SelectItem key={group._id}>{group.name}</SelectItem>
+              ))}
+            </Select>
 
-           <CustomTextarea
-             isRequired={true}
-             defaultValue={selectedDepartment.description}
-             label="description"
-             name="description"
-           />
+            <CustomTextarea
+              isRequired={true}
+              defaultValue={selectedDepartment.description}
+              label="description"
+              name="description"
+            />
 
-           <input name="intent" value="update" type="hidden" />
-           <input name="id" value={ selectedDepartment._id}type="hidden" />
+            <input name="intent" value="update" type="hidden" />
+            <input name="id" value={selectedDepartment._id} type="hidden" />
 
-           <div className="flex justify-end gap-2 mt-10 font-nunito">
-             <Button color="danger" onPress={onClose}>
-               Close
-             </Button>
-             <button className="bg-primary-400 rounded-xl text-white font-nunito px-4">
-               Submit
-             </button>
-           </div>
-         </Form>
+            <div className="flex justify-end gap-2 mt-10 font-nunito">
+              <Button color="danger" onPress={onClose}>
+                Close
+              </Button>
+              <button className="bg-primary-400 rounded-xl text-white font-nunito px-4">
+                Submit
+              </button>
+            </div>
+          </Form>
         )}
       </EditModal>
 
@@ -653,24 +654,25 @@ export const action: ActionFunction = async ({ request }) => {
         startDate,
         endDate,
         status,
+        group,
       })
       return createDuty
 
     case "delete":
-      const deleteDuty = await dutyController.deleteDuty({ _id })
+      const deleteDuty = await missionController.deleteMission({ _id })
       return deleteDuty
 
     case "update":
-      const updateDuty = await dutyController.updateDuty({
+      const updateDuty = await missionController.updateMission({
         _id,
-        inCharge,
-        officer,
-        dutyType,
-        dutyLocation,
-        startTime,
-        endTime,
+        name,
+        description,
+        missionType,
+        missionLocation,
+        startDate,
+        endDate,
         status,
-        notes,
+        group,
       })
       return updateDuty
     default:
@@ -692,7 +694,7 @@ export const loader: LoaderFunction = async ({ request }) => {
     page,
     search_term
   })
-  const { duties } = await missionController.getMissions({
+  const { missions } = await missionController.getMissions({
     page,
     search_term,
   })
@@ -703,7 +705,7 @@ export const loader: LoaderFunction = async ({ request }) => {
 
 
 
-  return { users, duties,groups }
+  return { users, missions, groups }
 };
 
 export const meta: MetaFunction = () => {

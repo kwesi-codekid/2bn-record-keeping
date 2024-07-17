@@ -25,6 +25,16 @@ export const groupTableCols = [
   { title: "Action", allowSort: true },
   
 ];
+export const missionTableCols = [
+  { title: "Name", allowSort: true },
+  { title: " Mission Type", allowSort: true },
+  { title: "Location", allowSort: true },   
+  { title: "Start Date", allowSort: true },   
+  { title: "End Date", allowSort: true },   
+  { title: "Description", allowSort: true },   
+  { title: "Status", allowSort: true },
+  { title: "Actions", allowSort: false },
+];
 export const dutyTableCols = [
   { title: "Incharge", allowSort: true },
   { title: " Officer", allowSort: true },
