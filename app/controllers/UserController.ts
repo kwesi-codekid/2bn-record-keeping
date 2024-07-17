@@ -925,6 +925,10 @@ export default class UserController {
     }
   };
 
+  public getMembersNotOnMission = async () => {
+    console.log("more");
+  };
+
   public fetchEligibleUsers = async () => {
     try {
       // const nextPosition = await this.getNextRole()

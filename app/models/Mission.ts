@@ -4,15 +4,13 @@ import { MissionInterface } from "~/utils/types";
 
 const missionSchema = new mongoose.Schema<MissionInterface>(
   {
-    inCharge: {
-      type: Schema.Types.ObjectId,
-      ref: "users",
+    name: {
+      type: String,
       required: true,
+      unique: true,
     },
-    officer: {
-      type: Schema.Types.ObjectId,
-      ref: "users",
-      required: true,
+    description: {
+      type: String,
     },
     missionType: {
       type: String,
@@ -47,6 +45,11 @@ const missionSchema = new mongoose.Schema<MissionInterface>(
     notes: {
       type: String,
       trim: true,
+    },
+    group: {
+      type: Schema.Types.ObjectId,
+      ref: "groups",
+      required: false,
     },
   },
   {
