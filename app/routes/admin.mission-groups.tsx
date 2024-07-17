@@ -60,11 +60,11 @@ const AdminDepartments = () => {
     };
 
     // loader data
-    const { groups, totalPages, users,group } = useLoaderData<{
+    const { groups, totalPages, users, group } = useLoaderData<{
         groups: GroupInterface[];
         totalPages: number;
         users: UserInterface[];
-        group:UserInterface[]
+        group: UserInterface[]
     }>();
 
     // action data
@@ -94,7 +94,7 @@ const AdminDepartments = () => {
     // select department data
     let selectOptions: { key: string; value: string; display_name: string }[] =
         [];
-        groups?.map((group:GroupInterface) => {
+    groups?.map((group: GroupInterface) => {
         selectOptions.push({
             key: group._id as string,
             value: group._id as string,
@@ -180,7 +180,7 @@ const AdminDepartments = () => {
                 {groups?.map((group: GroupInterface) => (
                     <TableRow key={group._id}>
                         <TableCell className="text-sm">{group?.name}</TableCell>
-                        <TableCell className="text-sm">{group?.inCharge.firstName +" " + group?.inCharge.lastName}</TableCell>
+                        <TableCell className="text-sm">{group?.inCharge.firstName + " " + group?.inCharge.lastName}</TableCell>
                         <TableCell className="text-sm">{group?.description}</TableCell>
                         <TableCell className="flex items-center">
                             <Button
@@ -333,83 +333,83 @@ const AdminDepartments = () => {
                 className=""
             >
                 {(onClose) => (
-                   <Form method="post" className="flex flex-col gap-4">
-                   <CustomInput
-                       isRequired={true}
-                       label="Group Name"
-                       name="name"
-                       defaultValue={selectedDepartment.name}
-                       isInvalid={
-                           actionData?.errors?.find((error) => error.field === "name")
-                               ? true
-                               : false
-                       }
-                   />
-                    <CustomInput
-                       isRequired={true}
-                       label="InCharge"
-                       name="inCharge"
-                       defaultValue={selectedDepartment.inCharge.firstName}
-                       isInvalid={
-                           actionData?.errors?.find((error) => error.field === "inCharge")
-                               ? true
-                               : false
-                       }
-                   />
-                  
-                   <Select
-                       label="Members"
-                       labelPlacement="outside"
-                       placeholder=" "
-                       variant="bordered"
-                       defaultValue={selectedDepartment.members}
-                       selectionMode="multiple"
-                       isRequired
-                       isInvalid={
-                           actionData?.errors?.find(
-                               (error) => error.field === "members"
-                           )
-                               ? true
-                               : false
-                       }
-                       className="mt-4"
-                       name="members"
-                       classNames={{
-                           label:
-                               "text-sm md:text-base font-medium font-sen text-slate-800 dark:text-slate-100",
-                           trigger: " !shadow-none dark:border-slate-700  ",
-                           popoverContent:
-                               "bg-white shadow-sm dark:bg-slate-900 border border-white/5  ",
-                       }}
-                   >
-                       {group?.map((user: UserInterface) => (
-                           <SelectItem
-                               textValue={user?.firstName + " " + user?.lastName}
-                               className="mt-4"
-                               key={user._id}
-                           >
-                               {user?.firstName + " " + user?.lastName}
-                           </SelectItem>
-                       ))}
-                   </Select>
-                   <CustomTextarea
-                       isRequired={true}
-                       label="Description"
-                       name="description"
-                       defaultValue={selectedDepartment.description}
-                   />
-                   <input name="intent" value="update" type="hidden" />
-                   <input name="id" value={selectedDepartment._id} type="hidden" />
+                    <Form method="post" className="flex flex-col gap-4">
+                        <CustomInput
+                            isRequired={true}
+                            label="Group Name"
+                            name="name"
+                            defaultValue={selectedDepartment.name}
+                            isInvalid={
+                                actionData?.errors?.find((error) => error.field === "name")
+                                    ? true
+                                    : false
+                            }
+                        />
+                        <CustomInput
+                            isRequired={true}
+                            label="InCharge"
+                            name="inCharge"
+                            defaultValue={selectedDepartment.inCharge.firstName}
+                            isInvalid={
+                                actionData?.errors?.find((error) => error.field === "inCharge")
+                                    ? true
+                                    : false
+                            }
+                        />
 
-                   <div className="flex justify-end gap-2 mt-10 font-nunito">
-                       <Button color="danger" onPress={onClose}>
-                           Close
-                       </Button>
-                       <button className="bg-primary-400 rounded-xl text-white font-nunito px-4">
-                           Submit
-                       </button>
-                   </div>
-               </Form>
+                        <Select
+                            label="Members"
+                            labelPlacement="outside"
+                            placeholder=" "
+                            variant="bordered"
+                            defaultValue={selectedDepartment.members}
+                            selectionMode="multiple"
+                            isRequired
+                            isInvalid={
+                                actionData?.errors?.find(
+                                    (error) => error.field === "members"
+                                )
+                                    ? true
+                                    : false
+                            }
+                            className="mt-4"
+                            name="members"
+                            classNames={{
+                                label:
+                                    "text-sm md:text-base font-medium font-sen text-slate-800 dark:text-slate-100",
+                                trigger: " !shadow-none dark:border-slate-700  ",
+                                popoverContent:
+                                    "bg-white shadow-sm dark:bg-slate-900 border border-white/5  ",
+                            }}
+                        >
+                            {selectedDepartment.members?.map((user: UserInterface) => (
+                                <SelectItem
+                                    textValue={user?.firstName}
+                                    className="mt-4"
+                                    key={user._id}
+                                >
+                                    {user?.firstName}
+                                </SelectItem>
+                            ))}
+                        </Select>
+                        <CustomTextarea
+                            isRequired={true}
+                            label="Description"
+                            name="description"
+                            defaultValue={selectedDepartment.description}
+                        />
+                        <input name="intent" value="update" type="hidden" />
+                        <input name="id" value={selectedDepartment._id} type="hidden" />
+
+                        <div className="flex justify-end gap-2 mt-10 font-nunito">
+                            <Button color="danger" onPress={onClose}>
+                                Close
+                            </Button>
+                            <button className="bg-primary-400 rounded-xl text-white font-nunito px-4">
+                                Submit
+                            </button>
+                        </div>
+                    </Form>
                 )}
             </EditModal>
 
@@ -501,23 +501,18 @@ export const action: ActionFunction = async ({ request }) => {
             return deleteDepartment
 
         case "update":
-            const updateDepartment = await departmentController.updateDepartment({
+            const updateDepartment = await groupController.updateGroup({
                 _id,
                 name,
                 description,
-                strength,
-                mission,
-                vission,
-                quote,
-                tacticOfficer,
-                trainingOfficer,
+                inCharge,
+                members,
             })
             return updateDepartment
         default:
             break;
     }
 
-    return null;
 };
 
 export const loader: LoaderFunction = async ({ request }) => {
@@ -539,12 +534,12 @@ export const loader: LoaderFunction = async ({ request }) => {
         page,
         search_term,
     })
-    console.log(group);
-    
+    console.log(groups);
 
 
 
-    return { users, groups,group }
+
+    return { users, groups, group }
 };
 
 export const meta: MetaFunction = () => {
