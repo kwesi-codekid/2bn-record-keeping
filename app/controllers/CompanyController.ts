@@ -81,7 +81,7 @@ export default class CompanyController {
         searchFilter
       ).exec();
       const totalPages = Math.ceil(totalCompanysCount / limit);
-    
+
       return { companys, totalPages };
     } catch (error) {
       console.log(error);
@@ -182,10 +182,10 @@ export default class CompanyController {
       const company = await Company.create({
         name,
         description,
-        commandingOfficer,
-        companySeargent,
-        platoonCommander,
-        administrationWarranty,
+        commandingOfficer: commandingOfficer || null,
+        companySeargent: companySeargent || null,
+        platoonCommander: platoonCommander || null,
+        administrationWarranty: administrationWarranty || null,
       });
 
       if (!company) {
@@ -286,10 +286,10 @@ export default class CompanyController {
         {
           name,
           description,
-          commandingOfficer,
-          companySeargent,
-          platoonCommander,
-          administrationWarranty,
+          commandingOfficer: commandingOfficer || null,
+          companySeargent: companySeargent || null,
+          platoonCommander: platoonCommander || null,
+          administrationWarranty: administrationWarranty || null,
         },
         { new: true }
       );
