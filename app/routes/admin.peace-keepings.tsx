@@ -165,7 +165,7 @@ const AdminDepartments = () => {
               setIsCreateModalOpened(true);
             }}
           >
-            Create Department
+            Create Mission
           </Button>
         </div>
       </div>
@@ -216,23 +216,12 @@ const AdminDepartments = () => {
         ))}
       </CustomTable>
 
-      {/* Create Department Modal */}
-      {/* export interface CompanyInterface {
-         name:string
-         logo: string
-         commandingOfficer: UserInterface,
-         companySeargent:UserInterface,
-         platoonCommander: UserInterface,
-         administrationWarranty: UserInterface,
-         descriptio:string
-        createdAt?: Date;
-        updatedAt?: Date;
-      } */}
+     
       <CreateRecordModal
         isOpen={isCreateModalOpened}
         onOpenChange={handleCreateModalClosed}
-        modalTitle=" Create Department"
-        className=""
+        modalTitle=" Create Mission"
+        className="dark:bg-slate-900"
       >
         {(onClose) => (
           <Form method="post" className="flex flex-col gap-4">
@@ -315,9 +304,9 @@ const AdminDepartments = () => {
             >
               {[
                 { key: "scheduled", value: "scheduled", display_name: "scheduled" },
-                { key: "sngoing", value: "sngoing", display_name: "sngoing" },
-                { key: "sompleted", value: "sompleted", display_name: "sompleted" },
-                { key: "sancelled", value: "sancelled", display_name: "sancelled" },
+                { key: "ongoing", value: "ongoing", display_name: "ongoing" },
+                { key: "completed", value: "completed", display_name: "completed" },
+                { key: "cancelled", value: "cancelled", display_name: "cancelled" },
               ].map((role) => (
                 <SelectItem key={role.key}>{role.display_name}</SelectItem>
               ))}
@@ -398,7 +387,7 @@ const AdminDepartments = () => {
         isOpen={isEditModalOpened}
         onOpenChange={handleEditModalClosed}
         modalTitle=" Edit Department"
-        className=""
+        className="dark:bg-slate-900"
       >
         {(onClose) => (
           <Form method="post" className="flex flex-col gap-4">
@@ -568,7 +557,7 @@ const AdminDepartments = () => {
       </EditModal>
 
       <ConfirmModal
-        className="bg-gray-200 dark:bg-slate-950 border border-white/5"
+        className="bg-gray-200 dark:bg-slate-900 border border-white/5"
         content="Are you sure to delete product"
         header="Comfirm Delete"
         isOpen={isConfirmedModalOpened}

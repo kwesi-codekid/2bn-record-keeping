@@ -45,20 +45,12 @@ export const adminNavLinks: AdminNavLinkInterface[] = [
     icon: <UserBadgeIcon className="size-4" />,
     label: "Promotions",
   },
-  {
-    path: "/admin/transfers",
-    icon: <LoginAnimatedIcon className="size-4" />,
-    label: "Transfers",
-  },
+  
   {
     path: "/admin/other-duties",
     icon: <WalkingIcon className="size-4" />,
     label: "Other Duties",
   },
-  {
-    path: "/admin/reports",
-    icon: <MicroscopeIcon className="size-4" />,
-    label: "Reports",
-  },
+  
  
 ];

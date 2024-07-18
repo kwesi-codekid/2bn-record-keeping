@@ -41,7 +41,7 @@ import UserController from "~/controllers/UserController";
 import { deptTableCols, userTableCols } from "~/data/table-cols";
 import { getInitials } from "~/utils/string-manipulation";
 import { errorToast, successToast } from "~/utils/toasters";
-import { CompanyInterface, UserInterface } from "~/utils/types";
+import { CompanyInterface, DepartmentInterface, UserInterface } from "~/utils/types";
 
 const AdminDepartments = () => {
   const [isCreateModalOpened, setIsCreateModalOpened] = useState(false);
@@ -67,10 +67,11 @@ const AdminDepartments = () => {
   };
 
   // loader data
-  const { companys, totalPages, users } = useLoaderData<{
+  const { companys, totalPages, users,departments } = useLoaderData<{
     companys: CompanyInterface[];
     totalPages: number;
     users: UserInterface[];
+    departments:DepartmentInterface[]
   }>();
 
   // action data
@@ -245,7 +246,7 @@ const AdminDepartments = () => {
             />
             <div className="flex gap-4">
               <CustomInput
-                isRequired={true}sdfsd
+                isRequired={true}
                 label="First Name"
                 name="firstName"
                 isInvalid={
@@ -400,7 +401,7 @@ const AdminDepartments = () => {
                     "bg-white shadow-sm dark:bg-slate-900 border border-white/5  ",
                 }}
               >
-                {companys.map((company: CompanyInterface) => (
+                {departments.map((company: DepartmentInterface) => (
                   <SelectItem
                     textValue={company?.name}
                     className="mt-4"
@@ -459,8 +460,8 @@ const AdminDepartments = () => {
       <EditModal
         isOpen={isEditModalOpened}
         onOpenChange={handleEditModalClosed}
-        modalTitle=" Edit Department"
-        className=""
+        modalTitle=" Edit User"
+        className="dark:bg-slate-900"
       >
         {(onClose) => (
           <Form method="post" className="flex flex-col gap-4">
@@ -816,6 +817,7 @@ export const loader: LoaderFunction = async ({ request }) => {
   const search_term = url.searchParams.get("search_term") as string;
   const usersController = new UserController(request);
   const companyController = new CompanyController(request);
+  const departmentController = new DepartmentController(request);
 
   const { users } = await usersController.getUsers({
     page,
@@ -825,8 +827,12 @@ export const loader: LoaderFunction = async ({ request }) => {
     page,
     search_term,
   });
+  const { departments } = await departmentController.getDepartments({
+    page,
+    search_term,
+  });
 
-  return { users, companys };
+  return { users, companys,departments };
 };
 
 export const meta: MetaFunction = () => {

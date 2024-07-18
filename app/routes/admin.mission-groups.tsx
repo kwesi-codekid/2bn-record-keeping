@@ -168,7 +168,7 @@ const AdminDepartments = () => {
                             setIsCreateModalOpened(true);
                         }}
                     >
-                        Create Department
+                        Create Group
                     </Button>
                 </div>
             </div>
@@ -215,23 +215,12 @@ const AdminDepartments = () => {
                 ))}
             </CustomTable>
 
-            {/* Create Department Modal */}
-            {/* export interface CompanyInterface {
-       name:string
-       logo: string
-       commandingOfficer: UserInterface,
-       companySeargent:UserInterface,
-       platoonCommander: UserInterface,
-       administrationWarranty: UserInterface,
-       descriptio:string
-      createdAt?: Date;
-      updatedAt?: Date;
-    } */}
+        
             <CreateRecordModal
                 isOpen={isCreateModalOpened}
                 onOpenChange={handleCreateModalClosed}
-                modalTitle=" Create Department"
-                className=""
+                modalTitle=" Create Group"
+                className="dark:bg-slate-900"
             >
                 {(onClose) => (
                     <Form method="post" className="flex flex-col gap-4">
@@ -302,7 +291,7 @@ const AdminDepartments = () => {
                                     "bg-white shadow-sm dark:bg-slate-900 border border-white/5  ",
                             }}
                         >
-                            {usersNotOnMissions.map((user: UserInterface) => (
+                            {usersNotOnMissions?.map((user: UserInterface) => (
                                 <SelectItem
                                     textValue={user?.firstName + " " + user?.lastName}
                                     className="mt-4"
@@ -335,8 +324,8 @@ const AdminDepartments = () => {
             <EditModal
                 isOpen={isEditModalOpened}
                 onOpenChange={handleEditModalClosed}
-                modalTitle=" Edit Department"
-                className=""
+                modalTitle=" Edit Group"
+                className="dark:bg-slate-900"
             >
                 {(onClose) => (
                     <Form method="post" className="flex flex-col gap-4">
@@ -344,31 +333,53 @@ const AdminDepartments = () => {
                             isRequired={true}
                             label="Group Name"
                             name="name"
-                            defaultValue={selectedDepartment.name}
+                            defaultValue={selectedDepartment?.name}
                             isInvalid={
                                 actionData?.errors?.find((error) => error.field === "name")
                                     ? true
                                     : false
                             }
                         />
-                        <CustomInput
-                            isRequired={true}
-                            label="InCharge"
-                            name="inCharge"
-                            defaultValue={selectedDepartment.inCharge.firstName}
+                        <Select
+                            label="Incharge"
+                            labelPlacement="outside"
+                            placeholder=" "
+                            variant="bordered"
+                            defaultValue={selectedDepartment?.members}
+                            isRequired
                             isInvalid={
-                                actionData?.errors?.find((error) => error.field === "inCharge")
+                                actionData?.errors?.find(
+                                    (error) => error.field === "inCharge"
+                                )
                                     ? true
                                     : false
                             }
-                        />
+                            className="mt-4"
+                            name="inCharge"
+                            classNames={{
+                                label:
+                                    "text-sm md:text-base font-medium font-sen text-slate-800 dark:text-slate-100",
+                                trigger: " !shadow-none dark:border-slate-700  ",
+                                popoverContent:
+                                    "bg-white shadow-sm dark:bg-slate-900 border border-white/5  ",
+                            }}
+                        >
+                            
+                                <SelectItem
+                                    textValue={selectedDepartment?.inCharge?.firstName}
+                                    className="mt-4"
+                                    key={selectedDepartment?.inCharge?._id}
+                                >
+                                    {selectedDepartment?.inCharge?.firstName}
+                                </SelectItem>
+                        </Select>
 
                         <Select
                             label="Members"
                             labelPlacement="outside"
                             placeholder=" "
                             variant="bordered"
-                            defaultValue={selectedDepartment.members}
+                            defaultValue={selectedDepartment?.members}
                             selectionMode="multiple"
                             isRequired
                             isInvalid={
@@ -388,7 +399,7 @@ const AdminDepartments = () => {
                                     "bg-white shadow-sm dark:bg-slate-900 border border-white/5  ",
                             }}
                         >
-                            {selectedDepartment.members?.map((user: UserInterface) => (
+                            {selectedDepartment?.members?.map((user: UserInterface) => (
                                 <SelectItem
                                     textValue={user?.firstName}
                                     className="mt-4"
@@ -418,18 +429,11 @@ const AdminDepartments = () => {
                     </Form>
                 )}
             </EditModal>
-            <div className="flex justify-end gap-2 mt-10 font-nunito">
-                <Button color="danger" onPress={handleEditModalClosed}>
-                    Close
-                </Button>
-                <button className="bg-primary-400 rounded-xl text-white font-nunito px-4">
-                    Submit
-                </button>
-            </div>
+           
 
 
             <ConfirmModal
-                className="bg-gray-200 dark:bg-slate-950 border border-white/5"
+                className="bg-gray-200 dark:bg-slate-900 border border-white/5"
                 content="Are you sure to delete product"
                 header="Comfirm Delete"
                 isOpen={isConfirmedModalOpened}
@@ -467,22 +471,7 @@ const AdminDepartments = () => {
                 </div>
             </ConfirmModal>
 
-            {/* Delete department */}
-            <DeleteRecordModal
-                title="Delete Department"
-                isModalOpen={deleteDisclosure.isOpen}
-                onCloseModal={deleteDisclosure.onClose}
-            >
-                <CustomInput
-                    name="_id"
-                    label="Delete ID"
-                    value={deleteId}
-                    hidden={true}
-                />
-                <p className="font-nunito text-slate-800 dark:text-white">
-                    Are you sure to delete this department?
-                </p>
-            </DeleteRecordModal>
+           
         </div >
     );
 };
@@ -497,6 +486,11 @@ export const action: ActionFunction = async ({ request }) => {
     const members = formData.get("members") as string;
     const intent = formData.get("intent") as string;
     const _id = formData.get("id") as string;
+    console.log(name,
+        description,
+        inCharge,
+        members,);
+    
 
     const groupController = new GroupController(request);
     switch (intent) {

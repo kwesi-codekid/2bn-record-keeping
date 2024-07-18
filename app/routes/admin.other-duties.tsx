@@ -162,7 +162,7 @@ const AdminDepartments = () => {
               setIsCreateModalOpened(true);
             }}
           >
-            Create Department
+            Create Duty
           </Button>
         </div>
       </div>
@@ -229,8 +229,8 @@ const AdminDepartments = () => {
       <CreateRecordModal
         isOpen={isCreateModalOpened}
         onOpenChange={handleCreateModalClosed}
-        modalTitle=" Create Department"
-        className=""
+        modalTitle=" Create Duty"
+        className="dark:bg-slate-900"
       >
         {(onClose) => (
           <Form method="post" className="flex flex-col gap-4">
@@ -424,8 +424,8 @@ const AdminDepartments = () => {
       <EditModal
         isOpen={isEditModalOpened}
         onOpenChange={handleEditModalClosed}
-        modalTitle=" Edit Department"
-        className=""
+        modalTitle=" Edit Duty"
+        className="dark:bg-slate-900"
       >
         {(onClose) => (
           <Form method="post" className="flex flex-col gap-4">
@@ -626,7 +626,7 @@ const AdminDepartments = () => {
       </EditModal>
 
       <ConfirmModal
-        className="bg-gray-200 dark:bg-slate-950 border border-white/5"
+        className="bg-gray-200 dark:bg-slate-900 border border-white/5"
         content="Are you sure to delete product"
         header="Comfirm Delete"
         isOpen={isConfirmedModalOpened}
